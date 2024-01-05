@@ -1,0 +1,23 @@
+.breathText {
+	background: linear-gradient(-45deg, red, rgb(4, 108, 140), orange, purple, gray);
+	color: transparent;
+	background-clip: text; -webkit-background-clip: text;
+	background-size: 400% 400%;
+	animation: gradient 5s linear infinite;
+}
+.breath {
+	background: linear-gradient(-45deg, transparent, rgb(255, 255, 255), transparent);
+	background-size: 300% 300%;
+	animation: gradient 2s ease infinite;
+}
+@keyframes gradient {
+	0% {
+		background-position: 0% 0%;
+	}
+	50% {
+		background-position: 90% 0%;
+	}
+	100% {
+		background-position: 0% 0%;
+	}
+}

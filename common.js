@@ -33,3 +33,27 @@ function renderingComplete(includePath) {
 		}
 	}
 }
+
+
+function showLoading() {
+	document.querySelector('#circle').showModal();
+}
+function hideLoading() {
+	document.querySelector('#circle').close();
+}
+function closeAlert() {
+	document.querySelector('#alert').close();
+	if( window.closeAlertFunction ) {
+		window.closeAlertFunction();
+		window.closeAlertFunction = null;
+	}
+}
+function humanByte(arg) {
+	const unitArr = ['','K','M','G','T'];
+	let idx = 0;
+	while( arg > 1024 ) {
+		arg = arg / 1024;
+		idx++;
+	}
+	return `${Number(arg).toFixed(2)}${unitArr[idx]}Byte`;
+}
