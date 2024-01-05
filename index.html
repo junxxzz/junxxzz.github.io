@@ -28,8 +28,13 @@
         </article>
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <script>
-            document.getElementById('content').innerHTML =
-            marked.parse('# Marked in browser\n\nRendered by **marked**.');
+            fetch('/article_1.md').then(res => {
+                if( res.ok ) {
+                    res.text().then(d => {
+                        document.getElementById('content').innerHTML = marked.parse(d);
+                    });
+                }
+            });
         </script>
         test
     </main>
