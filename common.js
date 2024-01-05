@@ -1,4 +1,5 @@
 window.alert = function () {};
+window.confirm = function () {};
 window.addEventListener("load", (event) => {
     renderingIncludePath();
 });
@@ -25,15 +26,80 @@ function renderingIncludePath() {
 function renderingComplete(includePath) {
     if (includePath == 'footer.htm') {
         window.alert = function (arg) {
-            if (arguments.length == 2 && (typeof arguments[1]) == 'function') {
-                window.closeAlertFunction = arguments[1];
+            if (!window.alertStreams) {
+                window.alertStreams = [];
             }
-            const al = document.querySelector('#alert');
-            al.querySelector('fieldset#alertMessage').innerHTML = arguments[0];
-            al.showModal();
+            window.alertStreams.push({type:'alert',args:arguments});
+        };
+        window.confirm = function (arg) {
+            if (!window.alertStreams) {
+                window.alertStreams = [];
+            }
+            window.alertStreams.push({type:'confirm',args:arguments});
         };
         triggerLoadComplete();
     }
+}
+window.setInterval(function() {
+    if( (typeof window.isLiveAlert)=='undefined' ) {
+        window.isLiveAlert = 0;
+    }
+    if( (typeof window.isOkConfirm)=='undefined' ) {
+        window.isOkConfirm = 0;
+    }
+    if( window.alertStreams && window.alertStreams.length > 0 && window.isLiveAlert==0 ) {
+        const alertStream = window.alertStreams.shift();
+        if( alertStream.type=='alert' ) {
+            if (alertStream.args.length == 2 && (typeof alertStream.args[1]) == 'function') {
+                window.closeAlertFunction = alertStream.args[1];
+            }
+            const al = document.querySelector('#alert');
+            al.querySelector('fieldset#alertMessage').innerHTML = alertStream.args[0];
+            al.showModal();
+            al.addEventListener('close', function() {
+                if (window.closeAlertFunction) {
+                    window.closeAlertFunction();
+                }
+                window.closeAlertFunction = null;
+                window.isLiveAlert = 0;
+            });
+        }
+        else if( alertStream.type=='confirm' ) {
+            if (alertStream.args.length > 1 && (typeof alertStream.args[1]) == 'function') {
+                window.okConfirmFunction = alertStream.args[1];
+            }
+            if (alertStream.args.length > 1 && (typeof alertStream.args[2]) == 'function') {
+                window.noConfirmFunction = alertStream.args[2];
+            }
+            window.isOkConfirm = 0;
+            const al = document.querySelector('#confirm');
+            al.querySelector('fieldset#confirmMessage').innerHTML = alertStream.args[0];
+            al.showModal();
+            al.addEventListener('close', function() {
+                if( window.isOkConfirm && window.okConfirmFunction ) {
+                    window.okConfirmFunction();
+                }
+                if (!window.isOkConfirm && window.noConfirmFunction) {
+                    window.noConfirmFunction();
+                }
+                window.okConfirmFunction = null;
+                window.noConfirmFunction = null;
+                window.isOkConfirm = 0;
+                window.isLiveAlert = 0;
+            });
+        }
+        window.isLiveAlert = 1;
+    }
+}, 10);
+function closeAlert() {
+    document.querySelector('#alert').close();
+}
+function okConfirm() {
+    window.isOkConfirm = 1;
+    document.querySelector('#confirm').close();
+}
+function closeConfirm() {
+    document.querySelector('#confirm').close();
 }
 
 function setLoadComplete(fn) {
@@ -53,14 +119,6 @@ function showLoading() {
 
 function hideLoading() {
     document.querySelector('#circle').close();
-}
-
-function closeAlert() {
-    document.querySelector('#alert').close();
-    if (window.closeAlertFunction) {
-        window.closeAlertFunction();
-        window.closeAlertFunction = null;
-    }
 }
 
 function humanByte(arg) {

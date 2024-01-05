@@ -4,17 +4,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JUNXXZZ.GITHUB.IO</title>
-    <link rel="stylesheet" href="dom.css">
-    <link rel="stylesheet" href="effect.css">
-    <link rel="stylesheet" href="dialog.css">
-    <link rel="stylesheet" href="common.css">
-    <script src="dom.js"></script>
-    <script src="common.js"></script>
-    <script src="index.js"></script>
+    <title>allstack document</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="/dom.css">
+    <link rel="stylesheet" href="/effect.css">
+    <link rel="stylesheet" href="/dialog.css">
+    <link rel="stylesheet" href="/common.css">
+    <link rel="stylesheet" href="/index.css">
+    <script src="/dom.js"></script>
+    <script src="/common.js"></script>
+    <script src="/index.js"></script>
 </head>
 <body>
-    test
+    <header>
+        <h1>all-stack, not full-stack</h1>
+    </header>
+    <main>
+        <article id="content">
+
+        </article>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script>
+            document.getElementById('content').innerHTML =
+            marked.parse('# Marked in browser\n\nRendered by **marked**.');
+        </script>
+        test
+    </main>
     <footer data-include-path="footer.htm"></footer>
 </body>
 </html>

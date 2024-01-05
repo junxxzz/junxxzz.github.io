@@ -31,7 +31,7 @@ dialog#circle div {
     animation: circle 5s linear infinite;
 }
 
-dialog#alert>div {
+dialog#alert>div, dialog#confirm>div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,15 +39,19 @@ dialog#alert>div {
     background: white;
     padding: 1rem;
 }
+dialog#confirm>div>div {
+    display: flex;
+    gap: 1rem;
+}
 
-dialog#alert fieldset#alertMessage {
+dialog#alert fieldset#alertMessage, dialog#confirm fieldset#confirmMessage {
     max-width: 50%;
     border: 0;
     margin: 0;
     text-wrap: nowrap;
 }
 
-dialog#alert input#alertCloseButton {
+dialog#alert input#alertCloseButton, dialog#confirm input#confirmOkButton, dialog#confirm input#confirmCloseButton {
     cursor: pointer;
     font-size: .8rem;
     border: 0;
@@ -55,7 +59,11 @@ dialog#alert input#alertCloseButton {
 }
 
 dialog#alert input#alertCloseButton:hover,
-dialog#alert input#alertCloseButton:active {
+dialog#alert input#alertCloseButton:active,
+dialog#confirm input#confirmOkButton:hover,
+dialog#confirm input#confirmOkButton:active,
+dialog#confirm input#confirmCloseButton:hover,
+dialog#confirm input#confirmCloseButton:active {
     background-color: lightgray;
 }
 
