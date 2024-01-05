@@ -1,17 +1,21 @@
 :root {
-	--header-height: 100px;
-	--footer-height: 160px;
-	--main-me-height: 50px;
-	--main-ad-height: 300px;
-	--container-width: 1100px;
-	--category-width: 200px;
+    --header-height: 100px;
+    --footer-height: 160px;
+    --main-me-height: 50px;
+    --main-ad-height: 300px;
+    --container-width: 1100px;
+    --category-width: 200px;
 }
+
 * {
     box-sizing: border-box;
-	outline: none;
+    outline: none;
 }
-html, body {
-    margin: 0; padding: 0;
-	font-family: "맑은 고딕", Verdana, Geneva, Tahoma, sans-serif;
-	font-size: 1rem; line-height: 1.1;
+
+html,
+body {
+    margin: 0;    padding: 0;
+    font-family: "맑은 고딕", Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1rem;
+    line-height: 1.1;
 }

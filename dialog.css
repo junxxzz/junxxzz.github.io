@@ -1,56 +1,82 @@
 dialog {
-	background-color: transparent; border: none; outline: none;
+    background-color: transparent;
+    border: none;
+    outline: none;
 }
+
 ::backdrop {
-	background-image: linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green);
-	opacity: 0.75;
+    background-image: linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green);
+    opacity: 0.75;
 }
+
 dialog#circle {
-	overflow: hidden;
+    overflow: hidden;
 }
+
 dialog#circle::before {
-	content: "LOADING...";
+    content: "LOADING...";
     position: absolute;
-    top: calc( 50% - 0.5rem );
+    top: calc(50% - 0.5rem);
     left: 0;
     font-size: .6rem;
     text-align: center;
     width: 100%;
 }
+
 dialog#circle div {
-	border: dashed .5rem black;
-	border-radius: 50%;
-	width: 5rem;
-	height: 5rem;
-	animation: circle 5s linear infinite;
+    border: dashed .5rem black;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    animation: circle 5s linear infinite;
 }
-dialog#alert > div {
-	display: flex;
+
+dialog#alert>div {
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
     background: white;
-	padding: 1rem;
+    padding: 1rem;
 }
+
 dialog#alert fieldset#alertMessage {
-	max-width: 50%;
+    max-width: 50%;
     border: 0;
     margin: 0;
-	text-wrap: nowrap;
+    text-wrap: nowrap;
 }
+
 dialog#alert input#alertCloseButton {
-	cursor: pointer;
-	font-size: .8rem;
-	border: 0;
-	outline: none;
+    cursor: pointer;
+    font-size: .8rem;
+    border: 0;
+    outline: none;
 }
-dialog#alert input#alertCloseButton:hover, dialog#alert input#alertCloseButton:active {
-	background-color: lightgray;
+
+dialog#alert input#alertCloseButton:hover,
+dialog#alert input#alertCloseButton:active {
+    background-color: lightgray;
 }
+
 @keyframes circle {
-	0% { transform: rotate(0); }
-	25% { transform: rotate(-90deg); }
-	50% { transform: rotate(-180deg); }
-	75% { transform: rotate(-270deg); }
-	100% { transform: rotate(-360deg); }
+    0% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(-90deg);
+    }
+
+    50% {
+        transform: rotate(-180deg);
+    }
+
+    75% {
+        transform: rotate(-270deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
 }

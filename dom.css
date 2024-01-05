@@ -1,59 +1,90 @@
-input[type="text"], input[type="password"], input[type="button"], input[type="date"], input[type="time"], textarea, select, .checkboxgroup label, .radiogroup label {
-	font-size: 1.3rem;
+input[type="text"],
+input[type="password"],
+input[type="button"],
+input[type="date"],
+input[type="time"],
+textarea,
+select,
+.checkboxgroup label,
+.radiogroup label {
+    font-size: 1.3rem;
     line-height: 1.3rem;
-	padding: 0.5rem;
+    padding: 0.5rem;
 }
+
 input[type="button"] {
-	font-weight: bold;
-	outline: none;
+    font-weight: bold;
+    outline: none;
 }
+
 input[type="file"] {
-	width: 100%;
+    width: 100%;
 }
-input[type="checkbox"], input[type="radio"] {
-	outline: none;
+
+input[type="checkbox"],
+input[type="radio"] {
+    outline: none;
 }
+
 @scope (main, dialog) {
-	input[type="text"], input[type="password"], input[type="button"], input[type="date"], input[type="time"], textarea, select {
-		font-size: .8rem;
-		line-height: 1rem;
-		padding: 0.2rem;
-		height: 30px;
-	}
-	.checkboxgroup label, .radiogroup label {
-		font-size: .8rem;
-		line-height: 1rem;
-		padding: 0.2rem;
-	}
-	input[type="date"], input[type="time"] {
-		width: 110px;
-	}
+
+    input[type="text"],
+    input[type="password"],
+    input[type="button"],
+    input[type="date"],
+    input[type="time"],
+    textarea,
+    select {
+        font-size: .8rem;
+        line-height: 1rem;
+        padding: 0.2rem;
+        height: 30px;
+    }
+
+    .checkboxgroup label,
+    .radiogroup label {
+        font-size: .8rem;
+        line-height: 1rem;
+        padding: 0.2rem;
+    }
+
+    input[type="date"],
+    input[type="time"] {
+        width: 110px;
+    }
 }
 
 .labeledInput {
-	position: relative;
-	display: inline-flex;
+    position: relative;
+    display: inline-flex;
 }
-.labeledInput input[type="text"] ~ label {
-	display: none;
-	position: absolute;
-	top: 0; right: 0;
-	color: gray;
-	font-weight: bold;
+
+.labeledInput input[type="text"]~label {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: gray;
+    font-weight: bold;
     padding: 0.2rem;
     font-size: .6rem;
 }
-.labeledInput input[type="text"]:placeholder-shown ~ label {
-	display: block;
-}
-.labeledInput input[type="text"]:focus ~ label {
-	display: block;
+
+.labeledInput input[type="text"]:placeholder-shown~label {
+    display: block;
 }
 
-.checkboxgroup, .radiogroup {
-	display: flex;
+.labeledInput input[type="text"]:focus~label {
+    display: block;
 }
-.checkboxgroup label, .radiogroup label {
-	cursor: pointer;
-	flex: 1;
+
+.checkboxgroup,
+.radiogroup {
+    display: flex;
+}
+
+.checkboxgroup label,
+.radiogroup label {
+    cursor: pointer;
+    flex: 1;
 }
