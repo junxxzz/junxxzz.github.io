@@ -23,9 +23,6 @@ function renderingIncludePath() {
 }
 function renderingComplete(includePath) {
 	if( includePath=='footer.htm' ) {
-        document.querySelector('footer').append('<dialog id="alert"><div><fieldset id="alertMessage"></fieldset><input type="button" id="alertCloseButton" value="CLOSE" onclick="closeAlert()"></div></dialog>');
-        // <dialog id="circle"><div></div></dialog>
-
 		window.alert = function(arg) {
 			if( arguments.length==2 && (typeof arguments[1])=='function' ) {
 				window.closeAlertFunction = arguments[1];
