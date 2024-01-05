@@ -1,3 +1,3 @@
-window.addEventListener("load", async function () {
-    alert('load complete');
+setLoadComplete(function() {
+    alert('aaaaaaaaaaa');
 });
