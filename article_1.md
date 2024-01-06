@@ -1,9 +1,14 @@
 [Marked]: https://github.com/markedjs/marked/
-[Markdown]: http://daringfireball.net/projects/markdown/
+[this md's source]: /article_1.md
+[Directives syntax]: https://talk.commonmark.org/t/generic-directives-plugins-syntax/444
+
+
 Marked - Markdown Parser
 ========================
 
-[Marked] lets you convert [Markdown] into HTML.  Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML.  This demo page will let you type anything you like and see how it gets converted.  Live.  No more waiting around.
+[Marked] lets you convert [this md's source] into HTML.
+Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML.
+This demo page will let you type anything you like and see how it gets converted.  Live.  No more waiting around.
 
 How To Use The Demo
 -------------------
@@ -23,6 +28,8 @@ Why Markdown?
 
 It's easy.  It's not overly bloated, unlike HTML.  Also, as the creator of [markdown] says,
 
+<div id="div1">
+
 > The overriding design goal for Markdown's
 > formatting syntax is to make it as readable
 > as possible. The idea is that a
@@ -31,8 +38,9 @@ It's easy.  It's not overly bloated, unlike HTML.  Also, as the creator of [mark
 > looking like it's been marked up with tags
 > or formatting instructions.
 
-Ready to start writing?  Either start changing stuff on the left or
-[clear everything](/?text=) with a simple click.
+</div>
+
+Ready to start writing?  Either start changing stuff on the left or [clear everything](/?text=) with a simple click.
 
 
 A Description List:
@@ -40,9 +48,25 @@ A Description List:
 : **Topic 2** : *Description 2*
 
 
+:::div{#temptable1}
 
 | aaaa | bbbb | cccc |
 |-- | --| -- |
 | 1111 | 22222 | 3333 |
 | 111d1 | 22222e | 3333f |
+
+:::
+
+
+# Example
+
+:::main{#foo .bar class="baz" .qux}
+
+[Directives syntax]
+
+::hr{.border-muted}
+
+You can use :i[CSS] (Cascading Style Sheets) to style your :abbr[HTML]{title="HyperText Markup Language"}.
+
+:::
 
