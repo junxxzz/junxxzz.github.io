@@ -1,3 +1,5 @@
+[Marked]: https://github.com/markedjs/marked/
+[Markdown]: http://daringfireball.net/projects/markdown/
 Marked - Markdown Parser
 ========================
 
@@ -30,7 +32,17 @@ It's easy.  It's not overly bloated, unlike HTML.  Also, as the creator of [mark
 > or formatting instructions.
 
 Ready to start writing?  Either start changing stuff on the left or
-[clear everything](/demo/?text=) with a simple click.
+[clear everything](/?text=) with a simple click.
 
-[Marked]: https://github.com/markedjs/marked/
-[Markdown]: http://daringfireball.net/projects/markdown/
+
+A Description List:
+:   Topic 1   :  Description 1
+: **Topic 2** : *Description 2*
+
+
+
+| aaaa | bbbb | cccc |
+|-- | --| -- |
+| 1111 | 22222 | 3333 |
+| 111d1 | 22222e | 3333f |
+

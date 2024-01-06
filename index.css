@@ -1,6 +1,6 @@
 :root {
-    color-scheme: light;
-    /* color-scheme: light dark; */
+    /* color-scheme: light; */
+    color-scheme: light dark;
     --header-height: 100px;
     --footer-height: 160px;
     --main-me-height: 50px;

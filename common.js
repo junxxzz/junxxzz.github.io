@@ -110,7 +110,9 @@ function setLoadComplete(fn) {
 }
 
 function triggerLoadComplete() {
-    window.loadCompleteFunctions.forEach(fn => fn());
+    if( window.loadCompleteFunctions && window.loadCompleteFunctions.length ) {
+        window.loadCompleteFunctions.forEach(fn => fn());
+    }
 }
 
 function showLoading() {
