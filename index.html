@@ -18,7 +18,13 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.8/dist/purify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked-directive@1.0.4/dist/index.umd.min.js"></script>
-    <!-- <script src="/require.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/marked-highlight/lib/index.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/stackoverflow-dark.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/stackoverflow-light.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/plaintext.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/xml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/javascript.min.js"></script>
     <script src="/dom.js"></script>
     <script src="/common.js"></script>
     <script src="/index.js"></script>
@@ -28,9 +34,14 @@
         <h1>all-stack, not full-stack</h1>
     </header>
     <main>
-        <article id="content"></article>
-        test
+        <section id="contents"></section>
+        <section id="articles"></section>
     </main>
     <footer data-include-path="footer.htm"></footer>
+    <template id="articleTemplate">
+        <span class="articleWriteAt">[{article-writeAt}]</span>
+        <span class="articleIcons">{article-icons}</span>
+        <span class="articleTitle">{article-title}</span>
+    </template>
 </body>
 </html>

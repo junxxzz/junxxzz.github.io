@@ -132,3 +132,24 @@ function humanByte(arg) {
     }
     return `${Number(arg).toFixed(2)}${unitArr[idx]}Byte`;
 }
+
+
+function checkHash(fn) {
+	if( location.hash ) {
+		window.hash = JSON.parse(decodeURIComponent(location.hash.substring(1)));
+        if( fn ) {
+            fn(window.hash);
+        }
+	}
+}
+function listenHash(fn) {
+    checkHash(fn);
+	window.addEventListener('hashchange', function() {
+		checkHash(fn);
+	});
+}
+window.hash = {};
+function setHash(nm, value) {
+	window.hash[nm] = value;
+	location.hash = `#${encodeURIComponent(JSON.stringify(window.hash))}`;
+}

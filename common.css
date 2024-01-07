@@ -10,3 +10,7 @@ body {
     font-size: 1rem;
     line-height: 1.1;
 }
+code {
+    font-family: "맑은 고딕", Verdana, Geneva, Tahoma, sans-serif;
+    line-height: 1.5;
+}

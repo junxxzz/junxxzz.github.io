@@ -73,22 +73,57 @@ header h1 {
     font-size: .6em;
 }
 
+main {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+section#articles {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+section#articles article {
+    display: flex;
+    align-items: center;
+    gap: .2em;
+    cursor: pointer;
+}
+section#articles article:hover {
+    background-color: aliceblue;
+}
+section#articles article span {
+    display: block;
+}
+section#articles article span.articleWriteAt, section#articles article span.articleTitle {
+    line-height: 22px;
+}
+section#articles article span.articleIcons {
+    line-height: 1;
+}
+
+.articleIcon {
+    width: 22px;
+    height: 22px;
+    vertical-align: -webkit-baseline-middle;
+}
+
 #temptable1 table, #temptable1 table tr, #temptable1 table tr td, #temptable1 table tr th {
     border-collapse: collapse;
     border: solid 1px gray;
 }
-.border-muted {
-    border: dashed;
+
+pre code.hljs {
+    position: relative;
+    font-size: .9em;
 }
-div#div1::before {
-    content: "this is div.div1";
-    display: block;
-    background-color: pink;
-    font-size: 9pt;
-}
-main#foo::before {
-    content: "this is main#foo";
-    display: block;
-    background-color: pink;
-    font-size: 9pt;
+pre code.hljs div.language {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: .7em;
+    padding: 0.5em 1em;
+    color: blue;
 }
