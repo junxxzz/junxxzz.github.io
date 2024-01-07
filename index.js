@@ -1,18 +1,20 @@
 const {markedHighlight} = globalThis.markedHighlight;
+marked.use(markedDirective.createDirectives());
+marked.use(markedLinkifyIt({},{}));
+marked.use(markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code, lang, info) {
+        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+        const addon = `<div class='language'>${language}</div>`;
+        return hljs.highlight(code, { language }).value + addon;
+    }
+}));
+marked.use({ breaks: true, });
+
 let maArticleIdx = 0;
 
 setLoadComplete(function() {
     listenHash(loadArticle);
-    marked.use(markedDirective.createDirectives());
-    marked.use(markedHighlight({
-        langPrefix: 'hljs language-',
-        highlight(code, lang, info) {
-            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-            const addon = `<div class='language'>${language}</div>`;
-            return hljs.highlight(code, { language }).value + addon;
-        }
-    }));
-    marked.use({ breaks: true });
     const articleTemplate = document.querySelector('template#articleTemplate').innerHTML;
     const articleSection = document.querySelector('section#articles');
     fetch('/articles.dat').then(res => {

@@ -1,50 +1,23 @@
-## FileDB를 사용하는 게시글 리스트
+## md 파일을 읽어와서
 
 ---
 
-일반적으로 웹사이트의 게시판은 rdb를 이용하는 경우가 대부분이지만, 이번에는 파일db를 이용한 게시판을 만들어보기로 했다.
+이 사이ㅡㅡ 기록용이ㅏ ㅓㅇ보공유용으로 할 예ㅓㅇ이다.
+하ㅏ의 글을 ㅏㄱ성할때마다 하페이ㅣ의 html 파일을 마드ㅡ거 ㅓ무 귀챃고 ㅣ루하 일이다.
+그래서 이 사이ㅡ의 게시글으 md 파일로 기록하고, 그 ㅐ용을 불러와서 페이ㅣ를 와성시켜ㅜ려고 하다.
 
-일단 이 게시판의 리스트 소스는 이렇다.
+머ㅓ md 파일을 javacript로 ㅏㅍ싱후 페이ㅣ에 괘챃게 보여ㅜㅡ 파서가 필요하다.
+구글에서 markdown javascript 로 검색하며 맣으 라이브러리가 이쓰데, 그ㅑㅇ 사람들 맣이 쓰ㅡ거 쓰기로 했다.
+
+marked.j 라ㅡ 라이브러리를 사용하기로 했고, https://github.com/markedjs/marked/ 에서 구할 수 있다.
+사용법도 해당 git repoitory에서 쉽게 차을수 있다.
 
 ```html
-<section id="articles"></section>
-<template id="articleTemplate">
-    <span class="articleWriteAt">[{article-writeAt}]</span>
-    <span class="articleIcons">{article-icons}</span>
-    <span class="articleTitle">{article-title}</span>
-</template>
+<div id="content"></div>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+document.getElementById('content').innerHTML = marked.parse('# Marked in the browser\n\nRendered by **marked**.');
+</script>
 ```
 
-```javascript
-const articleTemplate = document.querySelector('template#articleTemplate').innerHTML;
-const articleSection = document.querySelector('section#articles');
-let maArticleIdx = 0;
-fetch('/articles.dat').then(res => {
-    if( res.ok ) {
-        res.text().then(d => {
-            d.split('\r\n').reverse().forEach(line => {
-                if( !line.trim() ) {
-                    return;
-                }
-                const [idx, writeAt, categorys, title] = line.split('|');
-                if( maArticleIdx==0 ) {
-                    maArticleIdx = idx;
-                }
-                const newArticle = document.createElement('article');
-                newArticle.setAttribute('id', `article-${idx}`);
-                newArticle.innerHTML = articleTemplate.replace('{article-writeAt}',writeAt).replace('{article-title}',title);
-                categorys.split(',').forEach(c => {
-                    const newIcon = document.createElement('img');
-                    newIcon.setAttribute('src',`/icons/${c.trim()}.svg`);
-                    newIcon.classList.add('articleIcon');
-                    newArticle.innerHTML = newArticle.innerHTML.replace('{article-icons}',newIcon.outerHTML);
-                });
-                newArticle.addEventListener('click', () => {
-                    setHash('articleId',idx);
-                });
-                articleSection.append(newArticle);
-            });
-        });
-    }
-});
-```
+ㅓ무 쉽다.
