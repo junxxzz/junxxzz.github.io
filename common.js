@@ -9,9 +9,12 @@ function renderingIncludePath() {
         fetch(el.dataset.includePath).then((d) => {
             if (!d.ok) return;
             d.text().then((t) => {
-                el.outerHTML = t;
-                if (window.renderingComplete) {
-                    window.renderingComplete(el.dataset.includePath);
+                try {
+                    el.outerHTML = t;
+                    if (window.renderingComplete) {
+                        window.renderingComplete(el.dataset.includePath);
+                    }
+                } catch (error) {
                 }
             });
         });

@@ -52,8 +52,8 @@
 header,
 main,
 footer {
-    padding-left: 5px;
-    padding-right: 5px;
+    /* padding-left: 5px; */
+    /* padding-right: 5px; */
     position: static;
     width: var(--container-width);
     margin-left: auto; margin-right: auto;
@@ -68,9 +68,36 @@ header::after {
     position: absolute;
     left: 0;
 }
+footer {
+    margin-top: 2rem;
+}
+footer #copyright {
+    padding-top: .5rem;
+    font-size: .6em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+footer::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: black;
+    position: absolute;
+    left: 0;
+    /* top: 0; */
+}
 
+/* header {
+    display: flex;
+} */
 header h1 {
     font-size: .6em;
+}
+header h1 a {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    text-decoration: none;
 }
 
 main {
@@ -80,11 +107,28 @@ main {
     gap: 5px;
 }
 
+section#contents {
+    font-size: .9em;
+}
+
 section#articles {
     display: flex;
     flex-direction: column;
     gap: 3px;
+    position: relative;
+    padding-top: 3px;
 }
+section#articles::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: black;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
 section#articles article {
     display: flex;
     align-items: center;
@@ -99,6 +143,11 @@ section#articles article span {
 }
 section#articles article span.articleWriteAt, section#articles article span.articleTitle {
     line-height: 22px;
+    font-size: .9em;
+}
+section#articles article span.articleWriteAt {
+    font-size: .7em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 section#articles article span.articleIcons {
     line-height: 1;
@@ -123,7 +172,7 @@ pre code.hljs div.language {
     position: absolute;
     top: 0;
     right: 0;
-    font-size: .7em;
+    font-size: .8em;
     padding: 0.5em 1em;
     color: blue;
 }
