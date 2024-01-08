@@ -106,9 +106,9 @@ function oauthSignIn() {
         client_id: "920653369919-738ci7p79n38kvc9lv25ndfdvijm1kao.apps.googleusercontent.com",
         redirect_uri: "https://junxxzz.github.io",
         response_type: "token",
-        scope: "",
+        scope: "email profile",
         include_granted_scopes: "true",
-        state: "pass",
+        state: "pass-through-value",
     };
 
     // Add form parameters as hidden input values.
