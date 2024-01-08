@@ -17,6 +17,8 @@ marked.use({breaks: true});
 
 setLoadComplete(function () {
     document.querySelector('#userlogin').addEventListener('click', oauthSignIn);
+    document.querySelector('#userlogout').addEventListener('click', revokeAccess);
+    console.log(hash);
 
     listenHash(loadArticle);
 
@@ -63,6 +65,7 @@ setLoadComplete(function () {
 });
 
 function loadArticle(hash) {
+    console.log(hash);
     if (hash.articleId > 0) {
         fetch(`/articles/article_${hash.articleId}.md`).then((res) => {
             if (res.ok) {
@@ -103,9 +106,9 @@ function oauthSignIn() {
         client_id: "920653369919-738ci7p79n38kvc9lv25ndfdvijm1kao.apps.googleusercontent.com",
         redirect_uri: "https://junxxzz.github.io",
         response_type: "token",
-        scope: ".../auth/userinfo.email .../auth/userinfo.profile",
+        scope: "",
         include_granted_scopes: "true",
-        state: "pass-through-value",
+        state: "pass",
     };
 
     // Add form parameters as hidden input values.
@@ -118,6 +121,28 @@ function oauthSignIn() {
     }
 
     // Add form to page and submit it to open the OAuth 2.0 endpoint.
+    document.body.appendChild(form);
+    form.submit();
+}
+function revokeAccess(accessToken) {
+    // Google's OAuth 2.0 endpoint for revoking access tokens.
+    var revokeTokenEndpoint = 'https://oauth2.googleapis.com/revoke';
+
+    // Create <form> element to use to POST data to the OAuth 2.0 endpoint.
+    var form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', revokeTokenEndpoint);
+
+    // Add access token to the form so it is set as value of 'token' parameter.
+    // This corresponds to the sample curl request, where the URL is:
+    //      https://oauth2.googleapis.com/revoke?token={token}
+    var tokenField = document.createElement('input');
+    tokenField.setAttribute('type', 'hidden');
+    tokenField.setAttribute('name', 'token');
+    tokenField.setAttribute('value', accessToken);
+    form.appendChild(tokenField);
+
+    // Add form to page and submit it to actually revoke the token.
     document.body.appendChild(form);
     form.submit();
 }
