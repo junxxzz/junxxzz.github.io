@@ -58,6 +58,16 @@ function loadArticle(hash) {
                 res.text().then(d => {
                     document.getElementById('contents').innerHTML = DOMPurify.sanitize(marked.parse(d));
                     window.scrollTo(0,0);
+                    gtag('event', 'article_view', {
+                        'articleId': hash.articleId,
+                        'result': 'success',
+                    });
+                });
+            }
+            else {
+                gtag('event', 'article_view', {
+                    'articleId': hash.articleId,
+                    'result': 'fail',
                 });
             }
         });
