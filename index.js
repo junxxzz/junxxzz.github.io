@@ -57,6 +57,7 @@ function loadArticle(hash) {
             if( res.ok ) {
                 res.text().then(d => {
                     document.getElementById('contents').innerHTML = DOMPurify.sanitize(marked.parse(d));
+                    window.scrollTo(0,0);
                 });
             }
         });
