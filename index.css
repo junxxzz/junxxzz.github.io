@@ -73,6 +73,7 @@ footer {
 }
 footer #copyright {
     padding-top: .5rem;
+    padding-bottom: .5rem;
     font-size: .6em;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -110,13 +111,20 @@ main {
 section#contents {
     font-size: .9em;
 }
+section#contents hr {
+    border-style: dashed;
+    border-width: 1px;
+    border-bottom: none;
+}
 
 section#articles {
     display: flex;
     flex-direction: column;
     gap: 3px;
     position: relative;
-    padding-top: 3px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 2rem;
 }
 section#articles::before {
     content: "";
@@ -134,6 +142,12 @@ section#articles article {
     align-items: center;
     gap: .2em;
     cursor: pointer;
+    border: solid 1px lightgray;
+    border-radius: 5px;
+    box-shadow: 3px 1px #eeeeee;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
 }
 section#articles article:hover {
     background-color: aliceblue;

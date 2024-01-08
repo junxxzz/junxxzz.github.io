@@ -1,6 +1,6 @@
 const {markedHighlight} = globalThis.markedHighlight;
 marked.use(markedDirective.createDirectives());
-marked.use(markedLinkifyIt({},{}));
+// marked.use(markedLinkifyIt({},{}));
 marked.use(markedHighlight({
     langPrefix: 'hljs language-',
     highlight(code, lang, info) {
@@ -11,16 +11,15 @@ marked.use(markedHighlight({
 }));
 marked.use({ breaks: true, });
 
-let maArticleIdx = 0;
-
 setLoadComplete(function() {
     listenHash(loadArticle);
     const articleTemplate = document.querySelector('template#articleTemplate').innerHTML;
     const articleSection = document.querySelector('section#articles');
+    let maArticleIdx = 0;
     fetch('/articles.dat').then(res => {
         if( res.ok ) {
             res.text().then(d => {
-                d.split('\r\n').reverse().forEach(line => {
+                d.split('\n').reverse().forEach(line => {
                     if( !line.trim() ) {
                         return;
                     }
@@ -43,18 +42,18 @@ setLoadComplete(function() {
                     articleSection.append(newArticle);
                 });
 
-                loadArticle(window.hash, maArticleIdx);
+                if( !window.hash.articleId ) {
+                    window.hash.articleId = maArticleIdx;
+                    loadArticle(window.hash);
+                }
             });
         }
     });
 });
 
-function loadArticle(hash, maArticleIdx) {
-    if( hash && maArticleIdx && hash.articleId && Number(hash.articleId) <= maArticleIdx ) {
-        maArticleIdx = hash.articleId;
-    }
-    if( maArticleIdx > 0 ) {
-        fetch(`/articles/article_${maArticleIdx}.md`).then(res => {
+function loadArticle(hash) {
+    if( hash.articleId > 0 ) {
+        fetch(`/articles/article_${hash.articleId}.md`).then(res => {
             if( res.ok ) {
                 res.text().then(d => {
                     document.getElementById('contents').innerHTML = DOMPurify.sanitize(marked.parse(d));
@@ -62,5 +61,4 @@ function loadArticle(hash, maArticleIdx) {
             }
         });
     }
-
 }
