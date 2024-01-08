@@ -138,40 +138,6 @@ function humanByte(arg) {
 
 
 function checkHash(fn) {
-    console.log(location.hash);
-    if( location.hash.match(/^#state=pass-through-value/) ) {
-        var fragmentString = location.hash.substring(1);
-        var params = {};
-        var regex = /([^&=]+)=([^&]*)/g, m;
-        while (m = regex.exec(fragmentString)) {
-            params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-        }
-        console.log(Object.keys(params));
-        if (Object.keys(params).length > 0) {
-            console.log(params['state']);
-            localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
-            if (params['state'] && params['state'] == 'pass-through-value') {
-                var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
-                if (params && params['access_token']) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('GET',
-                        'https://www.googleapis.com/auth/userinfo.email&' +
-                        'access_token=' + params['access_token']);
-                    xhr.onreadystatechange = function (e) {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            console.log(xhr.response);
-                        } else if (xhr.readyState === 4 && xhr.status === 401) {
-                            // Token invalid, so prompt for user permission.
-                            oauth2SignIn();
-                        }
-                    };
-                    xhr.send(null);
-                } else {
-                    oauth2SignIn();
-                }
-            }
-        }
-    }
 	if( location.hash ) {
 		window.hash = JSON.parse(decodeURIComponent(location.hash.substring(1)));
         if( fn ) {
