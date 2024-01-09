@@ -35,17 +35,6 @@
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/javascript.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked-linkify-it/lib/index.umd.js"></script>
     <script src="https://unpkg.com/jso/dist/jso.js"></script>
-    <script type="module">
-        import { Octokit, App } from "https://esm.sh/octokit";
-        async function githubLogin() {
-            const octokit = new Octokit({ auth: `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` });
-            // Compare: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
-            const {
-            data: { login },
-            } = await octokit.rest.users.getAuthenticated();
-            console.log("Hello, %s", login);
-        }
-    </script>
     <script src="/dom.js"></script>
     <script src="/common.js"></script>
     <script src="/index.js"></script>
@@ -71,5 +60,20 @@
         <span class="articleIcons">{article-icons}</span>
         <span class="articleTitle">{article-title}</span>
     </template>
+
+    <script type="module">
+        import { Octokit, App } from "https://esm.sh/octokit";
+        async function githubLogin() {
+            console.log('githubLogin');
+            const octokit = new Octokit({ auth: `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` });
+            // Compare: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
+            const {
+            data: { login },
+            } = await octokit.rest.users.getAuthenticated();
+            console.log("Hello, %s", login);
+        }
+        document.querySelector('#userlogin1').addEventListener('click', githubLogin);
+    </script>
+
 </body>
 </html>

@@ -17,7 +17,7 @@ marked.use({breaks: true});
 
 let oauthClient = new jso.JSO({
     providerID: "google",
-    redirect_uri: "http://localhost:5500/logincheck.html", // The URL where you is redirected back, and where you perform run the callback() function.
+    redirect_uri: "https://junxxzz.github.io/logincheck.html", // The URL where you is redirected back, and where you perform run the callback() function.
     client_id: "920653369919-738ci7p79n38kvc9lv25ndfdvijm1kao.apps.googleusercontent.com",
     authorization: "https://accounts.google.com/o/oauth2/auth",
     scopes: { request: ["https://www.googleapis.com/auth/userinfo.profile","https://www.googleapis.com/auth/userinfo.email"]}
@@ -25,7 +25,7 @@ let oauthClient = new jso.JSO({
 
 async function userLogin() {
     oauthClient.getToken().then((token) => {
-    	console.log("I got the token: ", token)
+    	alert("I got the token: ", token)
     })
 }
 function userLogout() {
@@ -38,8 +38,7 @@ setLoadComplete(function () {
         console.log('logedin'+email);
     }
     document.querySelector('#userlogin').addEventListener('click', userLogin);
-    document.querySelector('#userlogin1').addEventListener('click', githubLogin);
-    document.querySelector('#userlogout').addEventListener('click', revokeAccess);
+    document.querySelector('#userlogout').addEventListener('click', userLogout);
 
     listenHash(loadArticle);
 
@@ -50,31 +49,30 @@ setLoadComplete(function () {
         if (res.ok) {
             res.text().then((d) => {
                 d.split("\n").reverse().forEach((line) => {
-                    if (!line.trim()) {
-                        return;
+                    if (line.trim()) {
+                        const [idx, writeAt, categorys, title] = line.split("|");
+                        if (maArticleIdx == 0) {
+                            maArticleIdx = idx;
+                        }
+                        const newArticle = document.createElement("article");
+                        newArticle.setAttribute("id", `article-${idx}`);
+                        newArticle.innerHTML = articleTemplate
+                            .replace("{article-writeAt}", writeAt)
+                            .replace("{article-title}", title);
+                        categorys.split(",").forEach((c) => {
+                            const newIcon = document.createElement("img");
+                            newIcon.setAttribute("src", `/icons/${c.trim()}.svg`);
+                            newIcon.classList.add("articleIcon");
+                            newArticle.innerHTML = newArticle.innerHTML.replace(
+                                "{article-icons}",
+                                newIcon.outerHTML,
+                            );
+                        });
+                        newArticle.addEventListener("click", () => {
+                            setHash("articleId", idx);
+                        });
+                        articleSection.append(newArticle);
                     }
-                    const [idx, writeAt, categorys, title] = line.split("|");
-                    if (maArticleIdx == 0) {
-                        maArticleIdx = idx;
-                    }
-                    const newArticle = document.createElement("article");
-                    newArticle.setAttribute("id", `article-${idx}`);
-                    newArticle.innerHTML = articleTemplate
-                        .replace("{article-writeAt}", writeAt)
-                        .replace("{article-title}", title);
-                    categorys.split(",").forEach((c) => {
-                        const newIcon = document.createElement("img");
-                        newIcon.setAttribute("src", `/icons/${c.trim()}.svg`);
-                        newIcon.classList.add("articleIcon");
-                        newArticle.innerHTML = newArticle.innerHTML.replace(
-                            "{article-icons}",
-                            newIcon.outerHTML,
-                        );
-                    });
-                    newArticle.addEventListener("click", () => {
-                        setHash("articleId", idx);
-                    });
-                    articleSection.append(newArticle);
                 });
                 if (!window.hash.articleId) {
                     window.hash.articleId = maArticleIdx;
