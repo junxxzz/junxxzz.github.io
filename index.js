@@ -15,10 +15,31 @@ marked.use(
 );
 marked.use({breaks: true});
 
+let oauthClient = new jso.JSO({
+    providerID: "google",
+    redirect_uri: "http://localhost:5500/logincheck.html", // The URL where you is redirected back, and where you perform run the callback() function.
+    client_id: "920653369919-738ci7p79n38kvc9lv25ndfdvijm1kao.apps.googleusercontent.com",
+    authorization: "https://accounts.google.com/o/oauth2/auth",
+    scopes: { request: ["https://www.googleapis.com/auth/userinfo.profile","https://www.googleapis.com/auth/userinfo.email"]}
+});
+
+async function userLogin() {
+    oauthClient.getToken().then((token) => {
+    	console.log("I got the token: ", token)
+    })
+}
+function userLogout() {
+    oauthClient.wipeTokens();
+}
+
 setLoadComplete(function () {
-    document.querySelector('#userlogin').addEventListener('click', oauthSignIn);
+    const email = sessionStorage.getItem('email');
+    if( email ) {
+        console.log('logedin'+email);
+    }
+    document.querySelector('#userlogin').addEventListener('click', userLogin);
+    document.querySelector('#userlogin1').addEventListener('click', githubLogin);
     document.querySelector('#userlogout').addEventListener('click', revokeAccess);
-    console.log(hash);
 
     listenHash(loadArticle);
 
@@ -65,7 +86,6 @@ setLoadComplete(function () {
 });
 
 function loadArticle(hash) {
-    console.log(hash);
     if (hash.articleId > 0) {
         fetch(`/articles/article_${hash.articleId}.md`).then((res) => {
             if (res.ok) {
@@ -89,60 +109,3 @@ function loadArticle(hash) {
     }
 }
 
-/**
- * Create form to request access token from Google's OAuth 2.0 server.
- **/
-function oauthSignIn() {
-    // Google's OAuth 2.0 endpoint for requesting an access token
-    var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
-
-    // Create <form> element to submit parameters to OAuth 2.0 endpoint.
-    var form = document.createElement("form");
-    form.setAttribute("method", "GET"); // Send as a GET request.
-    form.setAttribute("action", oauth2Endpoint);
-
-    // Parameters to pass to OAuth 2.0 endpoint.
-    var params = {
-        client_id: "920653369919-738ci7p79n38kvc9lv25ndfdvijm1kao.apps.googleusercontent.com",
-        redirect_uri: "https://junxxzz.github.io",
-        response_type: "token",
-        scope: "email profile",
-        include_granted_scopes: "true",
-        state: "pass-through-value",
-    };
-
-    // Add form parameters as hidden input values.
-    for (var p in params) {
-        var input = document.createElement("input");
-        input.setAttribute("type", "hidden");
-        input.setAttribute("name", p);
-        input.setAttribute("value", params[p]);
-        form.appendChild(input);
-    }
-
-    // Add form to page and submit it to open the OAuth 2.0 endpoint.
-    document.body.appendChild(form);
-    form.submit();
-}
-function revokeAccess(accessToken) {
-    // Google's OAuth 2.0 endpoint for revoking access tokens.
-    var revokeTokenEndpoint = 'https://oauth2.googleapis.com/revoke';
-
-    // Create <form> element to use to POST data to the OAuth 2.0 endpoint.
-    var form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('action', revokeTokenEndpoint);
-
-    // Add access token to the form so it is set as value of 'token' parameter.
-    // This corresponds to the sample curl request, where the URL is:
-    //      https://oauth2.googleapis.com/revoke?token={token}
-    var tokenField = document.createElement('input');
-    tokenField.setAttribute('type', 'hidden');
-    tokenField.setAttribute('name', 'token');
-    tokenField.setAttribute('value', accessToken);
-    form.appendChild(tokenField);
-
-    // Add form to page and submit it to actually revoke the token.
-    document.body.appendChild(form);
-    form.submit();
-}
