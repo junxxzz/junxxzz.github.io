@@ -15,30 +15,17 @@ marked.use(
 );
 marked.use({breaks: true});
 
-let oauthClient = new jso.JSO({
-    providerID: "google",
-    redirect_uri: "https://junxxzz.github.io/logincheck.html", // The URL where you is redirected back, and where you perform run the callback() function.
-    client_id: "920653369919-738ci7p79n38kvc9lv25ndfdvijm1kao.apps.googleusercontent.com",
-    authorization: "https://accounts.google.com/o/oauth2/auth",
-    scopes: { request: ["https://www.googleapis.com/auth/userinfo.profile","https://www.googleapis.com/auth/userinfo.email"]}
-});
-
-async function userLogin() {
-    oauthClient.getToken().then((token) => {
-    	alert("I got the token: ", token)
-    })
-}
-function userLogout() {
-    oauthClient.wipeTokens();
-}
-
 setLoadComplete(function () {
     const email = sessionStorage.getItem('email');
     if( email ) {
         console.log('logedin'+email);
     }
-    document.querySelector('#userlogin').addEventListener('click', userLogin);
-    document.querySelector('#userlogout').addEventListener('click', userLogout);
+    document.querySelector('#userlogin').addEventListener('click', function() {
+        location.href = '/login.html';
+    });
+    document.querySelector('#userlogout').addEventListener('click', function() {
+        oauthClient.wipeTokens();
+    });
 
     listenHash(loadArticle);
 

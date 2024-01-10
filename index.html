@@ -9,6 +9,7 @@
     gtag('js', new Date());
     gtag('config', 'G-K0BS1883H2');
     </script>
+    <!-- end of Google tag (gtag.js) -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,6 +23,7 @@
     <link rel="stylesheet" href="/dialog.css">
     <link rel="stylesheet" href="/common.css">
     <link rel="stylesheet" href="/index.css">
+    <!-- for marked -->
     <script src="https://cdn.jsdelivr.net/npm/moo@0.5.2/moo.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.8/dist/purify.min.js"></script>
@@ -34,10 +36,11 @@
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/xml.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/javascript.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked-linkify-it/lib/index.umd.js"></script>
-    <script src="https://unpkg.com/jso/dist/jso.js"></script>
+    <!-- end of for marked -->
     <script src="/dom.js"></script>
     <script src="/common.js"></script>
     <script src="/index.js"></script>
+
 </head>
 <body>
     <header>
@@ -45,7 +48,6 @@
             <h1><a href="/"><img src="/favicon-16x16.png">all-stack, not full-stack</a></h1>
         </section>
         <section id="userinfo">
-            <span id="userlogin1">github login</span>
             <span id="userlogin">login</span>
             <span id="userlogout">logout</span>
         </section>
@@ -60,20 +62,6 @@
         <span class="articleIcons">{article-icons}</span>
         <span class="articleTitle">{article-title}</span>
     </template>
-
-    <script type="module">
-        import { Octokit, App } from "https://esm.sh/octokit";
-        async function githubLogin() {
-            console.log('githubLogin');
-            const octokit = new Octokit({ auth: `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` });
-            // Compare: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
-            const {
-            data: { login },
-            } = await octokit.rest.users.getAuthenticated();
-            console.log("Hello, %s", login);
-        }
-        document.querySelector('#userlogin1').addEventListener('click', githubLogin);
-    </script>
 
 </body>
 </html>

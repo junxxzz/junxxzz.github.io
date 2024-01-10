@@ -9,24 +9,49 @@
 <body>
     <script>
         const infos = {};
-        location.hash.substring(1).split('&').forEach(h => {
-            const hh = h.split('=');
-            infos[hh[0]] = hh[1];
-        });
-        console.log(infos);
-        fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${infos.access_token}`).then(res => {
-            console.log(res);
-            res.json().then(d => {
-                console.log(d);
-                for (const k in d) {
-                    if (Object.hasOwnProperty.call(d, k)) {
-                        sessionStorage.setItem(k, d[k]);
-                    }
-                }
-                location.href = '/';
+        let resdata = '';
+
+        if( location.hash ) {   //google
+            resdata = location.hash;
+        }
+        else if( location.search ) {    //github
+            resdata = location.search;
+        }
+        else {
+            console.log(location);
+        }
+        if( resdata ) {
+            resdata.substring(1).split('&').forEach(h => {
+                const hh = h.split('=');
+                infos[hh[0]] = hh[1];
             });
-        });
-        // https://www.googleapis.com/oauth2/v1/userinfo?access_token=ya29.a0AfB_byC6i8DEybS8aUWxFw_eUhai69BGtNbEJ6nevIU784TNIPgkpA4o1JZxlpAG8FqHKcJEe-LkFlLiBBLRQ4XQSck4ds_QnxbpxVFeEmenoi_LmNhF6VnSvqgrNla0LlnijBuGg_Wt61cWjgTRGgn7q7kxPLoO_AaCgYKAWASARISFQHGX2MiL55A88NjTg8ScmdIuhK0Tg0169
+
+            sessionStorage.removeItem('name');
+            sessionStorage.removeItem('email');
+
+            if( infos.access_token ) {  //google
+                console.log('google');
+                // https://www.googleapis.com/oauth2/v1/userinfo?access_token=ya29.a0AfB_byC6i8DEybS8aUWxFw_eUhai69BGtNbEJ6nevIU784TNIPgkpA4o1JZxlpAG8FqHKcJEe-LkFlLiBBLRQ4XQSck4ds_QnxbpxVFeEmenoi_LmNhF6VnSvqgrNla0LlnijBuGg_Wt61cWjgTRGgn7q7kxPLoO_AaCgYKAWASARISFQHGX2MiL55A88NjTg8ScmdIuhK0Tg0169
+                fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${infos.access_token}`).then(res => {
+                    console.log(res);
+                    res.json().then(d => {
+                        console.log(d);
+                        for (const k in d) {
+                            if (Object.hasOwnProperty.call(d, k)) {
+                                sessionStorage.setItem(k, d[k]);
+                            }
+                        }
+                        // location.href = '/';
+                    });
+                });
+            }
+            else if( infos.code ) { //github
+                // curl --location --request POST 'https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=6b304ede61d88cf01059'
+                fetch(`https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=${infos.code}`).then(res => {
+                    console.log(res);
+                });
+            }
+        }
     </script>
 </body>
 </html>
