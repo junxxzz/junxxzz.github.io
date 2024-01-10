@@ -18,7 +18,7 @@
     <!-- <script src="https://unpkg.com/github-api/dist/GitHub.min.js"></script> -->
 
     <iframe src="about:blank" frameborder="0" id="ifrm1"></iframe>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script>
 
         // console.log(GitHub);
@@ -106,23 +106,37 @@
                 'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
                 'code': infos.code,
             };
-            // fetch('https://github.com/login/oauth/access_token', {
-            fetch('https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code='+infos.code, {
-                method:'GET',
-                mode:'no-cors',
+            jQuery.ajax('https://github.com/login/oauth/access_token',{
+                crossDomain: true,
+                method: 'post',
                 headers: {
-                    // 'Content-Type': 'application/json',
-                    'Accept': 'application/xml',
+                    'Accept': 'application/json',
                 },
-                // body: JSON.stringify(postdata),
-            }).then(res => {
-                console.log(res);
-                // if( res.ok ) {
-                    res.text().then(d => {
-                        console.log(d);
-                    });
-                // }
+                data: postdata,
+                jsonpCallback: function(a,b,c,d) {
+                    console.log(a);
+                    console.log(b);
+                    console.log(c);
+                    console.log(d);
+                },
             });
+            // fetch('https://github.com/login/oauth/access_token', {
+            // fetch('https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code='+infos.code, {
+            //     method:'GET',
+            //     mode:'no-cors',
+            //     headers: {
+            //         // 'Content-Type': 'application/json',
+            //         'Accept': 'application/xml',
+            //     },
+            //     // body: JSON.stringify(postdata),
+            // }).then(res => {
+            //     console.log(res);
+            //     // if( res.ok ) {
+            //         res.text().then(d => {
+            //             console.log(d);
+            //         });
+            //     // }
+            // });
         }
     </script>
 
