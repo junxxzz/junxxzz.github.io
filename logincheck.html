@@ -47,7 +47,7 @@
             }
             else if( infos.code ) { //github
                 // curl --location --request POST 'https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=6b304ede61d88cf01059'
-                fetch(`https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=${infos.code}`).then(res => {
+                fetch(`https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=${infos.code}`,{method:'POST', mode:'no-cors'}).then(res => {
                     console.log(res);
                 });
             }
