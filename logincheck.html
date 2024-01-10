@@ -106,15 +106,15 @@
                 'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
                 'code': infos.code,
             };
-            fetch('https://github.com/login/oauth/access_token', {
-            // fetch('https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code='+infos.code, {
-                method:'POST',
-                mode:'cors',
+            // fetch('https://github.com/login/oauth/access_token', {
+            fetch('https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code='+infos.code, {
+                method:'GET',
+                mode:'no-cors',
                 headers: {
-                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/json',
                     'Accept': 'application/xml',
                 },
-                body: JSON.stringify(postdata),
+                // body: JSON.stringify(postdata),
             }).then(res => {
                 console.log(res);
                 // if( res.ok ) {
