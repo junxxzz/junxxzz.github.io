@@ -15,7 +15,7 @@ setLoadComplete(function() {
     // https://docs.github.com/en/enterprise-cloud@latest/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app
     document.querySelector('#github').addEventListener('click', function() {
         let oauthClient = new jso.JSO({
-            providerID: "google",
+            providerID: "github",
             authorization: "https://github.com/login/oauth/authorize",
             client_id: "1feec8b27f62e46c8dd8",
             scopes: { request: ["user"] }
