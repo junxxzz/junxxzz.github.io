@@ -59,7 +59,7 @@
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
                     },
-                    body: JSON.stringify(data),
+                    body: JSON.stringify(postdata),
                 }).then(res => {
                     console.log(res);
                     if( res.ok ) {
