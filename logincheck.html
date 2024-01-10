@@ -8,13 +8,20 @@
 </head>
 <body>
 
-    <form action="" method="post" id="form1" accept="application/json">
+    <!-- <form action="" method="post" id="form1" target="tok">
         <input type="hidden" name="client_id" id="client_id">
         <input type="hidden" name="client_secret" id="client_secret">
         <input type="hidden" name="code" id="code">
-    </form>
+    </form> -->
+
+    <!-- just github-api source (5.3kb) -->
+    <!-- <script src="https://unpkg.com/github-api/dist/GitHub.min.js"></script> -->
+
+    <iframe src="about:blank" frameborder="0" id="ifrm1"></iframe>
 
     <script>
+
+        // console.log(GitHub);
         const form1 = document.querySelector('#form1');
         const infos = {};
         let resdata = '';
@@ -28,6 +35,7 @@
         else {
             console.log(location);
         }
+
         if( resdata ) {
             resdata.substring(1).split('&').forEach(h => {
                 const hh = h.split('=');
@@ -36,52 +44,85 @@
 
             sessionStorage.removeItem('name');
             sessionStorage.removeItem('email');
+        }
+    </script>
 
-            if( infos.access_token ) {  //google
-                console.log('google');
-                // https://www.googleapis.com/oauth2/v1/userinfo?access_token=ya29.a0AfB_byC6i8DEybS8aUWxFw_eUhai69BGtNbEJ6nevIU784TNIPgkpA4o1JZxlpAG8FqHKcJEe-LkFlLiBBLRQ4XQSck4ds_QnxbpxVFeEmenoi_LmNhF6VnSvqgrNla0LlnijBuGg_Wt61cWjgTRGgn7q7kxPLoO_AaCgYKAWASARISFQHGX2MiL55A88NjTg8ScmdIuhK0Tg0169
-                fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${infos.access_token}`).then(res => {
-                    console.log(res);
-                    res.json().then(d => {
-                        console.log(d);
-                        for (const k in d) {
-                            if (Object.hasOwnProperty.call(d, k)) {
-                                sessionStorage.setItem(k, d[k]);
-                            }
+    <!-- <script type="module">
+        import { OAuthApp } from "https://esm.sh/octokit";
+        if( infos.code ) { //github
+            console.log(OAuthApp);
+
+            const postdata = {
+                'client_id': '1feec8b27f62e46c8dd8',
+                'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
+                'code': infos.code,
+            };
+            const app = new OAuthApp({
+                clientType: "oauth-app",
+                clientId: postdata.client_id,
+                clientSecret: postdata.client_secret,
+            });
+
+            app.on("token", async ({ token, octokit }) => {
+            const { data } = await octokit.request("GET /user");
+            console.log(`Token retrieved for ${data.login}`);
+            });
+
+            app.createToken({code: infos.code});
+
+        }
+    </script> -->
+
+    <script>
+        if( infos.access_token ) {  //google
+            console.log('google');
+            // https://www.googleapis.com/oauth2/v1/userinfo?access_token=ya29.a0AfB_byC6i8DEybS8aUWxFw_eUhai69BGtNbEJ6nevIU784TNIPgkpA4o1JZxlpAG8FqHKcJEe-LkFlLiBBLRQ4XQSck4ds_QnxbpxVFeEmenoi_LmNhF6VnSvqgrNla0LlnijBuGg_Wt61cWjgTRGgn7q7kxPLoO_AaCgYKAWASARISFQHGX2MiL55A88NjTg8ScmdIuhK0Tg0169
+            fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${infos.access_token}`).then(res => {
+                console.log(res);
+                res.json().then(d => {
+                    console.log(d);
+                    for (const k in d) {
+                        if (Object.hasOwnProperty.call(d, k)) {
+                            sessionStorage.setItem(k, d[k]);
                         }
-                        // location.href = '/';
-                    });
+                    }
+                    // location.href = '/';
                 });
-            }
-            else if( infos.code ) { //github
-                // curl --location --request POST 'https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=6b304ede61d88cf01059'
-                form1.setAttribute('action', 'https://github.com/login/oauth/access_token');
-                form1.querySelector('#client_id').value = '1feec8b27f62e46c8dd8';
-                form1.querySelector('#client_secret').value = '1bfdfcecd18ace3741c14477cda89858843f11d2';
-                form1.querySelector('#code').value = infos.code;
-                form1.submit();
-                // const postdata = {
-                //     'client_id': '1feec8b27f62e46c8dd8',
-                //     'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
-                //     'code': infos.code,
-                // };
-                // fetch('https://github.com/login/oauth/access_token', {
-                //     method:'POST',
-                //     mode:'no-cors',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'Accept': 'application/json',
-                //     },
-                //     body: JSON.stringify(postdata),
-                // }).then(res => {
-                //     console.log(res);
-                //     if( res.ok ) {
-                //         res.json().then(d => {
-                //             console.log(d);
-                //         });
-                //     }
-                // });
-            }
+            });
+        }
+        else if( infos.code ) { //github
+            // console.log(Octokit);
+
+            // curl --location --request POST 'https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=6b304ede61d88cf01059'
+
+            // form1.setAttribute('action', 'https://github.com/login/oauth/access_token');
+            // form1.querySelector('#client_id').value = '1feec8b27f62e46c8dd8';
+            // form1.querySelector('#client_secret').value = '1bfdfcecd18ace3741c14477cda89858843f11d2';
+            // form1.querySelector('#code').value = infos.code;
+            // form1.submit();
+
+            const postdata = {
+                'client_id': '1feec8b27f62e46c8dd8',
+                'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
+                'code': infos.code,
+            };
+            fetch('https://github.com/login/oauth/access_token', {
+            // fetch('https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code='+infos.code, {
+                method:'POST',
+                mode:'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/xml',
+                },
+                body: JSON.stringify(postdata),
+            }).then(res => {
+                console.log(res);
+                // if( res.ok ) {
+                    res.text().then(d => {
+                        console.log(d);
+                    });
+                // }
+            });
         }
     </script>
 
