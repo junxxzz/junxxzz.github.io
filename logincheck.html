@@ -55,6 +55,7 @@
             }
             else if( infos.code ) { //github
                 // curl --location --request POST 'https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=6b304ede61d88cf01059'
+                form1.setAttribute('action', 'https://github.com/login/oauth/access_token');
                 form1.querySelector('#client_id').value = '1feec8b27f62e46c8dd8';
                 form1.querySelector('#client_secret').value = '1bfdfcecd18ace3741c14477cda89858843f11d2';
                 form1.querySelector('#code').value = infos.code;
