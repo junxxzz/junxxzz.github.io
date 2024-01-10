@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGINCHECK</title>
+    <title>allstack document</title>
 </head>
 <body>
+
+    <form action="" method="post" id="form1" accept="application/json">
+        <input type="hidden" name="client_id" id="client_id">
+        <input type="hidden" name="client_secret" id="client_id">
+        <input type="hidden" name="code" id="client_id">
+    </form>
+
     <script>
+        const form1 = document.querySelector('#form1');
         const infos = {};
         let resdata = '';
 
@@ -47,29 +55,34 @@
             }
             else if( infos.code ) { //github
                 // curl --location --request POST 'https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=6b304ede61d88cf01059'
-                const postdata = {
-                    'client_id': '1feec8b27f62e46c8dd8',
-                    'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
-                    'code': infos.code,
-                };
-                fetch('https://github.com/login/oauth/access_token', {
-                    method:'POST',
-                    mode:'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                    },
-                    body: JSON.stringify(postdata),
-                }).then(res => {
-                    console.log(res);
-                    if( res.ok ) {
-                        res.json().then(d => {
-                            console.log(d);
-                        });
-                    }
-                });
+                form1.querySelector('#client_id').value = '1feec8b27f62e46c8dd8';
+                form1.querySelector('#client_secret').value = '1bfdfcecd18ace3741c14477cda89858843f11d2';
+                form1.querySelector('#code').value = infos.code;
+                form1.submit();
+                // const postdata = {
+                //     'client_id': '1feec8b27f62e46c8dd8',
+                //     'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
+                //     'code': infos.code,
+                // };
+                // fetch('https://github.com/login/oauth/access_token', {
+                //     method:'POST',
+                //     mode:'no-cors',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'Accept': 'application/json',
+                //     },
+                //     body: JSON.stringify(postdata),
+                // }).then(res => {
+                //     console.log(res);
+                //     if( res.ok ) {
+                //         res.json().then(d => {
+                //             console.log(d);
+                //         });
+                //     }
+                // });
             }
         }
     </script>
+
 </body>
 </html>
