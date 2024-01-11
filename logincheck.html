@@ -26,6 +26,7 @@
         else {
             console.log(location);
         }
+
         if( resdata ) {
             resdata.substring(1).split('&').forEach(h => {
                 const hh = h.split('=');
@@ -34,21 +35,49 @@
 
             sessionStorage.removeItem('name');
             sessionStorage.removeItem('email');
+        }
+    </script>
 
-            if( infos.access_token ) {  //google
-                console.log('google');
-                // https://www.googleapis.com/oauth2/v1/userinfo?access_token=ya29.a0AfB_byC6i8DEybS8aUWxFw_eUhai69BGtNbEJ6nevIU784TNIPgkpA4o1JZxlpAG8FqHKcJEe-LkFlLiBBLRQ4XQSck4ds_QnxbpxVFeEmenoi_LmNhF6VnSvqgrNla0LlnijBuGg_Wt61cWjgTRGgn7q7kxPLoO_AaCgYKAWASARISFQHGX2MiL55A88NjTg8ScmdIuhK0Tg0169
-                fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${infos.access_token}`).then(res => {
-                    console.log(res);
-                    res.json().then(d => {
-                        console.log(d);
-                        for (const k in d) {
-                            if (Object.hasOwnProperty.call(d, k)) {
-                                sessionStorage.setItem(k, d[k]);
-                            }
+    <!-- <script type="module">
+        import { OAuthApp } from "https://esm.sh/octokit";
+        if( infos.code ) { //github
+            console.log(OAuthApp);
+
+            const postdata = {
+                'client_id': '1feec8b27f62e46c8dd8',
+                'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
+                'code': infos.code,
+            };
+            const app = new OAuthApp({
+                clientType: "oauth-app",
+                clientId: postdata.client_id,
+                clientSecret: postdata.client_secret,
+            });
+
+            app.on("token", async ({ token, octokit }) => {
+            const { data } = await octokit.request("GET /user");
+            console.log(`Token retrieved for ${data.login}`);
+            });
+
+            app.createToken({code: infos.code});
+
+        }
+    </script> -->
+
+    <script>
+        if( infos.access_token ) {  //google
+            console.log('google');
+            // https://www.googleapis.com/oauth2/v1/userinfo?access_token=ya29.a0AfB_byC6i8DEybS8aUWxFw_eUhai69BGtNbEJ6nevIU784TNIPgkpA4o1JZxlpAG8FqHKcJEe-LkFlLiBBLRQ4XQSck4ds_QnxbpxVFeEmenoi_LmNhF6VnSvqgrNla0LlnijBuGg_Wt61cWjgTRGgn7q7kxPLoO_AaCgYKAWASARISFQHGX2MiL55A88NjTg8ScmdIuhK0Tg0169
+            fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${infos.access_token}`).then(res => {
+                console.log(res);
+                res.json().then(d => {
+                    console.log(d);
+                    for (const k in d) {
+                        if (Object.hasOwnProperty.call(d, k)) {
+                            sessionStorage.setItem(k, d[k]);
                         }
-                        // location.href = '/';
-                    });
+                    }
+                    // location.href = '/';
                 });
             }
             else if( infos.code ) { //github
