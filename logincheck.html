@@ -7,17 +7,15 @@
     <title>allstack document</title>
 </head>
 <body>
-
-    <form action="" method="post" id="form1" accept="application/json">
-        <input type="hidden" name="client_id" id="client_id">
-        <input type="hidden" name="client_secret" id="client_secret">
-        <input type="hidden" name="code" id="code">
-    </form>
-
+    <iframe src="" frameborder="1" id="ifrm1"></iframe>
     <script>
         const form1 = document.querySelector('#form1');
         const infos = {};
         let resdata = '';
+
+        function aaaaaaaaa(a,b,c,d) {
+            console.log(a,b,c,d);
+        }
 
         if( location.hash ) {   //google
             resdata = location.hash;
@@ -55,32 +53,29 @@
             }
             else if( infos.code ) { //github
                 // curl --location --request POST 'https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=6b304ede61d88cf01059'
-                form1.setAttribute('action', 'https://github.com/login/oauth/access_token');
-                form1.querySelector('#client_id').value = '1feec8b27f62e46c8dd8';
-                form1.querySelector('#client_secret').value = '1bfdfcecd18ace3741c14477cda89858843f11d2';
-                form1.querySelector('#code').value = infos.code;
-                form1.submit();
-                // const postdata = {
-                //     'client_id': '1feec8b27f62e46c8dd8',
-                //     'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
-                //     'code': infos.code,
-                // };
-                // fetch('https://github.com/login/oauth/access_token', {
-                //     method:'POST',
-                //     mode:'no-cors',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'Accept': 'application/json',
-                //     },
-                //     body: JSON.stringify(postdata),
-                // }).then(res => {
-                //     console.log(res);
-                //     if( res.ok ) {
-                //         res.json().then(d => {
-                //             console.log(d);
-                //         });
-                //     }
-                // });
+                const postdata = {
+                    'client_id': '1feec8b27f62e46c8dd8',
+                    'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
+                    'code': infos.code,
+                };
+                document.querySelector('#ifrm1').src = 'https://github.com/login/oauth/access_token?callback=aaaaaaaaa&client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code='+infos.code;
+                fetch('https://github.com/login/oauth/access_token?callback=aaaaaaaaa&client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code='+infos.code, {
+                    method:'GET',
+                    mode:'no-cors',
+                    headers: {
+                        // 'Content-Type': 'application/json',
+                        'Origin': 'http://localhost:5000',
+                        // 'Accept': 'application/json',
+                    },
+                    // body: JSON.stringify(postdata),
+                }).then(res => {
+                    console.log(res);
+                    if( res.ok ) {
+                        res.json().then(d => {
+                            console.log(d);
+                        });
+                    }
+                });
             }
         }
     </script>
