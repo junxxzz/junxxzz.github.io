@@ -40,23 +40,18 @@
     <script src="/dom.js"></script>
     <script src="/common.js"></script>
     <script src="/index.js"></script>
-
+    <script src="/timer.js"></script>
 </head>
 <body>
-    <header>
-        <section id="logo">
-            <h1><a href="/"><img src="/favicon-16x16.png">all-stack, not full-stack</a></h1>
-        </section>
-        <section id="userinfo">
-            <span id="userlogin">login</span>
-            <span id="userlogout">logout</span>
-        </section>
-    </header>
+    <header data-include-path="header.html"></header>
     <main>
+        <section id="timer"></section>
+        <script>timer(document.querySelector('#timer'),0,50)</script>
+        <input type="button" value="up" onclick="timerUp(document.querySelector('#timer'))">
         <section id="contents"></section>
         <section id="articles"></section>
     </main>
-    <footer data-include-path="footer.htm"></footer>
+    <footer data-include-path="footer.html"></footer>
     <template id="articleTemplate">
         <span class="articleWriteAt">[{article-writeAt}]</span>
         <span class="articleIcons">{article-icons}</span>

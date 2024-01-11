@@ -5,43 +5,44 @@ window.addEventListener("load", (event) => {
 });
 
 function renderingIncludePath() {
-    document.querySelectorAll("[data-include-path]").forEach((el) => {
-        fetch(el.dataset.includePath).then((d) => {
-            if (!d.ok) return;
-            d.text().then((t) => {
-                try {
-                    el.outerHTML = t;
-                    if (window.renderingComplete) {
-                        window.renderingComplete(el.dataset.includePath);
-                    }
-                } catch (error) {
-                }
-            });
-        });
-    });
-    setTimeout(function () {
-        if (document.querySelectorAll("[data-include-path]").length) {
-            renderingIncludePath();
+    document.querySelectorAll("[data-include-path]").forEach(async (el) => {
+        const d = await fetch(el.dataset.includePath);
+        if (!d.ok) return;
+        const t = await d.text();
+        try {
+            el.outerHTML = t;
+        } catch (error) {
+            console.log(error);
         }
-    }, 100);
+        setTimeout(function () {
+            if (document.querySelectorAll("[data-include-path]").length) {
+                renderingIncludePath();
+            }
+            else {
+                if (window.renderingComplete) {
+                    window.renderingComplete(el.dataset.includePath);
+                }
+            }
+        }, 100);
+    });
 }
 
 function renderingComplete(includePath) {
-    if (includePath == 'footer.htm') {
-        window.alert = function (arg) {
-            if (!window.alertStreams) {
-                window.alertStreams = [];
-            }
-            window.alertStreams.push({type:'alert',args:arguments});
-        };
-        window.confirm = function (arg) {
-            if (!window.alertStreams) {
-                window.alertStreams = [];
-            }
-            window.alertStreams.push({type:'confirm',args:arguments});
-        };
-        triggerLoadComplete();
-    }
+    console.log(includePath);
+    window.alert = function (arg) {
+        if (!window.alertStreams) {
+            window.alertStreams = [];
+        }
+        window.alertStreams.push({type:'alert',args:arguments});
+    };
+    window.confirm = function (arg) {
+        if (!window.alertStreams) {
+            window.alertStreams = [];
+        }
+        window.alertStreams.push({type:'confirm',args:arguments});
+    };
+    window.renderingComplete = null;
+    triggerLoadComplete();
 }
 window.setInterval(function() {
     if( (typeof window.isLiveAlert)=='undefined' ) {
