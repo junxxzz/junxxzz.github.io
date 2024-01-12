@@ -10,7 +10,6 @@ function counter(obj, start, fsize) {
     counterdiv.classList.add('counterdiv');
     counterdiv.dataset.nownum = start;
     counterdiv.textContent = '';
-    counterdiv.style.position = 'relative';
     counterdiv.style.display = 'flex';
     counterdiv.style.height = fsize+'px';
     counterdiv.style.maxHeight = fsize+'px';
@@ -22,7 +21,6 @@ function counter(obj, start, fsize) {
         if( i!=0 && i%3==0 ) {
             const commadiv = document.createElement('div');
             commadiv.classList.add('commadiv');
-            commadiv.style.position = 'relative';
             const newcomma = document.createElement('div');
             newcomma.textContent = ',';
             commadiv.append(newcomma);
@@ -30,13 +28,11 @@ function counter(obj, start, fsize) {
         }
         const numdiv = document.createElement('div');
         numdiv.classList.add('numdiv');
-        numdiv.style.position = 'relative';
         numdiv.dataset.num = s;
         numdiv.dataset.y = 1;
         numdiv.dataset.fsize = fsize;
         const newnum = document.createElement('div');
         newnum.textContent = s;
-        newnum.style.position = 'relative';
         numdiv.append(newnum);
         counterdiv.prepend(numdiv);
         numdiv.style.transition = 'ease 1s';
@@ -55,14 +51,11 @@ function counterUp(obj) {
         if( numdiv.dataset.num==10 ) {
             numdiv.dataset.num = '0';
         }
-        if( numdiv.dataset.y > 0 ) {
-            const newnum = document.createElement('div');
-            newnum.textContent = numdiv.dataset.num;
-            newnum.style.position = 'relative';
-            numdiv.querySelector('div:nth-of-type('+numdiv.dataset.y+')').after(newnum);
-        }
+        const newnum = document.createElement('div');
+        newnum.textContent = numdiv.dataset.num;
+        numdiv.querySelector('div:nth-of-type('+numdiv.dataset.y+')').after(newnum);
+        numdiv.style.transform = 'translateY('+String(-1 * Number(numdiv.dataset.y) * Number(numdiv.dataset.fsize))+'px)';
         numdiv.dataset.y = Number(numdiv.dataset.y) + 1;
-        numdiv.style.transform = 'translateY('+String(-1 * (Number(numdiv.dataset.y)-1) * Number(numdiv.dataset.fsize))+'px)';
         if( numdiv.dataset.num!='0' ) {
             break;
         }
@@ -76,7 +69,6 @@ function counterUp(obj) {
         if( numdivs.length % 3 == 0 ) {
             const commadiv = document.createElement('div');
             commadiv.classList.add('commadiv');
-            commadiv.style.position = 'relative';
             const newcomma = document.createElement('div');
             newcomma.textContent = ',';
             commadiv.append(newcomma);
@@ -84,13 +76,11 @@ function counterUp(obj) {
         }
         const numdiv = document.createElement('div');
         numdiv.classList.add('numdiv');
-        numdiv.style.position = 'relative';
         numdiv.dataset.num = '1';
         numdiv.dataset.y = 1;
         numdiv.dataset.fsize = fsize;
         const newnum = document.createElement('div');
         newnum.textContent = '1';
-        newnum.style.position = 'relative';
         numdiv.append(newnum);
         counterdiv.prepend(numdiv);
         numdiv.style.transition = 'ease 1s';
@@ -113,19 +103,16 @@ function counterDown(obj) {
         if( numdiv.dataset.num < 0 ) {
             numdiv.dataset.num = '9';
         }
-        numdiv.dataset.y = Number(numdiv.dataset.y) - 1;
-        if( numdiv.dataset.y < 1 ) {
+        if( numdiv.dataset.y==1 ) {
             const newnum = document.createElement('div');
             newnum.textContent = numdiv.dataset.num;
-            newnum.style.position = 'absolute';
-            newnum.style.top = `${(Number(numdiv.dataset.y)-1) * Number(numdiv.dataset.fsize)}px`;
-            numdiv.querySelector('div:nth-of-type(1)').before(newnum);
+            numdiv.querySelector('div:nth-of-type('+numdiv.dataset.y+')').before(newnum);
         }
         else {
-            // numdiv.dataset.y = Number(numdiv.dataset.y) - 1;
-            // if( numdiv.dataset.y <= 0 ) {
-            //     numdiv.dataset.y = '1';
-            // }
+            numdiv.dataset.y = Number(numdiv.dataset.y) - 1;
+            if( numdiv.dataset.y <= 0 ) {
+                numdiv.dataset.y = '1';
+            }
         }
         numdiv.style.transform = 'translateY('+String(-1 * (Number(numdiv.dataset.y)-1) * Number(numdiv.dataset.fsize))+'px)';
         if( numdiv.dataset.num!='9' ) {
