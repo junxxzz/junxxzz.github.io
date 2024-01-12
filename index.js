@@ -75,9 +75,21 @@ function loadArticle(hash) {
         fetch(`/articles/article_${hash.articleId}.md`).then((res) => {
             if (res.ok) {
                 res.text().then((d) => {
-                    document.getElementById("contents").innerHTML = DOMPurify.sanitize(
-                        marked.parse(d),
-                    );
+                    // document.getElementById("contents").innerHTML = DOMPurify.sanitize(
+                    //     marked.parse(d),
+                    // );
+                    document.getElementById("contents").innerHTML = marked.parse(d);
+                    let matches;
+                    if( matches=document.getElementById("contents").innerHTML.match(/\<script src=([^\>]+)\>\s*\<\/script\>/gmi) ) {
+                        matches.forEach(m => {
+                            let s = m.split('src=');
+                            s = s[1].split('>');
+                            const u = s[0].match(/[\/a-z\._]+/);
+                            const newjs = document.createElement('script');
+                            newjs.setAttribute('src', u[0]);
+                            document.body.append(newjs);
+                        });
+                    }
                     window.scrollTo(0, 0);
                     gtag("event", "article_view", {
                         articleId: hash.articleId,
