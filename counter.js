@@ -1,21 +1,22 @@
-function timer(obj, start, fsize) {
+function counter(obj, start, fsize) {
     if( !fsize ) {
         fsize = 20;
     }
     if( !start ) {
         start = 0
     }
-    const timerdiv = document.createElement('div');
-    timerdiv.classList.add('timerdiv');
-    timerdiv.dataset.nownum = start;
-    timerdiv.textContent = '';
-    timerdiv.style.display = 'flex';
-    timerdiv.style.height = fsize+'px';
-    timerdiv.style.maxHeight = fsize+'px';
-    timerdiv.style.overflow = 'hidden';
-    timerdiv.style.fontSize = fsize+'px';
-    timerdiv.style.lineHeight = fsize+'px';
-    obj.append(timerdiv);
+    obj.innerHTML = '';
+    const counterdiv = document.createElement('div');
+    counterdiv.classList.add('counterdiv');
+    counterdiv.dataset.nownum = start;
+    counterdiv.textContent = '';
+    counterdiv.style.display = 'flex';
+    counterdiv.style.height = fsize+'px';
+    counterdiv.style.maxHeight = fsize+'px';
+    counterdiv.style.overflow = 'hidden';
+    counterdiv.style.fontSize = fsize+'px';
+    counterdiv.style.lineHeight = fsize+'px';
+    obj.append(counterdiv);
     String(start).split('').forEach(s => {
         const numdiv = document.createElement('div');
         numdiv.classList.add('numdiv');
@@ -25,14 +26,14 @@ function timer(obj, start, fsize) {
         const newnum = document.createElement('div');
         newnum.textContent = s;
         numdiv.append(newnum);
-        timerdiv.append(numdiv);
+        counterdiv.append(numdiv);
         numdiv.style.transition = 'ease 1s';
     });
 }
 
-function timerUp(obj) {
-    const timerdiv = obj.querySelector('div.timerdiv');
-    timerdiv.dataset.nownum = Number(timerdiv.dataset.nownum) + 1;
+function counterUp(obj) {
+    const counterdiv = obj.querySelector('div.counterdiv');
+    counterdiv.dataset.nownum = Number(counterdiv.dataset.nownum) + 1;
     const numdivs = obj.querySelectorAll('div.numdiv');
     let nomore = false;
     let fsize = 0;
@@ -56,7 +57,7 @@ function timerUp(obj) {
         }
     }
     if( nomore ) {
-        const timerdiv = obj.querySelector('.timerdiv');
+        const counterdiv = obj.querySelector('.counterdiv');
         const numdiv = document.createElement('div');
         numdiv.classList.add('numdiv');
         numdiv.dataset.num = '1';
@@ -65,18 +66,18 @@ function timerUp(obj) {
         const newnum = document.createElement('div');
         newnum.textContent = '1';
         numdiv.append(newnum);
-        timerdiv.prepend(numdiv);
+        counterdiv.prepend(numdiv);
         numdiv.style.transition = 'ease 1s';
     }
 
 }
 
-function timerDown(obj) {
-    const timerdiv = obj.querySelector('div.timerdiv');
-    if( timerdiv.dataset.nownum=='0' ) {
+function counterDown(obj) {
+    const counterdiv = obj.querySelector('div.counterdiv');
+    if( counterdiv.dataset.nownum=='0' ) {
         return;
     }
-    timerdiv.dataset.nownum = Number(timerdiv.dataset.nownum) - 1;
+    counterdiv.dataset.nownum = Number(counterdiv.dataset.nownum) - 1;
     const numdivs = obj.querySelectorAll('div.numdiv');
     let nomore = false;
     let fsize = 0;
@@ -107,7 +108,7 @@ function timerDown(obj) {
         }
     }
     // if( nomore ) {
-    //     const timerdiv = obj.querySelector('.timerdiv');
+    //     const counterdiv = obj.querySelector('.counterdiv');
     //     const numdiv = document.createElement('div');
     //     numdiv.classList.add('numdiv');
     //     numdiv.dataset.num = '1';
@@ -116,7 +117,7 @@ function timerDown(obj) {
     //     const newnum = document.createElement('div');
     //     newnum.textContent = '1';
     //     numdiv.append(newnum);
-    //     timerdiv.prepend(numdiv);
+    //     counterdiv.prepend(numdiv);
     //     numdiv.style.transition = 'ease 1s';
     // }
 
