@@ -7,15 +7,14 @@
     <title>allstack document</title>
 </head>
 <body>
-    <iframe src="" frameborder="1" id="ifrm1"></iframe>
+
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js" integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
     <script>
         const form1 = document.querySelector('#form1');
         const infos = {};
         let resdata = '';
-
-        function aaaaaaaaa(a,b,c,d) {
-            console.log(a,b,c,d);
-        }
 
         if( location.hash ) {   //google
             resdata = location.hash;
@@ -38,34 +37,8 @@
         }
     </script>
 
-    <!-- <script type="module">
-        import { OAuthApp } from "https://esm.sh/octokit";
-        if( infos.code ) { //github
-            console.log(OAuthApp);
-
-            const postdata = {
-                'client_id': '1feec8b27f62e46c8dd8',
-                'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
-                'code': infos.code,
-            };
-            const app = new OAuthApp({
-                clientType: "oauth-app",
-                clientId: postdata.client_id,
-                clientSecret: postdata.client_secret,
-            });
-
-            app.on("token", async ({ token, octokit }) => {
-            const { data } = await octokit.request("GET /user");
-            console.log(`Token retrieved for ${data.login}`);
-            });
-
-            app.createToken({code: infos.code});
-
-        }
-    </script> -->
-
     <script>
-        if( infos.access_token ) {  //google
+        if( infos.state=='google' ) {  //google
             console.log('google');
             // https://www.googleapis.com/oauth2/v1/userinfo?access_token=ya29.a0AfB_byC6i8DEybS8aUWxFw_eUhai69BGtNbEJ6nevIU784TNIPgkpA4o1JZxlpAG8FqHKcJEe-LkFlLiBBLRQ4XQSck4ds_QnxbpxVFeEmenoi_LmNhF6VnSvqgrNla0LlnijBuGg_Wt61cWjgTRGgn7q7kxPLoO_AaCgYKAWASARISFQHGX2MiL55A88NjTg8ScmdIuhK0Tg0169
             fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${infos.access_token}`).then(res => {
@@ -79,33 +52,82 @@
                     }
                     // location.href = '/';
                 });
-            }
-            else if( infos.code ) { //github
-                // curl --location --request POST 'https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=6b304ede61d88cf01059'
-                const postdata = {
-                    'client_id': '1feec8b27f62e46c8dd8',
-                    'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
+            });
+        }
+        else if( infos.state=='naver' ) {
+
+            const clientId = 'IqGGKZABT7U00aXroWR2';
+            const secret = 'w0vwkMXbCE';
+            const redirectURI = 'http://localhost:5500/logincheck.html';
+            const api = 'https://nid.naver.com/oauth2.0/token';
+
+            location.href = `${api}?grant_type=authorization_code&client_id=${clientId}&client_secret=${secret}&code=${infos.code}&state=navercode&redirect_uri=${redirectURI}`;
+            // fetch(`${api}?grant_type=code&client_id=${clientId}&client_secret=${secret}&code=${infos.code}&state=navercode&redirect_uri=${redirectURI}`).then(res => {
+            //     console.log(res);
+            //     res.json().then(d => {
+            //         console.log(d);
+            //         for (const k in d) {
+            //             if (Object.hasOwnProperty.call(d, k)) {
+            //                 sessionStorage.setItem(k, d[k]);
+            //             }
+            //         }
+            //         // location.href = '/';
+            //     });
+            // });
+
+            // var naver_id_login = new naver_id_login(clientId, redirectURI);
+            // // 접근 토큰 값 출력
+            // alert(naver_id_login.oauthParams.access_token);
+            // // 네이버 사용자 프로필 조회
+            // naver_id_login.get_naver_userprofile("naverSignInCallback()");
+            // // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+            // function naverSignInCallback() {
+            //     alert(naver_id_login.getProfileData('email'));
+            //     alert(naver_id_login.getProfileData('nickname'));
+            // }
+
+        }
+        else if( infos.state=='kakao' ) { //kakao
+            fetch('https://kauth.kakao.com/oauth/token', {
+                method:'POST',
+                headers: {
+                    'Content-type': 'Content-type: application/x-www-form-urlencoded;charset=utf-8',
+                },
+                body: {
+                    'grant_type': 'authorization_code',
+                    'client_id': 'b6fadb7e1d10a783bcf80b183beec5f0',
+                    'redirect_uri': 'http://localhost:5500/logincheck.html',
                     'code': infos.code,
-                };
-                document.querySelector('#ifrm1').src = 'https://github.com/login/oauth/access_token?callback=aaaaaaaaa&client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code='+infos.code;
-                fetch('https://github.com/login/oauth/access_token?callback=aaaaaaaaa&client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code='+infos.code, {
-                    method:'GET',
-                    mode:'no-cors',
-                    headers: {
-                        // 'Content-Type': 'application/json',
-                        'Origin': 'http://localhost:5000',
-                        // 'Accept': 'application/json',
-                    },
-                    // body: JSON.stringify(postdata),
-                }).then(res => {
-                    console.log(res);
-                    if( res.ok ) {
-                        res.json().then(d => {
-                            console.log(d);
-                        });
-                    }
-                });
-            }
+                }
+            }).then(res => {
+                console.log(res);
+            });
+        }
+        else if( infos.state=='github' ) { //github
+            // curl --location --request POST 'https://github.com/login/oauth/access_token?client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code=6b304ede61d88cf01059'
+            const postdata = {
+                'client_id': '1feec8b27f62e46c8dd8',
+                'client_secret': '1bfdfcecd18ace3741c14477cda89858843f11d2',
+                'code': infos.code,
+            };
+            document.querySelector('#ifrm1').src = 'https://github.com/login/oauth/access_token?callback=aaaaaaaaa&client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code='+infos.code;
+            fetch('https://github.com/login/oauth/access_token?callback=aaaaaaaaa&client_id=1feec8b27f62e46c8dd8&client_secret=1bfdfcecd18ace3741c14477cda89858843f11d2&code='+infos.code, {
+                method:'GET',
+                mode:'no-cors',
+                headers: {
+                    // 'Content-Type': 'application/json',
+                    'Origin': 'http://localhost:5000',
+                    // 'Accept': 'application/json',
+                },
+                // body: JSON.stringify(postdata),
+            }).then(res => {
+                console.log(res);
+                if( res.ok ) {
+                    res.json().then(d => {
+                        console.log(d);
+                    });
+                }
+            });
         }
     </script>
 

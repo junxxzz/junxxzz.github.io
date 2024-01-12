@@ -115,6 +115,7 @@ main {
 
 section#contents {
     font-size: .9em;
+    line-height: 1.5;
 }
 section#contents hr {
     border-style: dashed;
