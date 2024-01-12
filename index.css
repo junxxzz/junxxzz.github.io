@@ -125,6 +125,16 @@ header h1 a {
     gap: 0.5em;
     text-decoration: none;
 }
+header section#userinfo {
+    font-size: .7em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+header section#userinfo span {
+    cursor: pointer;
+}
+header section#userinfo #userlogout {
+    display: none;
+}
 
 main {
     padding-top: 5px;
@@ -174,6 +184,9 @@ section#articles article {
     padding-bottom: 3px;
     padding-left: 3px;
     padding-right: 3px;
+}
+section#articles article.on {
+    background-color: rgba(100, 100, 100, 0.1);
 }
 section#articles article:hover {
     background-color: aliceblue;

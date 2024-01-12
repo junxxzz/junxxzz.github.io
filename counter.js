@@ -17,7 +17,15 @@ function counter(obj, start, fsize) {
     counterdiv.style.fontSize = fsize+'px';
     counterdiv.style.lineHeight = fsize+'px';
     obj.append(counterdiv);
-    String(start).split('').forEach(s => {
+    String(start).split('').reverse().forEach((s,i) => {
+        if( i!=0 && i%3==0 ) {
+            const commadiv = document.createElement('div');
+            commadiv.classList.add('commadiv');
+            const newcomma = document.createElement('div');
+            newcomma.textContent = ',';
+            commadiv.append(newcomma);
+            counterdiv.prepend(commadiv);
+        }
         const numdiv = document.createElement('div');
         numdiv.classList.add('numdiv');
         numdiv.dataset.num = s;
@@ -26,7 +34,7 @@ function counter(obj, start, fsize) {
         const newnum = document.createElement('div');
         newnum.textContent = s;
         numdiv.append(newnum);
-        counterdiv.append(numdiv);
+        counterdiv.prepend(numdiv);
         numdiv.style.transition = 'ease 1s';
     });
 }
@@ -58,6 +66,14 @@ function counterUp(obj) {
     }
     if( nomore ) {
         const counterdiv = obj.querySelector('.counterdiv');
+        if( numdivs.length % 3 == 0 ) {
+            const commadiv = document.createElement('div');
+            commadiv.classList.add('commadiv');
+            const newcomma = document.createElement('div');
+            newcomma.textContent = ',';
+            commadiv.append(newcomma);
+            counterdiv.prepend(commadiv);
+        }
         const numdiv = document.createElement('div');
         numdiv.classList.add('numdiv');
         numdiv.dataset.num = '1';

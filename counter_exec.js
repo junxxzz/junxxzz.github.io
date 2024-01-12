@@ -2,6 +2,7 @@ function counter_exec() {
     if( typeof counter=='function' ) {
         counter(document.querySelector('#counter'),document.querySelector('#counter').innerHTML,50);
         counter(document.querySelector('#counter1'),document.querySelector('#counter1').innerHTML,50);
+        counter(document.querySelector('#counter2'),document.querySelector('#counter2').innerHTML,50);
     }
     else {
         window.setTimeout(counter_exec, 100);
@@ -9,8 +10,8 @@ function counter_exec() {
 }
 counter_exec();
 
-let interval_counterUp;
-let interval_counterDown;
+var interval_counterUp;
+var interval_counterDown;
 function counterUp_once(obj) {
     window.clearInterval(window.interval_counterUp);
     window.clearInterval(window.interval_counterDown);

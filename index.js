@@ -61,19 +61,29 @@ setLoadComplete(function () {
                         articleSection.append(newArticle);
                     }
                 });
+                listenHash(activeArticle);
                 if (!window.hash.articleId) {
                     window.hash.articleId = maArticleIdx;
                     loadArticle(window.hash);
+                    activeArticle(window.hash);
                 }
             });
         }
     });
 });
 
+function activeArticle(hash) {
+    if (hash.articleId > 0) {
+        document.querySelectorAll(`section#articles > article`).forEach(a => a.classList.remove('on'));
+        document.querySelector(`section#articles > article#article-${hash.articleId}`).classList.add('on');
+    }
+}
 function loadArticle(hash) {
     if (hash.articleId > 0) {
+        showLoading();
         fetch(`/articles/article_${hash.articleId}.md`).then((res) => {
             if (res.ok) {
+                activeArticle(hash.articleId);
                 res.text().then((d) => {
                     // document.getElementById("contents").innerHTML = DOMPurify.sanitize(
                     //     marked.parse(d),
@@ -95,12 +105,14 @@ function loadArticle(hash) {
                         articleId: hash.articleId,
                         result: "success",
                     });
+                    hideLoading();
                 });
             } else {
                 gtag("event", "article_view", {
                     articleId: hash.articleId,
                     result: "fail",
                 });
+                hideLoading();
             }
         });
     }

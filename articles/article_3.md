@@ -10,6 +10,12 @@
 <input type="button" value="up_linear" onclick="counterUp_linear(document.querySelector('#counter'))">
 <input type="button" value="down_linear" onclick="counterDown_linear(document.querySelector('#counter'))">
 
+<div id="counter2">994</div>
+<input type="button" value="up" onclick="counterUp_once(document.querySelector('#counter2'))">
+<input type="button" value="down" onclick="counterDown_once(document.querySelector('#counter2'))">
+<input type="button" value="up_linear" onclick="counterUp_linear(document.querySelector('#counter2'))">
+<input type="button" value="down_linear" onclick="counterDown_linear(document.querySelector('#counter2'))">
+
 <div id="counter1">12345</div>
 <input type="button" value="up" onclick="counterUp_once(document.querySelector('#counter1'))">
 <input type="button" value="down" onclick="counterDown_once(document.querySelector('#counter1'))">
