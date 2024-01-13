@@ -15,24 +15,11 @@ marked.use(
 );
 marked.use({breaks: true});
 
-setLoadComplete(function () {
-    const email = sessionStorage.getItem('email');
-    if( email ) {
-        console.log('logedin'+email);
-    }
-    document.querySelector('#userlogin').addEventListener('click', function() {
-        location.href = '/login.html';
-    });
-    document.querySelector('#userlogout').addEventListener('click', function() {
-        oauthClient.wipeTokens();
-    });
-
-    listenHash(loadArticle);
-
+function loadArticleList() {
     const articleTemplate = document.querySelector("template#articleTemplate").innerHTML;
     const articleSection = document.querySelector("section#articles");
     let maArticleIdx = 0;
-    fetch("/articles.dat").then((res) => {
+    fetch("/articles/list.dat").then((res) => {
         if (res.ok) {
             res.text().then((d) => {
                 d.split("\n").reverse().forEach((line) => {
@@ -70,8 +57,7 @@ setLoadComplete(function () {
             });
         }
     });
-});
-
+}
 function activeArticle(hash) {
     if (hash.articleId > 0) {
         document.querySelectorAll(`section#articles > article`).forEach(a => a.classList.remove('on'));
@@ -94,7 +80,9 @@ function loadArticle(hash) {
                         matches.forEach(m => {
                             let s = m.split('src=');
                             s = s[1].split('>');
-                            const u = s[0].match(/[\/a-z\._]+/);
+                            console.log(s);
+                            const u = s[0].match(/[\/a-z0-9\._]+/);
+                            console.log(u);
                             const newjs = document.createElement('script');
                             newjs.setAttribute('src', u[0]);
                             document.body.append(newjs);

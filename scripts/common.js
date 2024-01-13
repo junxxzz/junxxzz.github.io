@@ -28,7 +28,7 @@ function renderingIncludePath() {
 }
 
 function renderingComplete(includePath) {
-    console.log(includePath);
+    // console.log(includePath);
     window.alert = function (arg) {
         if (!window.alertStreams) {
             window.alertStreams = [];

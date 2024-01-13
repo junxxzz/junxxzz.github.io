@@ -9,7 +9,6 @@ function counter(obj, start, fsize) {
     const counterdiv = document.createElement('div');
     counterdiv.classList.add('counterdiv');
     counterdiv.dataset.nownum = start;
-    counterdiv.textContent = '';
     counterdiv.style.display = 'flex';
     counterdiv.style.height = fsize+'px';
     counterdiv.style.maxHeight = fsize+'px';

@@ -48,7 +48,7 @@ javascript에서는 앞서 md 파일을 불러와서 페이지 내용을 채워�
 ```javascript
 const articleTemplate = document.querySelector('template#articleTemplate').innerHTML;
 const articleSection = document.querySelector('section#articles');
-fetch('/articles.dat').then(res => {
+fetch('/articles/list.dat').then(res => {
     if( res.ok ) {
         res.text().then(d => {
             d.split('\n').reverse().forEach(line => {
