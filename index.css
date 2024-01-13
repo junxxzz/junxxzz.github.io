@@ -201,9 +201,13 @@ section#articles article span.articleWriteAt, section#articles article span.arti
 section#articles article span.articleWriteAt {
     font-size: .7em;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    width: 136px;
 }
 section#articles article span.articleIcons {
     line-height: 1;
+}
+section#articles article span.articleTitle {
+    flex: 1;
 }
 
 .articleIcon {
@@ -220,6 +224,7 @@ section#articles article span.articleIcons {
 pre code.hljs {
     position: relative;
     font-size: .9em;
+    white-space: break-spaces;
 }
 pre code.hljs div.language {
     position: absolute;
