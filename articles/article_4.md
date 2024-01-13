@@ -9,15 +9,15 @@
 이전 버전의 잔재가 남아있어서 dataset을 그대로 사용하는 부분도 있는데, 딱히 거슬리는 부분은 아니어서 그냥 두기로 했다.
 
 <div id="counter"></div>
-<input type="button" value="add" onclick="window.clearInterval(window.aa); c.plus()">
+<input type="button" value="plus" onclick="window.clearInterval(window.aa); c.plus()">
 <input type="button" value="minus" onclick="window.clearInterval(window.aa); c.minus()">
-<input type="button" value="add linear" onclick="window.clearInterval(window.aa); window.aa = window.setInterval(() => {c.plus()},500)">
+<input type="button" value="plus linear" onclick="window.clearInterval(window.aa); window.aa = window.setInterval(() => {c.plus()},500)">
 <input type="button" value="minus linear" onclick="window.clearInterval(window.aa); window.aa = window.setInterval(() => {c.minus()},500)">
 
 <div id="counter1"></div>
-<input type="button" value="add" onclick="window.clearInterval(window.bb); c1.plus()">
+<input type="button" value="plus" onclick="window.clearInterval(window.bb); c1.plus()">
 <input type="button" value="minus" onclick="window.clearInterval(window.bb); c1.minus()">
-<input type="button" value="add linear" onclick="window.clearInterval(window.bb); window.bb = window.setInterval(() => {c1.plus()},500)">
+<input type="button" value="plus linear" onclick="window.clearInterval(window.bb); window.bb = window.setInterval(() => {c1.plus()},500)">
 <input type="button" value="minus linear" onclick="window.clearInterval(window.bb); window.bb = window.setInterval(() => {c1.minus()},500)">
 
 <script src="/scripts/counter2.js"></script>
