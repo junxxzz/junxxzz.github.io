@@ -23,7 +23,7 @@
 <script src="/scripts/counter2.js"></script>
 <script src="/scripts/counter2_exec.js"></script>
 
-아래는 소스
+아래는 전체 소스
 
 ```javascript
 function counter(obj, start, fsize) {
@@ -47,8 +47,6 @@ function counter(obj, start, fsize) {
     obj.append(counterdiv);
 
     counterdiv.__proto__.numdivs = [];
-    counterdiv.__proto__.lastaction = '';
-    counterdiv.__proto__.timer = null;
     counterdiv.__proto__.init = function() {
         this.numdivs = [];
         this.innerHTML = '';
@@ -108,6 +106,8 @@ function counter(obj, start, fsize) {
             this.querySelector('div:first-of-type').remove();
         }
     }
+    counterdiv.__proto__.lastaction = '';
+    counterdiv.__proto__.timer = null;
     counterdiv.__proto__.action = function(action) {
         window.clearTimeout(this.timer);
         if( this.lastaction!='' && action!=this.lastaction ) {
@@ -162,4 +162,36 @@ c.plus();   // 값 증가
 c.minus();  // 값 감소
 ```
 
-언젠가 쓸 일이 있으면 좋겠다.
+이 카운터 프로그램에서 중요한 것만 얘기해보자면,
+
+**counterdiv.init 함수가 제일 중요하겠다. 내용이야 뻔하지만, 실행되는 위치가 중요하다.**
+
+최초에 객체 초기화시에도 실행되지만, 중간에 타이머를이용해서도 초기화하고, plus에서 minus로 넘어갈때나 반대의 경우에도 초기화해준다.
+
+이 카운터 ui가 dom객체를 어마무시하게 사용하지는 않지만, web ui에서 반응성을 느리게 만드는 주 요인은 언제나 dom 객체이기 때문이기도 하고,
+
+동작 연산에 불필요한 dom 객체가 있으면 아무래도 연산이 복잡해지기 때문에 각 부분에서 초기화하는거다.
+
+연산은 언제나 간단할 수록 좋다.
+
+**그 다음 중요한 부분은 style.transform 과 style.transition 이겠다.**
+
+예전에 이런 스타일이 없었던 시절에는 애니메이션 ui를 위해서 다 타이머 처리하고 그랬더랬다.
+
+요즘 점점 이런 스타일이 나와줘서 너무 편하고, 시스템 리소스도 많이 안쓸 수 있어서 좋다.
+
+**마지막으로 짚어야 하는 부분은 minus 처리할 때에 숫자가 추가되는 방식이다.**
+
+plus 처리할 때에야 아래에서 위로 올라오기 때문에 현재 숫자 아래에 다음 숫자를 추가해서 위로 올려주면 그만이지만,
+
+minus 처리할 때에는 현재 숫자 위에 다음 숫자를 추가해야 하는데, 이때 현재 숫자의 위치가 바뀌면 안되기 때문에 위치를 부득이하게 지정해야 한다.
+
+그래서 position:absolute 를 사용할 수 밖에 없다.
+
+---
+
+중요한 부분은 이정도겠고, 추가로 \_\_proto__ 를 사용한 프로토타입 정의도 괜찮은 방식인 것 같다.
+
+뭔가 필요없는 소모는 하지 않는 느낌
+
+이 소스도 언젠가 쓸 일이 있으면 좋겠다.
