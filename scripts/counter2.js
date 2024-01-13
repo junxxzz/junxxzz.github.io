@@ -9,6 +9,7 @@ function counter(obj, start, fsize) {
     const counterdiv = document.createElement('div');
     counterdiv.classList.add('counterdiv');
     counterdiv.dataset.nownum = start;
+    counterdiv.dataset.fsize = fsize;
     counterdiv.style.display = 'flex';
     counterdiv.style.overflow = 'hidden';
     counterdiv.style.height = fsize+'px';
@@ -42,7 +43,7 @@ function counter(obj, start, fsize) {
         numdiv.classList.add('numdiv');
         numdiv.dataset.num = arg;
         numdiv.dataset.y = -1;
-        numdiv.dataset.fsize = fsize;
+        numdiv.dataset.fsize = this.dataset.fsize;
         numdiv.style.transition = 'ease 1s';
         numdiv.style.transform = 'translateY(0)';
         numdiv.__proto__.newnum = function(arg,p) {

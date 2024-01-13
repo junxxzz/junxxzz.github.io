@@ -80,9 +80,7 @@ function loadArticle(hash) {
                         matches.forEach(m => {
                             let s = m.split('src=');
                             s = s[1].split('>');
-                            console.log(s);
                             const u = s[0].match(/[\/a-z0-9\._]+/);
-                            console.log(u);
                             const newjs = document.createElement('script');
                             newjs.setAttribute('src', u[0]);
                             document.body.append(newjs);
