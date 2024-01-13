@@ -73,6 +73,13 @@ function counter(obj, start, fsize) {
         this.numdivs.push(numdiv);
         this.prepend(numdiv);
     }
+    counterdiv.__proto__.removenum = function() {
+        this.querySelector('.numdiv:first-of-type').remove();
+        this.numdivs.pop();
+        if( this.querySelector('div:first-of-type').classList.contains('commadiv') ) {
+            this.querySelector('div:first-of-type').remove();
+        }
+    }
     counterdiv.__proto__.action = function(action) {
         window.clearTimeout(this.timer);
         if( this.lastaction!='' && action!=this.lastaction ) {
@@ -84,6 +91,9 @@ function counter(obj, start, fsize) {
             return;
         }
         this.dataset.nownum = nownum;
+        if( this.numdivs.length > String(nownum).length ) {
+            this.removenum();
+        }
         String(nownum).split('').reverse().forEach((s,i) => {
             window.setTimeout(() => {
                 const numdiv = this.numdivs[i];
