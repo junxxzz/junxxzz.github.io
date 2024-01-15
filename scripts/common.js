@@ -157,3 +157,10 @@ function setHash(nm, value) {
 	window.hash[nm] = value;
 	location.hash = `#${encodeURIComponent(JSON.stringify(window.hash))}`;
 }
+
+function listenColorScheme(fn) {
+    fn(window.matchMedia('(prefers-color-scheme: dark)').matches? 'dark':'light');
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        fn(event.matches? 'dark':'light');
+    });
+}

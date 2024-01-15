@@ -24,7 +24,7 @@ dialog#circle::before {
 }
 
 dialog#circle div {
-    border: dashed .5rem black;
+    border: dashed .5rem rgba(100, 100, 100, 0.1);
     border-radius: 50%;
     width: 5rem;
     height: 5rem;
@@ -36,9 +36,19 @@ dialog#alert>div, dialog#confirm>div {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    background: white;
     padding: 1rem;
 }
+@media (prefers-color-scheme: light) {
+    dialog#alert>div, dialog#confirm>div {
+        background-color: white;
+    }
+}
+@media (prefers-color-scheme: dark) {
+    dialog#alert>div, dialog#confirm>div {
+        background-color: black;
+    }
+}
+
 dialog#confirm>div>div {
     display: flex;
     gap: 1rem;
@@ -56,6 +66,8 @@ dialog#alert input#alertCloseButton, dialog#confirm input#confirmOkButton, dialo
     font-size: .8rem;
     border: 0;
     outline: none;
+    padding: .5rem;
+    font-weight: bold;
 }
 
 dialog#alert input#alertCloseButton:hover,
@@ -64,7 +76,7 @@ dialog#confirm input#confirmOkButton:hover,
 dialog#confirm input#confirmOkButton:active,
 dialog#confirm input#confirmCloseButton:hover,
 dialog#confirm input#confirmCloseButton:active {
-    background-color: lightgray;
+    background-color: rgba(100, 100, 100, 0.5);
 }
 
 @keyframes circle {
