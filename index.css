@@ -128,6 +128,17 @@ header h1 a {
 header section#userinfo {
     font-size: .7em;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+header section#userinfo svg {
+    width: 12px;
+    height: 12px;
+    transition: ease .5s;
+}
+header section#userinfo svg.on {
+    transform: rotateZ(-45deg);
 }
 header section#userinfo span {
     cursor: pointer;
@@ -135,6 +146,61 @@ header section#userinfo span {
 }
 header section#userinfo #userlogout {
     display: none;
+}
+
+aside {
+    position: fixed;
+    z-index: 99;
+    top: 1.6rem;
+    left: 100vw;
+    transition: ease .5s;
+    width: 200px;
+}
+aside.on {
+    transform: translateX(calc((var(--container-width) - 100vw)/2 - 205px));
+}
+/* @media (prefers-color-scheme: light) { */
+    aside {
+        background-color: white;
+    }
+/* }
+@media (prefers-color-scheme: dark) {
+    aside {
+        background-color: black;
+    }
+} */
+aside ul {
+    border: solid 1px gray; border-radius: 3px;
+    margin: 0; padding: 0;
+    list-style: none;
+    background: gray;
+    display: flex; flex-direction: column; gap: 1px;
+}
+aside li {
+    padding: .3rem;
+    font-size: .6rem;
+    line-height: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+aside li:first-of-type {
+    border-top-left-radius: 3px; border-top-right-radius: 3px;
+}
+aside li:last-of-type {
+    border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;
+}
+/* @media (prefers-color-scheme: light) { */
+    aside li {
+        background-color: white;
+    }
+/* }
+@media (prefers-color-scheme: dark) {
+    aside li {
+        background-color: black;
+    }
+} */
+aside li:hover {
+    background-color: aliceblue;
 }
 
 main {

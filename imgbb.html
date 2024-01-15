@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K0BS1883H2"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-K0BS1883H2');
+    </script>
+    <!-- end of Google tag (gtag.js) -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- for google adsense -->
+    <meta name="google-adsense-account" content="ca-pub-4532469758307866">
+    <!-- end of for google adsense -->
+    <title>allstack document</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="/effect.css">
+    <link rel="stylesheet" href="/dialog.css">
+    <link rel="stylesheet" href="/common.css">
+    <link rel="stylesheet" href="/index.css">
+    <script src="/scripts/common.js"></script>
+    <script src="/scripts/main.js"></script>
+    <script src="/scripts/imgbb.js"></script>
+</head>
+<body>
+    <header data-include-path="header.html"></header>
+    <main>
+        <section id="contents">
+            <h2>IMGBB에 이미지 업로드</h2>
+            <hr>
+            <p style="text-align: center;">
+                업로드 제한 : JPG PNG BMP GIF TIF WEBP HEIC AVIF PDF<br>
+                용량 제한 : 32 MB
+            </p>
+            <p style="text-align: center;">
+                <input type="file" name="userfile" id="userfile">
+                <input type="button" value="UPLOAD" onclick="getIMGBBURL()">
+            </p>
+            <p style="text-align: center;">업로드결과 : <span id="imgurl">-</span></p>
+            <p style="text-align: center;"><span id="img"></span></p>
+        </section>
+    </main>
+    <footer data-include-path="footer.html"></footer>
+</body>
+</html>
