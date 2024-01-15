@@ -50,5 +50,6 @@ setLoadComplete(function () {
 });
 
 function go_image_upload() {
+    showLoading();
     location.href='imgbb.html';
 }

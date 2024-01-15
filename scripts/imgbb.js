@@ -2,6 +2,7 @@ setLoadComplete(function() {
     const email = sessionStorage.getItem('email');
     if( !email ) {
         alert('로그인하고 사용해야 합니다.', function() {
+            showLoading();
             location.href = '/';
         });
     }
@@ -18,20 +19,9 @@ setLoadComplete(function() {
     });
 });
 
-function convertBase64(file) {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
-        fileReader.onload = () => {
-            resolve(fileReader.result);
-        };
-        fileReader.onerror = (error) => {
-            reject(error);
-        };
-    });
-};
-async function getIMGBBURL() {
-    var formdata = new FormData();
+function getIMGBBURL() {
+    showLoading();
+    const formdata = new FormData();
     const f = document.querySelector('#userfile').files[0];
     formdata.append('image', f, f.name);
     formdata.append('name', f.name);
@@ -40,6 +30,7 @@ async function getIMGBBURL() {
         method: 'POST',
         body: formdata,
     }).then(res => {
+        hideLoading();
         res.json().then(d => {
             if( d.success ) {
                 document.querySelector('#imgurl').innerHTML = d.data.url;
