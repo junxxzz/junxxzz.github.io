@@ -33,15 +33,14 @@ function loadArticleList() {
                         newArticle.innerHTML = articleTemplate
                             .replace("{article-writeAt}", writeAt)
                             .replace("{article-title}", title);
+                        let newIconHTML = '';
                         categorys.split(",").forEach((c) => {
                             const newIcon = document.createElement("img");
                             newIcon.setAttribute("src", `/icons/${c.trim()}.svg`);
                             newIcon.classList.add("articleIcon");
-                            newArticle.innerHTML = newArticle.innerHTML.replace(
-                                "{article-icons}",
-                                newIcon.outerHTML,
-                            );
+                            newIconHTML += newIcon.outerHTML;
                         });
+                        newArticle.innerHTML = newArticle.innerHTML.replace("{article-icons}",newIconHTML);
                         newArticle.addEventListener("click", () => {
                             setHash("articleId", idx);
                         });
