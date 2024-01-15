@@ -34,6 +34,24 @@
     </script>
 
     <script>
+        // http://localhost:5500/logincheck.html#access_token=EAAEbgPZBgzMIBOzmhcerUNvawASH6beU85wvHD9zom8rjnNMZBAqiKwVZAR1uacPNtLvRaAxxO3z2GbCSZB7UGy0ddZCc3kz2oZAgafpENZCqNPjJ6mGK8xYo0ZCiI6ZBy9YWdyxQOHDbgWgAWupYon2cwRI1iSTAlzWzZCAfpAfy4fcYUpDOsXbMPZCaWXZA3M8ycWTziwfFK05cJYfLliaNgZDZD&data_access_expiration_time=1713056768&expires_in=6832&long_lived_token=EAAEbgPZBgzMIBO17DxocXEnNJIpSd7ZAhwVdhreXs4KhHD6Lk7cTK8QJrPpFu0O7bZCZBoeYfi1Cne9srq1tDWvjZBcwbhVP7Ap8ZAqVGAy9jWtcv9rG7nKr7ejL26ABx4Jdg4M3ZCLiKiLnkO1n0evnS84PfkQROG5iMs1HixXjqrjJ0uxcDjBo86R2QZDZD&state=facebook
+        if( infos.state=='facebook' ) {
+            fetch(`https://graph.facebook.com/v18.0/me?access_token=${infos.access_token}&fields=email,first_name,last_name&format=json&method=get&pretty=0&suppress_http_code=1&transport=cors`).then(res => {
+                // console.log(res);
+                res.json().then(d => {
+                    // console.log(d);
+                    sessionStorage.setItem('access_token', infos.access_token);
+                    sessionStorage.setItem('provider', 'facebook');
+                    for (const k in d) {
+                        if (Object.hasOwnProperty.call(d, k)) {
+                            sessionStorage.setItem(k, d[k]);
+                        }
+                    }
+                    location.href = '/';
+                });
+            });
+        }
+
         // http://localhost:5500/logincheck.html#state=90caad4b-a2b2-4301-8d4d-eef5ba9c8601&access_token=ya29.a0AfB_byBu25IMDAdKPYYmr8EEqIfPB4BhwG7FTLFQmAgcrLztnlhdGZrgrV1jsJNiIIh1bk3ifSayjvRhSRltxAq96DjCJ_ywl-9ddCe88zrMgiAlmA30C2AsxeY8gerqnL19OxnHpVTnQrYpaCsxL8-gqMPFwnSnTAaCgYKAX4SARISFQHGX2MiJlg8aOF9VAvePx_ec5uH-g0169&token_type=Bearer&expires_in=3599&scope=email%20profile%20https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile%20openid&id_token=eyJhbGciOiJSUzI1NiIsImtpZCI6IjFmNDBmMGE4ZWYzZDg4MDk3OGRjODJmMjVjM2VjMzE3YzZhNWI3ODEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiOTIwNjUzMzY5OTE5LTczOGNpN3A3OW4zOGt2YzlsdjI1bmRmZHZpam0xa2FvLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiOTIwNjUzMzY5OTE5LTczOGNpN3A3OW4zOGt2YzlsdjI1bmRmZHZpam0xa2FvLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTEyNzMxMzEwMjcwMzU3NzAxMTM4IiwiZW1haWwiOiJqdW54eHp6QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiazYwV2ZNRFN1bDd0d2VRRW0tSXB5ZyIsIm5iZiI6MTcwNTI0MDIxMywiaWF0IjoxNzA1MjQwNTEzLCJleHAiOjE3MDUyNDQxMTMsImp0aSI6IjU1MzBhMWQ3MGZlMzM2NDVmYzQxZGY3MTdhMWU3NGNjZTZmOGU5ZjcifQ.HKcliW3FKOjW4bh5R4bYTv7PjyTN0gZOQ7OYlL0aalQJKkyDeyWi8QI2Qyb6iatvrC-ZxTe7VMcmqbCUCMgpGDZHZNRvOUnhG9ic8O3l6LoGzFp8DO318kvUnPEwYx1KeTQDEs4J7gpDL10zL9LPM6MSxvOAojKtpDZC-RLByKxIyjIQne9WizS7vAY1aIp3dAhpV23Ze2b_vkPnDXVZ58M_RwMEyDsCKgwOSOYnTQJY_j2O6vQ-YZKkelZN94ujk6dFj2RIHsCmR3d0vU_b6VDBp4UEUBsyoDpUsHOc-zacjiaW5YuLu5wfziPcZJyp7bQ8iAipTv38wkNobyb1hg&authuser=0&prompt=consent&version_info=CmxfU1ZJX0VOYklzX2lEM1lNREdBNGlQMDFCUlVSSVpsOXhiRzlUWjFJMWVsaHNWMHBEVUhGalJYSmZRMWRJTFRSVWRXa3pOblZpYTNwVmFUTmlSR2hmV20wNU1XSnlXbE41TFc5UVdFRjZRUV8
         if( infos.scope.match(/google/) ) {  //google
             // https://www.googleapis.com/oauth2/v1/userinfo?access_token=ya29.a0AfB_byC6i8DEybS8aUWxFw_eUhai69BGtNbEJ6nevIU784TNIPgkpA4o1JZxlpAG8FqHKcJEe-LkFlLiBBLRQ4XQSck4ds_QnxbpxVFeEmenoi_LmNhF6VnSvqgrNla0LlnijBuGg_Wt61cWjgTRGgn7q7kxPLoO_AaCgYKAWASARISFQHGX2MiL55A88NjTg8ScmdIuhK0Tg0169
@@ -41,6 +59,7 @@
                 res.json().then(d => {
                     console.log(d);
                     sessionStorage.setItem('access_token', infos.access_token);
+                    sessionStorage.setItem('provider', 'google');
                     for (const k in d) {
                         if (Object.hasOwnProperty.call(d, k)) {
                             sessionStorage.setItem(k, d[k]);
