@@ -4,6 +4,10 @@ setLoadComplete(function () {
     if( email ) {
         document.querySelector('#userlogin').style.display = 'none';
         document.querySelector('#userlogout').style.display = 'block';
+        const name = sessionStorage.getItem('given_name');
+        if( name ) {
+            document.querySelector('#username').innerHTML = `Hi, ${name}}!!`;
+        }
     }
     document.querySelector('#userlogin').addEventListener('click', function() {
         const oauth2Endpoint  = 'https://accounts.google.com/o/oauth2/auth';

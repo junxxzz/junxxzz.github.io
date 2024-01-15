@@ -131,6 +131,7 @@ header section#userinfo {
 }
 header section#userinfo span {
     cursor: pointer;
+    padding-left: 1rem;
 }
 header section#userinfo #userlogout {
     display: none;
