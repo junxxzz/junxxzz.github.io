@@ -3,10 +3,10 @@ setLoadComplete(function () {
     const email = sessionStorage.getItem('email');
     if( email ) {
         document.querySelector('#userlogin').style.display = 'none';
-        document.querySelector('#userlogout').style.display = 'block';
+        document.querySelector('#userlogout').style.display = 'inline-block';
         const name = sessionStorage.getItem('given_name');
         if( name ) {
-            document.querySelector('#username').innerHTML = `Hi, ${name}}!!`;
+            document.querySelector('#username').innerHTML = `Hi, ${name}!!`;
         }
     }
     document.querySelector('#userlogin').addEventListener('click', function() {
