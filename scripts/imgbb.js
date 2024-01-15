@@ -43,7 +43,7 @@ async function getIMGBBURL() {
         res.json().then(d => {
             if( d.success ) {
                 document.querySelector('#imgurl').innerHTML = d.data.url;
-                document.querySelector('#img').innerHTML = `<img src="${d.data.url}" border="0">`;
+                document.querySelector('#img').innerHTML = `<img src="${d.data.url}" border="0" style="max-width: 100%;">`;
             }
             else {
                 document.querySelector('#imgurl').innerHTML = d.error.message;
