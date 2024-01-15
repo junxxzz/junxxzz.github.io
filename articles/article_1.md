@@ -9,7 +9,7 @@
 먼저 md 파일을 javascript로 읽은 후 페이지에 적당하게 보여줄 파서가 필요하다.
 구글에서 "markdown javascript"로 검색하면 많은 라이브러리가 있는데, 그냥 사람들 많이 쓰는거 쓰기로 했다.
 
-marked.j 라는 라이브러리를 사용하기로 했고, [Marked Git Repository](https://github.com/markedjs/marked/) 에서 구할 수 있다.
+marked.js 라는 라이브러리를 사용하기로 했고, [Marked Git Repository](https://github.com/markedjs/marked/) 에서 구할 수 있다.
 사용법도 해당 git repository에서 쉽게 찾을 수 있다.
 
 ```html

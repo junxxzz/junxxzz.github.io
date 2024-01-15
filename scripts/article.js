@@ -1,6 +1,6 @@
 const {markedHighlight} = globalThis.markedHighlight;
 marked.use(markedDirective.createDirectives());
-// marked.use(markedLinkifyIt({},{}));
+marked.use(markedLinkifyIt({},{}));
 marked.use(
     markedHighlight({
         langPrefix: "hljs language-",

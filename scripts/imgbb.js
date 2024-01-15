@@ -1,7 +1,7 @@
 setLoadComplete(function() {
     const email = sessionStorage.getItem('email');
     if( !email ) {
-        alert('로그인하고 사용해야 합니다.', function() {
+        alert('로그인 후 사용할 수 있습니다.', function() {
             showLoading();
             location.href = '/';
         });
