@@ -139,7 +139,7 @@ function humanByte(arg) {
 
 function tsToYmd(timestamp) {
 	const ddd = new Date(timestamp);
-	return `${ddd.getFullYear()}-${ddd.getMonth()+1}-${String(ddd.getDate()).padStart(2,'0')}`;
+	return `${ddd.getFullYear()}-${String(ddd.getMonth()+1).padStart(2,'0')}-${String(ddd.getDate()).padStart(2,'0')}`;
 }
 function tsToHms(timestamp) {
 	const ddd = new Date(timestamp);

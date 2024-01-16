@@ -53,12 +53,10 @@ section#comments > div {
     display: flex; gap: 1px; padding: .5em; background-color: var(--color-overlay);
 }
 section#comments > div > div:first-of-type {
-    width: 10em;
-    line-height: 1.5;
+    width: 10.3em; line-height: 1.5; display: flex; align-items: flex-start; justify-content: space-around;
 }
 section#comments > div > div:last-of-type {
-    flex: 1;
-    line-height: 1.5;
+    flex: 1; line-height: 1.5;
 }
 section#comments > div > div:last-of-type p {
     margin: 0;
