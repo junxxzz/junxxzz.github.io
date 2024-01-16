@@ -14,7 +14,7 @@ function loadColorScheme(scheme) {
     const newcss = document.createElement('link');
     newcss.setAttribute('id','highlightjs_css');
     newcss.setAttribute('rel','stylesheet');
-    newcss.setAttribute('href',`https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/stackoverflow-${scheme}.min.css`);
+    newcss.setAttribute('href',`/scripts/stackoverflow-${scheme}.min.css`);
     document.querySelector('head').append(newcss);
 }
 
