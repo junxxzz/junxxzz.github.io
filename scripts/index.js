@@ -7,6 +7,41 @@ setLoadComplete(function () {
     loadArticleList();
     listenHash(loadArticle);
     listenColorScheme(loadColorScheme);
+
+    supa.auth.getUser().then(res => {
+        var uid;
+        if( !res.error ) {
+            uid = res.data.user.id;
+        }
+        if( !uid ) {
+            document.querySelector('#comment-content').setAttribute('placeholder','로그인 후 이용할 수 있습니다.');
+            document.querySelector('#comment-content').setAttribute('disabled',true);
+            return;
+        }
+    });
+    document.querySelector('#comment-save').addEventListener('click', function() {
+        supa.auth.getUser().then(res => {
+            var uid;
+            if( !res.error ) {
+                uid = res.data.user.id;
+            }
+            if( !uid ) {
+                alert('로그인 후 이용할 수 있습니다.');
+                return;
+            }
+            const articleId = this.dataset.articleId;
+            const comment = document.querySelector('#comment-content').value;
+            supa.from('comments').insert({article_id: articleId, contents: comment}).then(res => {
+                if( res.error ) {
+                    console.log(res.error);
+                    alert(res.error);
+                }
+                else {
+                    location.reload();
+                }
+            });
+        });
+    });
 });
 function loadColorScheme(scheme) {
     document.querySelector('link#highlightjs_css')?.remove();
@@ -86,6 +121,7 @@ function activeArticle(hash) {
 }
 function loadArticle(hash) {
     if (hash.articleId > 0) {
+        document.querySelector('#comment-save').dataset.articleId = hash.articleId;
         showLoading();
         fetch(`/articles/article_${hash.articleId}.md`).then((res) => {
             if (res.ok) {
@@ -109,6 +145,7 @@ function loadArticle(hash) {
                             document.body.append(newjs);
                         });
                     }
+                    // load comment
                     supa.auth.getUser().then(res => {
                         var uid;
                         if( !res.error ) {
@@ -117,16 +154,13 @@ function loadArticle(hash) {
                         supa.from('comments').select().eq('article_id',hash.articleId).then(res => {
                             if( !res.error ) {
                                 res.data.forEach(d => {
-                                    const trash = uid==d.uid?'<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24"><path d="M17,4V2a2,2,0,0,0-2-2H9A2,2,0,0,0,7,2V4H2V6H4V21a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V6h2V4ZM11,17H9V11h2Zm4,0H13V11h2ZM15,4H9V2h6Z"/></svg>':'';
                                     const newComment = document.createElement('div');
                                     newComment.setAttribute('id', `comment-${d.id}`);
                                     newComment.innerHTML = commentTemplate
                                         .replace('{created_at}', `${tsToYmd(d.created_at)} ${tsToHms(d.created_at)}`)
                                         .replace('{contents}', DOMPurify.sanitize(marked.parse(d.contents)))
-                                        .replace('{trash}', trash);
-                                    newComment.querySelector('.comment-trash').querySelector('svg').addEventListener('click', () => {
-                                        console.log(d.id);
-                                    });
+                                        .replace('{id}', d.id)
+                                        .replace('{display}', `style="display: ${uid==d.uid?'inline-block':'none'};"`);
                                     commentSection.append(newComment);
                                 });
                             }
@@ -148,4 +182,16 @@ function loadArticle(hash) {
             }
         });
     }
+}
+
+function deleteComment(obj) {
+    supa.from('comments').delete().eq('id',obj.dataset.paramId).then(res => {
+        if( res.error ) {
+            console.log(res.error);
+            alert(res.error);
+        }
+        else {
+            document.querySelector(`div#comment-${obj.dataset.paramId}`).remove();
+        }
+    });
 }
