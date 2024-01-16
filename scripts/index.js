@@ -36,32 +36,34 @@ marked.use(
 marked.use({breaks: true});
 
 function loadArticleList() {
-    const articleTemplate = document.querySelector("template#articleTemplate").innerHTML;
-    const articleSection = document.querySelector("section#articles");
+    const articleTemplate = document.querySelector('template#articleTemplate').innerHTML;
+    const articleSection = document.querySelector('section#articles');
     let maArticleIdx = 0;
-    fetch("/articles/list.dat").then((res) => {
+    fetch('/articles/list.dat',{
+        mode: 'no-cors'
+    }).then((res) => {
         if (res.ok) {
             res.text().then((d) => {
-                d.split("\n").reverse().forEach((line) => {
+                d.split('\n').reverse().forEach((line) => {
                     if (line.trim()) {
-                        const [idx, writeAt, categorys, title] = line.split("|");
+                        const [idx, writeAt, categorys, title] = line.split('|');
                         if (maArticleIdx == 0) {
                             maArticleIdx = idx;
                         }
-                        const newArticle = document.createElement("article");
-                        newArticle.setAttribute("id", `article-${idx}`);
+                        const newArticle = document.createElement('article');
+                        newArticle.setAttribute('id', `article-${idx}`);
                         newArticle.innerHTML = articleTemplate
-                            .replace("{article-writeAt}", writeAt)
-                            .replace("{article-title}", title);
+                            .replace('{article-writeAt}', writeAt)
+                            .replace('{article-title}', title);
                         let newIconHTML = '';
-                        categorys.split(",").forEach((c) => {
-                            const newIcon = document.createElement("img");
-                            newIcon.setAttribute("src", `/icons/${c.trim()}.svg`);
-                            newIcon.classList.add("articleIcon");
+                        categorys.split(',').forEach((c) => {
+                            const newIcon = document.createElement('img');
+                            newIcon.setAttribute('src', `/icons/${c.trim()}.svg`);
+                            newIcon.classList.add('articleIcon');
                             newIconHTML += newIcon.outerHTML;
                         });
-                        newArticle.innerHTML = newArticle.innerHTML.replace("{article-icons}",newIconHTML);
-                        newArticle.addEventListener("click", () => {
+                        newArticle.innerHTML = newArticle.innerHTML.replace('{article-icons}',newIconHTML);
+                        newArticle.addEventListener('click', () => {
                             setHash("articleId", idx);
                         });
                         articleSection.append(newArticle);
