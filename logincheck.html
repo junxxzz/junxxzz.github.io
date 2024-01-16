@@ -5,10 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>allstack document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
     <script>
+        const { createClient } = supabase;
+        const supaurl = "https://plsiicrtbryicuagbfly.supabase.co";
+        const supakey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsc2lpY3J0YnJ5aWN1YWdiZmx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA5MjU0MzYsImV4cCI6MjAxNjUwMTQzNn0.QdztP5iLKcRzhQ7KESr9TXyjFjlF07k56TXJgPs0BjQ";
+        const supa = createClient(supaurl, supakey);
+
         const infos = {};
         let resdata = '';
 
@@ -57,7 +63,6 @@
             // https://www.googleapis.com/oauth2/v1/userinfo?access_token=ya29.a0AfB_byC6i8DEybS8aUWxFw_eUhai69BGtNbEJ6nevIU784TNIPgkpA4o1JZxlpAG8FqHKcJEe-LkFlLiBBLRQ4XQSck4ds_QnxbpxVFeEmenoi_LmNhF6VnSvqgrNla0LlnijBuGg_Wt61cWjgTRGgn7q7kxPLoO_AaCgYKAWASARISFQHGX2MiL55A88NjTg8ScmdIuhK0Tg0169
             fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${infos.access_token}`).then(res => {
                 res.json().then(d => {
-                    console.log(d);
                     sessionStorage.setItem('access_token', infos.access_token);
                     sessionStorage.setItem('provider', 'google');
                     for (const k in d) {
@@ -65,7 +70,19 @@
                             sessionStorage.setItem(k, d[k]);
                         }
                     }
-                    location.href = '/';
+                    supa.auth.signUp({
+                        email: d.email,
+                        password: d.email,
+                    }).then(res => {
+                        if( res.error.message=='User already registered' ) {
+                            supa.auth.signInWithPassword({
+                                email: d.email,
+                                password: d.email,
+                            }).then(res => {
+                                location.href = '/';
+                            });
+                        }
+                    });
                 });
             });
         }

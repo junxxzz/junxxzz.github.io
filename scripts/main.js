@@ -8,6 +8,9 @@ setLoadComplete(function () {
         if( name ) {
             document.querySelector('#username').innerHTML = `Hi, ${name}!!`;
         }
+        // supa.auth.getUser().then(res => {
+        //     console.log(res);
+        // });
     }
     document.querySelector('header section#userinfo svg').addEventListener('click', function() {
         this.classList.toggle('on');

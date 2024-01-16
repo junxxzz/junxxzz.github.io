@@ -1,4 +1,10 @@
+const { createClient } = supabase;
+const supaurl = "https://plsiicrtbryicuagbfly.supabase.co";
+const supakey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsc2lpY3J0YnJ5aWN1YWdiZmx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA5MjU0MzYsImV4cCI6MjAxNjUwMTQzNn0.QdztP5iLKcRzhQ7KESr9TXyjFjlF07k56TXJgPs0BjQ";
+const supa = createClient(supaurl, supakey);
+
 setLoadComplete(function () {
+
     loadArticleList();
     listenHash(loadArticle);
     listenColorScheme(loadColorScheme);
