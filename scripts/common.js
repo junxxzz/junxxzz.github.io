@@ -12,7 +12,7 @@ function renderingIncludePath() {
         try {
             el.outerHTML = t;
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
         setTimeout(function () {
             if (document.querySelectorAll("[data-include-path]").length) {
