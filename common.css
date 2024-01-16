@@ -50,10 +50,10 @@ dialog#circle {
     overflow: hidden;
 }
 dialog#circle::before {
-    content: "LOADING..."; position: absolute; top: calc(50% - 0.5rem); left: 0; font-size: .6rem; line-height: .6rem; text-align: center; width: 100%;
+    content: "LOADING..."; position: absolute; top: calc(50% - 0.35rem); left: 0; font-size: .7rem; line-height: .7rem; text-align: center; width: 100%; color: var(--color-color);
 }
 dialog#circle div {
-    border: dashed .5rem var(--color-overlay); border-radius: 50%; width: 5rem; height: 5rem; animation: circle 5s linear infinite;
+    border: dashed .5rem var(--color-color); border-radius: 50%; width: 5rem; height: 5rem; animation: circle 5s linear infinite;
 }
 dialog#alert>div, dialog#confirm>div {
     display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 1rem;
