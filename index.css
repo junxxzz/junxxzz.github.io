@@ -34,7 +34,7 @@ section#articles article span.articleTitle {
 }
 
 pre code.hljs {
-    position: relative; font-size: .9em; white-space: break-spaces; word-wrap: break-word;
+    position: relative; font-size: .9em; white-space: break-spaces; word-wrap: break-word; word-break: break-all;
 }
 pre code.hljs div.language {
     position: absolute; top: 0; right: 0; font-size: .8em; padding: 0.5em 1em;
