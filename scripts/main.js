@@ -11,6 +11,7 @@ setLoadComplete(function () {
         // supa.auth.getUser().then(res => {
         //     console.log(res);
         // });
+
     }
     document.querySelector('header section#userinfo svg').addEventListener('click', function() {
         this.classList.toggle('on');
@@ -46,14 +47,16 @@ setLoadComplete(function () {
             if( res.ok ) {
                 localStorage.clear();
                 sessionStorage.clear();
-                location.reload();
+                supa.auth.signOut().then(() => {
+                    location.reload();
+                });
             }
         });
     });
 });
 
 function go_image_upload() {
-    location.href = 'imgbb.html';
+    location.href = '/imgbb.html';
 }
 function go_article_list() {
     location.href = '/#articles';

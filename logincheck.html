@@ -74,13 +74,16 @@
                         email: d.email,
                         password: d.email,
                     }).then(res => {
-                        if( res.error.message=='User already registered' ) {
+                        if( res.error.toString()=='AuthApiError: User already registered' ) {
                             supa.auth.signInWithPassword({
                                 email: d.email,
                                 password: d.email,
                             }).then(res => {
                                 location.href = '/';
                             });
+                        }
+                        else {
+                            location.href = '/';
                         }
                     });
                 });

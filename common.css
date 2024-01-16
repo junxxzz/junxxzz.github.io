@@ -136,13 +136,7 @@ header section#userinfo {
     font-size: .7em; font-family: var(--font-eng); display: flex; align-items: flex-end; justify-content: space-between; gap: .5rem;
 }
 header section#userinfo svg {
-    width: 12px; height: 12px; cursor: pointer; transition: ease .5s;
-}
-@media (prefers-color-scheme: light) {
-    header section#userinfo svg {fill: var(--color-dark);}
-}
-@media (prefers-color-scheme: dark) {
-    header section#userinfo svg {fill: var(--color-light);}
+    width: 12px; height: 12px; cursor: pointer; transition: ease .5s; fill: var(--color-color);
 }
 header section#userinfo svg.on {
     transform: rotateZ(-45deg);

@@ -137,6 +137,22 @@ function humanByte(arg) {
     return `${Number(arg).toFixed(2)}${unitArr[idx]}Byte`;
 }
 
+function tsToYmd(timestamp) {
+	const ddd = new Date(timestamp);
+	return `${ddd.getFullYear()}-${ddd.getMonth()+1}-${String(ddd.getDate()).padStart(2,'0')}`;
+}
+function tsToHms(timestamp) {
+	const ddd = new Date(timestamp);
+	return `${String(ddd.getHours()).padStart(2,'0')}:${String(ddd.getMinutes()).padStart(2,'0')}:00`;
+}
+function YmdHmsToTs(Ymd,Hms) {
+	// Ymd = '0000-00-00';
+	// Hm = '00:00';
+	if( Hms.length < 8 ) {
+		Hms += ':00';
+	}
+	return `${Ymd}T${Hms}.000+09:00`;
+}
 
 function checkHash(fn) {
 	if( location.hash ) {

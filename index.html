@@ -46,6 +46,11 @@
     <header data-include-path="header.html"></header>
     <main>
         <section id="contents"></section>
+        <section id="comments"></section>
+        <section id="new-comment">
+            <textarea name="comment-content" id="comment-content"></textarea>
+            <input type="button" value="코멘트 등록" id="comment-save">
+        </section>
         <section id="articles"></section>
     </main>
     <footer data-include-path="footer.html"></footer>
@@ -53,6 +58,10 @@
         <span class="articleWriteAt">[{article-writeAt}]</span>
         <span class="articleIcons">{article-icons}</span>
         <span class="articleTitle">{article-title}</span>
+    </template>
+    <template id="commentTemplate">
+        <div>{created_at}</div>
+        <div>{contents}<div class="comment-trash">{trash}</div></div>
     </template>
 </body>
 </html>
