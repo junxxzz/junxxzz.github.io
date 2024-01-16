@@ -16,7 +16,7 @@ setLoadComplete(function () {
     document.querySelector('#userlogin').addEventListener('click', function() {
         const oauth2Endpoint  = 'https://accounts.google.com/o/oauth2/auth';
         const client_id = '920653369919-738ci7p79n38kvc9lv25ndfdvijm1kao.apps.googleusercontent.com';
-        const redirect_uri = 'https://junxxzz.github.io/logincheck.html'; // The URL where you is redirected back, and where you perform run the callback() function.
+        const redirect_uri = `${document.location.origin}/logincheck.html`; // The URL where you is redirected back, and where you perform run the callback() function.
         const scopes = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
         const state = 'google';
         location.href = oauth2Endpoint+`?response_type=token&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scopes}&state=${state}`;
@@ -50,6 +50,8 @@ setLoadComplete(function () {
 });
 
 function go_image_upload() {
-    showLoading();
-    location.href='imgbb.html';
+    location.href = 'imgbb.html';
+}
+function go_article_list() {
+    location.href = '/#articles';
 }

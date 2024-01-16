@@ -140,9 +140,12 @@ function humanByte(arg) {
 
 function checkHash(fn) {
 	if( location.hash ) {
-		window.hash = JSON.parse(decodeURIComponent(location.hash.substring(1)));
-        if( fn ) {
-            fn(window.hash);
+        try {
+            window.hash = JSON.parse(decodeURIComponent(location.hash.substring(1)));
+            if( fn ) {
+                fn(window.hash);
+            }
+        } catch (error) {
         }
 	}
 }

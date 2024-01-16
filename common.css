@@ -1,16 +1,213 @@
-* {
-    box-sizing: border-box;
-    outline: none;
+/* define vars */
+:root {
+    color-scheme: light dark;
+    --color-light: white;
+    --color-dark: black;
+    --color-overlay: rgba(128, 128, 128, 0.5);
+    --color-shadow: rgba(100, 100, 100, 0.5);
+    --container-width: 1100px;
+    --font-eng: Verdana, Geneva, Tahoma, sans-serif;
+    --font-kor: "맑은 고딕", Verdana, Geneva, Tahoma, sans-serif;
 }
+@media (prefers-color-scheme: light) {
+    :root {
+        --color-background: var(--color-light);
+        --color-color: var(--color-dark);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: var(--color-dark);
+        --color-color: var(--color-light);
+    }
+}
+@media (min-width: 360px) {:root {--container-width: 350px;}}
+@media (min-width: 480px) {:root {--container-width: 470px;}}
+@media (min-width: 600px) {:root {--container-width: 580px;}}
+@media (min-width: 800px) {:root {--container-width: 780px;}}
+@media (min-width: 1024px) {:root {--container-width: 1000px;}}
+@media (min-width: 1600px) {:root {--container-width: 1200px;}}
+/* define vars */
 
-html,
-body {
-    margin: 0;    padding: 0;
-    font-family: "맑은 고딕", Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 1rem;
-    line-height: 1.1;
+* {
+    box-sizing: border-box; outline: none;
+}
+html, body {
+    margin: 0; padding: 0; font-family: var(--font-kor); font-size: 1rem; line-height: 1.1;
 }
 code {
-    font-family: "맑은 고딕", Verdana, Geneva, Tahoma, sans-serif;
-    line-height: 1.5;
+    font-family: var(--font-kor); line-height: 1.5;
 }
+
+/* dialog */
+dialog {
+    background-color: transparent; border: none; outline: none;
+}
+::backdrop {
+    background-image: linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green); opacity: 0.75;
+}
+dialog#circle {
+    overflow: hidden;
+}
+dialog#circle::before {
+    content: "LOADING..."; position: absolute; top: calc(50% - 0.5rem); left: 0; font-size: .6rem; line-height: .6rem; text-align: center; width: 100%;
+}
+dialog#circle div {
+    border: dashed .5rem var(--color-overlay); border-radius: 50%; width: 5rem; height: 5rem; animation: circle 5s linear infinite;
+}
+dialog#alert>div, dialog#confirm>div {
+    display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 1rem;
+    background-color: var(--color-background);
+}
+dialog#confirm>div>div {
+    display: flex; gap: 1rem;
+}
+dialog#alert fieldset#alertMessage, dialog#confirm fieldset#confirmMessage {
+    max-width: 50%; border: 0; margin: 0; text-wrap: nowrap;
+}
+dialog#alert input#alertCloseButton, dialog#confirm input#confirmOkButton, dialog#confirm input#confirmCloseButton {
+    cursor: pointer; font-size: .8rem; border: 0; outline: none; padding: .5rem; font-weight: bold;
+}
+dialog#alert input#alertCloseButton:hover, dialog#alert input#alertCloseButton:active, dialog#confirm input#confirmOkButton:hover, dialog#confirm input#confirmOkButton:active, dialog#confirm input#confirmCloseButton:hover, dialog#confirm input#confirmCloseButton:active {
+    background-color: var(--color-overlay);
+}
+@keyframes circle {
+    0% {transform: rotate(0);}
+    25% {transform: rotate(-90deg);}
+    50% {transform: rotate(-180deg);}
+    75% {transform: rotate(-270deg);}
+    100% {transform: rotate(-360deg);}
+}
+/* dialog */
+
+/* effect */
+.breathText {
+    background: linear-gradient(-45deg, red, rgb(4, 108, 140), orange, purple, gray); color: transparent; background-clip: text; -webkit-background-clip: text; background-size: 400% 400%; animation: gradient 5s linear infinite;
+}
+.breath {
+    background: linear-gradient(-45deg, transparent, rgb(255, 255, 255), transparent); background-size: 300% 300%; animation: gradient 2s ease infinite;
+}
+@keyframes gradient {
+    0% {background-position: 0% 0%;}
+    50% {background-position: 90% 0%;}
+    100% {background-position: 0% 0%;}
+}
+/* effect */
+
+/* contents */
+header div, main, footer {
+    position: static; width: var(--container-width); margin-left: auto; margin-right: auto;
+}
+
+header {
+    position: sticky; top: 0; z-index: 99; background-color: var(--color-background);
+}
+header div {
+    display: flex; align-items: center; justify-content: space-between;
+}
+@media (max-width: 800px) {
+    header div {align-items: flex-start; flex-direction: column;}
+}
+header div::after {
+    content: ""; display: block; width: 100%; height: 1px; background-color: var(--color-overlay); position: absolute; left: 0; bottom: 0;
+}
+header section {
+    padding: .5em 0;
+}
+header section#logo {
+    width: 210px;
+}
+header section#logo h1 {
+    font-size: .8em; font-family: var(--font-eng); margin: 0;
+}
+header section#logo h1 a {
+    display: flex; align-items: center; gap: 0.5em; text-decoration: none;
+}
+header section#menulist {
+    font-size: .7em; font-family: var(--font-eng);
+}
+header section#menulist ul {
+    margin: 0; padding: 0; list-style: none; display: flex; gap: .5em;
+}
+header section#menulist ul li:not(:first-of-type) {
+    padding-left: .5em; border-left: solid 2px var(--color-overlay);
+}
+header section#userinfo {
+    font-size: .7em; font-family: var(--font-eng); display: flex; align-items: flex-end; justify-content: space-between; gap: .5rem;
+}
+header section#userinfo svg {
+    width: 12px; height: 12px; cursor: pointer; transition: ease .5s;
+}
+@media (prefers-color-scheme: light) {
+    header section#userinfo svg {fill: var(--color-dark);}
+}
+@media (prefers-color-scheme: dark) {
+    header section#userinfo svg {fill: var(--color-light);}
+}
+header section#userinfo svg.on {
+    transform: rotateZ(-45deg);
+}
+header section#userinfo span {
+    cursor: pointer;
+}
+header section#userinfo span#username {
+    font-weight: bold;
+}
+header section#userinfo #userlogout {
+    display: none;
+}
+
+footer {
+    margin-top: 2rem;
+}
+footer #copyright {
+    padding-top: .5rem; padding-bottom: .5rem; font-size: .6em; font-family: var(--font-eng);
+}
+footer::before {
+    content: ""; display: block; width: 100%; height: 1px; background-color: var(--color-overlay); position: absolute; left: 0;
+}
+
+aside {
+    position: fixed; z-index: 99; top: 1.6rem; left: 100vw; transition: ease .5s; width: 200px;
+}
+aside.on {
+    transform: translateX(calc((var(--container-width) - 100vw)/2 - 205px));
+}
+@media (prefers-color-scheme: light) {
+    aside {background-color: var(--color-light);}
+}
+@media (prefers-color-scheme: dark) {
+    aside {background-color: var(--color-dark);}
+}
+aside ul {
+    border: solid 1px var(--color-overlay); border-radius: 3px; margin: 0; padding: 0; list-style: none; background: var(--color-overlay); display: flex; flex-direction: column; gap: 1px;
+}
+aside li {
+    padding: .3rem; font-size: .6rem; line-height: 1rem; font-weight: bold; cursor: pointer;
+}
+aside li:first-of-type {
+    border-top-left-radius: 3px; border-top-right-radius: 3px;
+}
+aside li:last-of-type {
+    border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;
+}
+@media (prefers-color-scheme: light) {
+    aside li {background-color: var(--color-light);}
+}
+@media (prefers-color-scheme: dark) {
+    aside li {background-color: var(--color-dark);}
+}
+aside li:hover {
+    background-color: var(--color-overlay);
+}
+
+main {
+    padding-top: 5px; display: flex; flex-direction: column; gap: 5px;
+}
+section#contents {
+    font-size: .9em; line-height: 1.5;
+}
+section#contents hr {
+    border-style: dashed; border-width: 1px; border-bottom: none;
+}
+/* contents */
