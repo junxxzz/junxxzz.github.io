@@ -74,7 +74,7 @@
                         email: d.email,
                         password: d.id,
                     }).then(res => {
-                        if( res.error.toString()=='AuthApiError: User already registered' ) {
+                        if( res.error && res.error.toString()=='AuthApiError: User already registered' ) {
                             supa.auth.signInWithPassword({
                                 email: d.email,
                                 password: d.id,
