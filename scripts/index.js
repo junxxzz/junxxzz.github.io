@@ -24,7 +24,7 @@ var uid;
 
 setLoadComplete(function () {
     loadArticleList();
-    listenHash(loadArticle);
+    // listenHash(loadArticle);
     listenColorScheme(loadColorScheme);
 
     supa.auth.getUser().then(res => {
@@ -100,35 +100,38 @@ function loadArticleList() {
                         });
                         newArticle.innerHTML = newArticle.innerHTML.replace('{article-icons}',newIconHTML);
                         newArticle.addEventListener('click', () => {
-                            setHash('articleId', idx);
+                            // setHash('articleId', idx);
+                            location.search = `?${idx}`;
                         });
                         articleSection.append(newArticle);
                     }
                 });
-                listenHash(activeArticle);
-                if (!window.hash.articleId) {
-                    window.hash.articleId = maArticleIdx;
-                    loadArticle(window.hash);
-                    activeArticle(window.hash);
-                }
+                loadArticle(location.search?null:maArticleIdx);
             });
         }
     });
 }
-function activeArticle(hash) {
-    if (hash.articleId > 0) {
+function activeArticle(articleId) {
+    if( articleId > 0 ) {
         document.querySelectorAll(`section#articles > article`).forEach(a => a.classList.remove('on'));
-        document.querySelector(`section#articles > article#article-${hash.articleId}`).classList.add('on');
-        document.title = 'allstack document- '+document.querySelector(`section#articles > article#article-${hash.articleId} > span.articleTitle`).innerText;
+        document.querySelector(`section#articles > article#article-${articleId}`).classList.add('on');
+        document.title = 'allstack document- '+document.querySelector(`section#articles > article#article-${articleId} > span.articleTitle`).innerText;
     }
 }
-function loadArticle(hash) {
-    if (hash.articleId > 0) {
-        document.querySelector('#comment-save').dataset.articleId = hash.articleId;
+function loadArticle(maArticleId) {
+    let articleId;
+    if( !location.search && maArticleId ) {
+        articleId = maArticleId;
+    }
+    else {
+        articleId = location.search.substring(1);
+    }
+    if( articleId ) {
+        document.querySelector('#comment-save').dataset.articleId = articleId;
         showLoading();
-        fetch(`/articles/article_${hash.articleId}.md`).then((res) => {
+        fetch(`/articles/article_${articleId}.md`).then((res) => {
             if (res.ok) {
-                activeArticle(hash.articleId);
+                activeArticle(articleId);
                 res.text().then((d) => {
                     // document.getElementById('contents').innerHTML = DOMPurify.sanitize(
                     //     marked.parse(d),
@@ -146,7 +149,7 @@ function loadArticle(hash) {
                         });
                     }
                     // load comment
-                    supa.from('comments').select().eq('article_id',hash.articleId).then(res => {
+                    supa.from('comments').select().eq('article_id',articleId).then(res => {
                         if( !res.error ) {
                             res.data.forEach(d => {
                                 newComment(d);
@@ -155,14 +158,14 @@ function loadArticle(hash) {
                     });
                     window.scrollTo(0, 0);
                     gtag('event', 'article_view', {
-                        articleId: hash.articleId,
+                        articleId: articleId,
                         result: 'success',
                     });
                     hideLoading();
                 });
             } else {
                 gtag('event', 'article_view', {
-                    articleId: hash.articleId,
+                    articleId: articleId,
                     result: 'fail',
                 });
                 hideLoading();

@@ -36,6 +36,11 @@
 h1, h2, h3, h4, h5, h6, b, strong {
     font-weight: 900;
 }
+blockquote {
+    background-color: var(--color-overlay2);
+    border-left: solid .5rem var(--color-overlay);
+    padding: 0.1rem 1rem;
+}
 html, body {
     margin: 0; padding: 0; font-family: var(--font-kor); font-size: 1rem; line-height: 1.1;
 }
