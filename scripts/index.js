@@ -119,6 +119,7 @@ function activeArticle(hash) {
     if (hash.articleId > 0) {
         document.querySelectorAll(`section#articles > article`).forEach(a => a.classList.remove('on'));
         document.querySelector(`section#articles > article#article-${hash.articleId}`).classList.add('on');
+        document.title = 'allstack document- '+document.querySelector(`section#articles > article#article-${hash.articleId} > span.articleTitle`).innerText;
     }
 }
 function loadArticle(hash) {
@@ -127,7 +128,6 @@ function loadArticle(hash) {
         showLoading();
         fetch(`/articles/article_${hash.articleId}.md`).then((res) => {
             if (res.ok) {
-
                 activeArticle(hash.articleId);
                 res.text().then((d) => {
                     // document.getElementById('contents').innerHTML = DOMPurify.sanitize(
