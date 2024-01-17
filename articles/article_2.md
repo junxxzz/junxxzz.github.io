@@ -108,7 +108,7 @@ const articleSection = document.querySelector('section#articles');
 fetch('/articles.dat').then(res => {
     if( res.ok ) {
         res.text().then(d => {
-            d.split('\r\n').reverse().forEach(line => {
+            d.split('\n').reverse().forEach(line => {
                 if( !line.trim() ) {
                     return;
                 }

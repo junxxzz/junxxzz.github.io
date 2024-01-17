@@ -88,9 +88,7 @@ function loadArticleList() {
                         }
                         const newArticle = document.createElement('article');
                         newArticle.setAttribute('id', `article-${idx}`);
-                        newArticle.innerHTML = articleTemplate
-                            .replace('{article-writeAt}', writeAt)
-                            .replace('{article-title}', title);
+                        newArticle.innerHTML = articleTemplate.replace('{article-writeAt}', writeAt).replace('{article-title}', title);
                         let newIconHTML = '';
                         categorys.split(',').forEach((c) => {
                             const newIcon = document.createElement('img');
