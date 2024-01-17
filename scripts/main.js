@@ -8,11 +8,12 @@ setLoadComplete(function () {
         if( name ) {
             document.querySelector('#username').innerHTML = `Hi, ${name}!!`;
         }
-        // supa.auth.getUser().then(res => {
-        //     console.log(res);
-        // });
-
     }
+    else {
+        localStorage.clear();
+        sessionStorage.clear();
+    }
+
     document.querySelector('header section#userinfo svg').addEventListener('click', function() {
         this.classList.toggle('on');
         document.querySelector('aside').classList.toggle('on');
@@ -25,22 +26,11 @@ setLoadComplete(function () {
         const state = 'google';
         location.href = oauth2Endpoint+`?response_type=token&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scopes}&state=${state}`;
     });
-    // document.querySelector('#userlogin-facebook')?.addEventListener('click', function() {
-    //     const oauth2Endpoint  = 'https://www.facebook.com/v18.0/dialog/oauth';
-    //     const client_id = '311715835202754';
-    //     const redirect_uri = 'http://localhost:5500/logincheck.html'; // The URL where you is redirected back, and where you perform run the callback() function.
-    //     const scopes = 'public_profile,email';
-    //     const state = 'facebook';
-    //     location.href = oauth2Endpoint+`?response_type=token&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scopes}&state=${state}`;
-    // });
     document.querySelector('#userlogout').addEventListener('click', function() {
         let revokeTokenEndpoint;
         if( sessionStorage.getItem('provider')=='google' ) {
             revokeTokenEndpoint = `https://oauth2.googleapis.com/revoke?token=${sessionStorage.getItem('access_token')}`;
         }
-        // else if( sessionStorage.getItem('provider')=='facebook' ) {
-        //     revokeTokenEndpoint = `https://graph.facebook.com/v18.0/me/permissions?access_token=${sessionStorage.getItem('access_token')}&format=json&method=delete`;
-        // }
         fetch(revokeTokenEndpoint, {
             method: 'POST',
         }).then(res => {
