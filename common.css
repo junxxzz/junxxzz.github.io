@@ -4,6 +4,7 @@
     --color-light: white;
     --color-dark: black;
     --color-overlay: rgba(128, 128, 128, 0.5);
+    --color-overlay2: rgba(128, 128, 128, 0.2);
     --color-shadow: rgba(100, 100, 100, 0.5);
     --container-width: 1100px;
     --font-eng: Verdana, Geneva, Tahoma, sans-serif;

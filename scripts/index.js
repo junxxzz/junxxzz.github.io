@@ -50,6 +50,17 @@ setLoadComplete(function () {
     ).subscribe();
 
     document.querySelector('#comment-save').addEventListener('click', insertComment);
+    document.querySelector('#comment-content').addEventListener('focus', function() {
+        this.classList.add('on');
+    })
+    document.querySelector('#comment-content').addEventListener('blur', function() {
+        this.classList.remove('on');
+    })
+    document.querySelector('#comment-content').addEventListener('keyup', function(evt) {
+        if( evt.ctrlKey && evt.key=='Enter' ) {
+            insertComment();
+        }
+    })
 });
 function loadColorScheme(scheme) {
     document.querySelector('link#highlightjs_css')?.remove();
@@ -165,7 +176,7 @@ function insertComment() {
         alert('로그인 후 이용할 수 있습니다.');
         return;
     }
-    const articleId = this.dataset.articleId;
+    const articleId = document.querySelector('#comment-save').dataset.articleId;
     const comment = document.querySelector('#comment-content').value;
     supa.from('comments').insert({article_id: articleId, contents: comment}).then(res => {
         document.querySelector('#comment-content').value = '';
