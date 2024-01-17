@@ -44,13 +44,11 @@ setLoadComplete(function () {
         fetch(revokeTokenEndpoint, {
             method: 'POST',
         }).then(res => {
-            if( res.ok ) {
-                localStorage.clear();
-                sessionStorage.clear();
-                supa.auth.signOut().then(() => {
-                    location.reload();
-                });
-            }
+            localStorage.clear();
+            sessionStorage.clear();
+            supa.auth.signOut().then(() => {
+                location.reload();
+            });
         });
     });
 });

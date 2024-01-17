@@ -1,7 +1,26 @@
 const { createClient } = supabase;
-const supaurl = "https://plsiicrtbryicuagbfly.supabase.co";
-const supakey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsc2lpY3J0YnJ5aWN1YWdiZmx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA5MjU0MzYsImV4cCI6MjAxNjUwMTQzNn0.QdztP5iLKcRzhQ7KESr9TXyjFjlF07k56TXJgPs0BjQ";
+const supaurl = 'https://plsiicrtbryicuagbfly.supabase.co';
+const supakey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsc2lpY3J0YnJ5aWN1YWdiZmx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA5MjU0MzYsImV4cCI6MjAxNjUwMTQzNn0.QdztP5iLKcRzhQ7KESr9TXyjFjlF07k56TXJgPs0BjQ';
 const supa = createClient(supaurl, supakey);
+
+const {markedHighlight} = globalThis.markedHighlight;
+marked.use(markedDirective.createDirectives());
+marked.use(markedLinkifyIt({},{}));
+marked.use(
+    markedHighlight({
+        langPrefix: 'hljs language-',
+        highlight(code, lang, info) {
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+            const addon = `<div class='language'>${language}</div>`;
+            return hljs.highlight(code, {
+                language
+            }).value + addon;
+        },
+    }),
+);
+marked.use({breaks: true});
+
+var uid;
 
 setLoadComplete(function () {
     loadArticleList();
@@ -9,39 +28,28 @@ setLoadComplete(function () {
     listenColorScheme(loadColorScheme);
 
     supa.auth.getUser().then(res => {
-        var uid;
         if( !res.error ) {
-            uid = res.data.user.id;
+            window.uid = res.data.user.id;
         }
-        if( !uid ) {
+        if( !window.uid ) {
             document.querySelector('#comment-content').setAttribute('placeholder','로그인 후 이용할 수 있습니다.');
             document.querySelector('#comment-content').setAttribute('disabled',true);
-            return;
         }
     });
-    document.querySelector('#comment-save').addEventListener('click', function() {
-        supa.auth.getUser().then(res => {
-            var uid;
-            if( !res.error ) {
-                uid = res.data.user.id;
+
+    supa.channel('comments-changes').on('postgres_changes',
+        {event: '*', schema: 'public', table: 'comments',},
+        (payload) => {
+            if( payload.eventType=='INSERT' ) {
+                newComment(payload.new);
             }
-            if( !uid ) {
-                alert('로그인 후 이용할 수 있습니다.');
-                return;
+            else if( payload.eventType=='DELETE' ) {
+                document.querySelector(`div#comment-${payload.old.id}`).remove();
             }
-            const articleId = this.dataset.articleId;
-            const comment = document.querySelector('#comment-content').value;
-            supa.from('comments').insert({article_id: articleId, contents: comment}).then(res => {
-                if( res.error ) {
-                    console.log(res.error);
-                    alert(res.error);
-                }
-                else {
-                    location.reload();
-                }
-            });
-        });
-    });
+        },
+    ).subscribe();
+
+    document.querySelector('#comment-save').addEventListener('click', insertComment);
 });
 function loadColorScheme(scheme) {
     document.querySelector('link#highlightjs_css')?.remove();
@@ -51,23 +59,6 @@ function loadColorScheme(scheme) {
     newcss.setAttribute('href',`/scripts/stackoverflow-${scheme}.min.css`);
     document.querySelector('head').append(newcss);
 }
-
-const {markedHighlight} = globalThis.markedHighlight;
-marked.use(markedDirective.createDirectives());
-marked.use(markedLinkifyIt({},{}));
-marked.use(
-    markedHighlight({
-        langPrefix: "hljs language-",
-        highlight(code, lang, info) {
-            const language = hljs.getLanguage(lang) ? lang : "plaintext";
-            const addon = `<div class='language'>${language}</div>`;
-            return hljs.highlight(code, {
-                language
-            }).value + addon;
-        },
-    }),
-);
-marked.use({breaks: true});
 
 function loadArticleList() {
     const articleTemplate = document.querySelector('template#articleTemplate').innerHTML;
@@ -98,7 +89,7 @@ function loadArticleList() {
                         });
                         newArticle.innerHTML = newArticle.innerHTML.replace('{article-icons}',newIconHTML);
                         newArticle.addEventListener('click', () => {
-                            setHash("articleId", idx);
+                            setHash('articleId', idx);
                         });
                         articleSection.append(newArticle);
                     }
@@ -125,17 +116,15 @@ function loadArticle(hash) {
         showLoading();
         fetch(`/articles/article_${hash.articleId}.md`).then((res) => {
             if (res.ok) {
-                const commentTemplate = document.querySelector('template#commentTemplate').innerHTML;
-                const commentSection = document.querySelector('section#comments');
 
                 activeArticle(hash.articleId);
                 res.text().then((d) => {
-                    // document.getElementById("contents").innerHTML = DOMPurify.sanitize(
+                    // document.getElementById('contents').innerHTML = DOMPurify.sanitize(
                     //     marked.parse(d),
                     // );
-                    document.getElementById("contents").innerHTML = marked.parse(d);
+                    document.getElementById('contents').innerHTML = marked.parse(d);
                     let matches;
-                    if( matches=document.getElementById("contents").innerHTML.match(/\<script src=([^\>]+)\>\s*\<\/script\>/gmi) ) {
+                    if( matches=document.getElementById('contents').innerHTML.match(/\<script src=([^\>]+)\>\s*\<\/script\>/gmi) ) {
                         matches.forEach(m => {
                             let s = m.split('src=');
                             s = s[1].split('>');
@@ -146,37 +135,24 @@ function loadArticle(hash) {
                         });
                     }
                     // load comment
-                    supa.auth.getUser().then(res => {
-                        var uid;
+                    supa.from('comments').select().eq('article_id',hash.articleId).then(res => {
                         if( !res.error ) {
-                            uid = res.data.user.id;
+                            res.data.forEach(d => {
+                                newComment(d);
+                            });
                         }
-                        supa.from('comments').select().eq('article_id',hash.articleId).then(res => {
-                            if( !res.error ) {
-                                res.data.forEach(d => {
-                                    const newComment = document.createElement('div');
-                                    newComment.setAttribute('id', `comment-${d.id}`);
-                                    newComment.innerHTML = commentTemplate
-                                        .replace('{created_at}', `${tsToYmd(d.created_at)} ${tsToHms(d.created_at)}`)
-                                        .replace('{contents}', DOMPurify.sanitize(marked.parse(d.contents)))
-                                        .replace('{id}', d.id)
-                                        .replace('{display}', `style="display: ${uid==d.uid?'inline-block':'none'};"`);
-                                    commentSection.append(newComment);
-                                });
-                            }
-                        });
                     });
                     window.scrollTo(0, 0);
-                    gtag("event", "article_view", {
+                    gtag('event', 'article_view', {
                         articleId: hash.articleId,
-                        result: "success",
+                        result: 'success',
                     });
                     hideLoading();
                 });
             } else {
-                gtag("event", "article_view", {
+                gtag('event', 'article_view', {
                     articleId: hash.articleId,
-                    result: "fail",
+                    result: 'fail',
                 });
                 hideLoading();
             }
@@ -184,14 +160,38 @@ function loadArticle(hash) {
     }
 }
 
+function insertComment() {
+    if( !window.uid ) {
+        alert('로그인 후 이용할 수 있습니다.');
+        return;
+    }
+    const articleId = this.dataset.articleId;
+    const comment = document.querySelector('#comment-content').value;
+    supa.from('comments').insert({article_id: articleId, contents: comment}).then(res => {
+        document.querySelector('#comment-content').value = '';
+        if( res.error ) {
+            console.log(res.error);
+            alert(res.error);
+        }
+    });
+}
 function deleteComment(obj) {
     supa.from('comments').delete().eq('id',obj.dataset.paramId).then(res => {
         if( res.error ) {
             console.log(res.error);
             alert(res.error);
         }
-        else {
-            document.querySelector(`div#comment-${obj.dataset.paramId}`).remove();
-        }
     });
+}
+function newComment(d) {
+    const commentTemplate = document.querySelector('template#commentTemplate').innerHTML;
+    const commentSection = document.querySelector('section#comments');
+    const newComment = document.createElement('div');
+    newComment.setAttribute('id', `comment-${d.id}`);
+    newComment.innerHTML = commentTemplate
+        .replace('{created_at}', `${tsToYmd(d.created_at)} ${tsToHms(d.created_at)}`)
+        .replace('{contents}', DOMPurify.sanitize(marked.parse(d.contents)))
+        .replace('{id}', d.id)
+        .replace('{display}', `style="display: ${window.uid==d.uid?'inline-block':'none'};"`);
+    commentSection.append(newComment);
 }
