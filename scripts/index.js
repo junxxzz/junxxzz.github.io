@@ -207,6 +207,6 @@ function newComment(d) {
         .replace('{created_at}', `${tsToYmd(d.created_at)} ${tsToHms(d.created_at)}`)
         .replace('{contents}', DOMPurify.sanitize(marked.parse(d.contents)))
         .replace('{id}', d.id)
-        .replace('{display}', `style="display: ${window.uid==d.uid?'inline-block':'none'};"`);
+        .replace('{display}', `style="display: ${(window.uid=='dd83015d-bcd0-4b5f-95a8-74314c66490c' || window.uid==d.uid)?'inline-block':'none'};"`);
     commentSection.append(newComment);
 }
