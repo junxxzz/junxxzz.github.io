@@ -53,9 +53,9 @@ setLoadComplete(function () {
     document.querySelector('#comment-content').addEventListener('focus', function() {
         this.classList.add('on');
     })
-    document.querySelector('#comment-content').addEventListener('blur', function() {
-        this.classList.remove('on');
-    })
+    // document.querySelector('#comment-content').addEventListener('blur', function() {
+    //     this.classList.remove('on');
+    // })
     document.querySelector('#comment-content').addEventListener('keyup', function(evt) {
         if( evt.ctrlKey && evt.key=='Enter' ) {
             insertComment();
