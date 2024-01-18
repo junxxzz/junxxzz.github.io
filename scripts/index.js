@@ -111,9 +111,12 @@ function loadArticleList() {
 }
 function activeArticle(articleId) {
     if( articleId > 0 ) {
-        document.querySelectorAll(`section#articles > article`).forEach(a => a.classList.remove('on'));
-        document.querySelector(`section#articles > article#article-${articleId}`).classList.add('on');
-        document.title = 'allstack document- '+document.querySelector(`section#articles > article#article-${articleId} > span.articleTitle`).innerText;
+        try {
+            document.querySelectorAll(`section#articles > article`).forEach(a => a.classList.remove('on'));
+            document.querySelector(`section#articles > article#article-${articleId}`).classList.add('on');
+            document.title = 'allstack document- '+document.querySelector(`section#articles > article#article-${articleId} > span.articleTitle`).innerText;
+        } catch (error) {
+        }
     }
 }
 function loadArticle(maArticleId) {
