@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const DOM_child = {
+            tagname: '',
+            attrs: {},
+            children: [],
+            contents: '',
+        };
+        const DOM_global_attributes = {
+            accesskey: '',
+            autocapitalize: '',
+            autofocus: '',
+            class: '',
+            dir: '',
+            draggable: '',
+            enterkeyhint: '',
+            exportparts: '',
+            hidden: '',
+            id: '',
+            inert: '',
+            inputmode: '',
+            is: '',
+            itemid: '',
+            itemprop: '',
+            itemref: '',
+            itemscope: '',
+            itemtype: '',
+            lang: '',
+            nonce: '',
+            part: '',
+            popover: '',
+            role: '',
+            slot: '',
+            spellcheck: '',
+            style: '',
+            tabindex: '',
+            title: '',
+            translate: '',
+        };
+        function DOM(arg={tagname: '', attrs: {}, children: [DOM_child], contents: ''}) {
+            // this.tagname = arg.tagname;
+            // this.attrs = arg.attrs;
+            // this.children = arg.children;
+
+            this.print = () => {
+                document.write(this.makeObject(arg).outerHTML);
+            }
+
+            this.makeObject = (arg={tagname: '', attrs: DOM_global_attributes, children: [DOM_child], contents: ''}) => {
+                let newobj;
+                if( arg.tagname=='text' ) {
+                    newobj = new Text(arg.contents);
+                }
+                else {
+                    newobj = document.createElement(arg.tagname);
+                    for( const k in arg.attrs ) {
+                        if( Object.hasOwnProperty.call(arg.attrs, k) ) {
+                            const v = arg.attrs[k];
+                            if( String(v).length ) {
+                                newobj.setAttribute(k, v);
+                            }
+                        }
+                    }
+                    if( arg.children.length ) {
+                        arg.children.forEach(child => {
+                            newobj.append(this.makeObject(child));
+                        });
+                    }
+                }
+                return newobj;
+            }
+        }
+        const domconfig = {
+            tagname: 'div',
+            attrs: {
+                id: 'aaaa',
+            },
+            children: [
+                {
+                    tagname: 'span',
+                    attrs: {
+                        class: 'class1'
+                    },
+                    children: [
+                        {
+                            tagname: 'text',
+                            contents: 'test',
+                        },
+                    ],
+                },
+            ],
+        };
+        const dom1 = new DOM(domconfig);
+        dom1.print();
+        document.write(JSON.stringify(domconfig));
+    </script>
+</body>
+</html>
