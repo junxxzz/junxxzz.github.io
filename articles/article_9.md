@@ -114,18 +114,18 @@ This is my second event
 > topics=connect-test
 
 ```bash
-echo "plugin.path=libs/connect-file-3.6.1.jar" >> config/connect-standalone.properties
-bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties
+$ echo "plugin.path=libs/connect-file-3.6.1.jar" >> config/connect-standalone.properties
+$ bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties
 ```
 
 7. 확인을 위해 console-consumer를 띄워준다
 
 ```bash
-bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic connect-test --from-beginning
+$ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic connect-test --from-beginning
 ```
 
 8. 이벤트 메세지 소스 파일에 직접 내용을 넣어본다.
 
 ```bash
-echo "test" >> test.txt
+$ echo "test" >> test.txt
 ```
