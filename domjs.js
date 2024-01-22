@@ -34,6 +34,7 @@ var DOMJS_CHILD = {
     attrs: DOMJS_GLOBAL_ATTRIBUTES,
     children: [DOMJS_CHILD],
     contents: '',
+    objonly: false,
 };
 var DOMJS_CHILDTAGS = {
     'div': ['div','span','table','p'],
@@ -63,12 +64,10 @@ function DOMJS(arg=[DOMJS_CHILD]) {
         dialog.append(rootdiv);
         const fieldset = document.createElement('fieldset');
         fieldset.setAttribute('id', 'domjsDialogMessage');
-        rootdiv.append(fieldset);
-        this.getAttributeNames().forEach(a => {
-            const v = this.getAttribute(a);
+        fieldset.addAttrRowDiv = function(a, v) {
             const rowdiv = document.createElement('div');
             rowdiv.classList.add('rowdiv');
-            fieldset.append(rowdiv);
+            this.append(rowdiv);
             const coldiv0 = document.createElement('div');
             rowdiv.append(coldiv0);
             const newbutton = document.createElement('input');
@@ -87,9 +86,42 @@ function DOMJS(arg=[DOMJS_CHILD]) {
             newinput.setAttribute('id', `domjsDialogAttribute_${a}`);
             newinput.setAttribute('value', v);
             coldiv2.append(newinput);
+        }
+        fieldset.newAttrRowDiv = function(a, v) {
+            const rowdiv = document.createElement('div');
+            rowdiv.classList.add('rowdiv');
+            this.querySelector('#domjsDialogRowDivAction0').before(rowdiv);
+            const coldiv0 = document.createElement('div');
+            rowdiv.append(coldiv0);
+            const newbutton = document.createElement('input');
+            newbutton.classList.add('domjsDialogAttributeRemoveButton');
+            newbutton.setAttribute('type', 'button');
+            newbutton.setAttribute('id', `domjsDialogAttributeRemoveButton_${a}`);
+            newbutton.setAttribute('value', 'X');
+            coldiv0.append(newbutton);
+            const coldiv1 = document.createElement('div');
+            rowdiv.append(coldiv1);
+            const newinput0 = document.createElement('input');
+            newinput0.setAttribute('type', 'text');
+            newinput0.setAttribute('id', `domjsDialogAttribute_${a}`);
+            // newinput0.setAttribute('value', v);
+            coldiv1.append(newinput0);
+            const coldiv2 = document.createElement('div');
+            rowdiv.append(coldiv2);
+            const newinput = document.createElement('input');
+            newinput.setAttribute('type', 'text');
+            newinput.setAttribute('id', `domjsDialogAttribute_${a}`);
+            // newinput.setAttribute('value', v);
+            coldiv2.append(newinput);
+        }
+        rootdiv.append(fieldset);
+        this.getAttributeNames().forEach(a => {
+            const v = this.getAttribute(a);
+            fieldset.addAttrRowDiv(a, v);
         });
         const rowdiv = document.createElement('div');
         rowdiv.classList.add('rowdiv');
+        rowdiv.setAttribute('id', 'domjsDialogRowDivAction0');
         fieldset.append(rowdiv);
         const coldiv0 = document.createElement('div');
         rowdiv.append(coldiv0);
@@ -101,6 +133,9 @@ function DOMJS(arg=[DOMJS_CHILD]) {
         newinput.setAttribute('type', 'button');
         newinput.setAttribute('id', `domjsDialogAttributeAddButton`);
         newinput.setAttribute('value', '속성추가');
+        newinput.addEventListener('click', function() {
+            this.parentElement.parentElement.parentElement.newAttrRowDiv();
+        })
         coldiv2.append(newinput);
 
         const buttondiv = document.createElement('div');
@@ -122,8 +157,7 @@ function DOMJS(arg=[DOMJS_CHILD]) {
         dialog.showModal();
     }
     this.closeModal = function(payload) {
-        const dialog = document.querySelector('dialog#domjsDialog');
-        dialog?.close();
+        document.querySelector('dialog#domjsDialog')?.close();
     }
     this.clearHelper = function() {
         document.querySelector('#domjsContextMenu')?.remove();
@@ -166,6 +200,10 @@ function DOMJS(arg=[DOMJS_CHILD]) {
         document.querySelector('body').append(newdiv);
     }
     // end of node function
+    /**
+     * @param DOMJS_CHILD arg
+     * @returns object
+     */
     this.makeObject = (arg=DOMJS_CHILD) => {
         let newobj;
         if( arg.tagname=='text' ) {
@@ -184,11 +222,13 @@ function DOMJS(arg=[DOMJS_CHILD]) {
                     }
                 }
             }
-            newobj.openModal = window.DOMJSOBJ.openModal;
-            newobj.closeModal = window.DOMJSOBJ.closeModal;
-            newobj.addEventListener('click', window.DOMJSOBJ.clickEvent);
-            newobj.addEventListener('contextmenu', window.DOMJSOBJ.contextEvent);
-            if( arg.children.length ) {
+            if( !arg.objonly ) {
+                newobj.openModal = window.DOMJSOBJ.openModal;
+                newobj.closeModal = window.DOMJSOBJ.closeModal;
+                newobj.addEventListener('click', window.DOMJSOBJ.clickEvent);
+                newobj.addEventListener('contextmenu', window.DOMJSOBJ.contextEvent);
+            }
+            if( arg.children && arg.children.length ) {
                 arg.children.forEach(child => {
                     newobj.append(this.makeObject(child));
                 });
