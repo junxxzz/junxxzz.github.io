@@ -1,4 +1,11 @@
+/**
+ * @namespace namespace
+ */
 var DOMJS_GLOBAL_ATTRIBUTES = {
+    /**
+     * @type string
+     * @default ""
+     */
     accesskey: '',
     autocapitalize: '',
     autofocus: '',
@@ -23,12 +30,20 @@ var DOMJS_GLOBAL_ATTRIBUTES = {
     popover: '',
     role: '',
     slot: '',
+    /**
+     * @type string
+     * @default "false"
+     * @enum "true"|"false"
+     */
     spellcheck: 'false',
     style: '',
     tabindex: '',
     title: '',
     translate: '',
 };
+/**
+ * @namespace DOMJS_CHILD
+ */
 var DOMJS_CHILD = {
     tagname: '',
     attrs: DOMJS_GLOBAL_ATTRIBUTES,
@@ -36,13 +51,20 @@ var DOMJS_CHILD = {
     contents: '',
     objonly: false,
 };
+/**
+ * @namespace DOMJS_CHILDTAGS
+ */
 var DOMJS_CHILDTAGS = {
     'div': ['div','span','table','p'],
     'table': ['tr'],
     'tr': ['td'],
     'td': ['div','span','table','p'],
 };
-function DOMJS(arg=[DOMJS_CHILD]) {
+/**
+ * @constructor
+ * @param {DOMJS_CHILD[]} arg
+ */
+DOMJS = function(arg=[DOMJS_CHILD]) {
     window.DOMJSOBJ = this;
     this.print = () => {
         document.write(this.makeObject(arg).outerHTML);
@@ -53,111 +75,168 @@ function DOMJS(arg=[DOMJS_CHILD]) {
         })
         document.querySelector('body').addEventListener('click', this.clearHelper);
     }
+    /**
+     * @param DOMJS_CHILD arg
+     * @returns object
+     */
+    this.makeObject = (arg=DOMJS_CHILD) => {
+        let newobj;
+        if( arg.tagname=='text' ) {
+            newobj = new Text(arg.contents);
+        }
+        else {
+            newobj = document.createElement(arg.tagname);
+            for( const k in arg.attrs ) {
+                if( String(k).match(/^data-/) ) {
+                    newobj.setAttribute(k, v);
+                }
+                else if( Object.hasOwnProperty.call(DOMJS_GLOBAL_ATTRIBUTES, k) ) {
+                    const v = arg.attrs[k];
+                    if( String(v).length ) {
+                        newobj.setAttribute(k, v);
+                    }
+                }
+            }
+            if( !arg.objonly ) {
+                newobj.openModal = window.DOMJSOBJ.openModal;
+                newobj.closeModal = window.DOMJSOBJ.closeModal;
+                newobj.addEventListener('click', window.DOMJSOBJ.clickEvent);
+                newobj.addEventListener('contextmenu', window.DOMJSOBJ.contextEvent);
+            }
+            if( arg.children && arg.children.length ) {
+                arg.children.forEach(child => {
+                    newobj.append(this.makeObject(child));
+                });
+            }
+        }
+        return newobj;
+    }
+    this.newElement = function() {
+        const newelement = document.createElement(arguments[0]);
+        arguments[0] = newelement;
+        this.attr.apply(this, arguments);
+        return newelement;
+    }
+    this.attr = function() {
+        if( arguments.length%2 != 1 ) {
+            throw "invalid argument length"
+        }
+        for( let i=1; i<arguments.length; i=i+2 ) {
+            arguments[0].setAttribute(arguments[i], arguments[i+1]);
+        }
+    }
     // node function
     this.openModal = function() {
-        const dialog = document.createElement('dialog');
+        const dialog = window.DOMJSOBJ.newElement('dialog', 'id', 'domjsDialog');
         dialog.addEventListener('click', window.DOMJSOBJ.cancelEvent);
-        dialog.addEventListener('close', function() { this.remove(); });
-        dialog.setAttribute('id', 'domjsDialog');
+        dialog.addEventListener('close', function() {
+            // this is dialog
+            this.remove();
+        });
+        // this is caller object
         dialog.caller = this;
-        const rootdiv = document.createElement('div');
+        this.dialog = dialog;
+
+        const rootdiv = window.DOMJSOBJ.newElement('div');
         dialog.append(rootdiv);
-        const fieldset = document.createElement('fieldset');
-        fieldset.setAttribute('id', 'domjsDialogMessage');
-        fieldset.addAttrRowDiv = function(a, v) {
-            const rowdiv = document.createElement('div');
-            rowdiv.classList.add('rowdiv');
+
+        const fieldset = window.DOMJSOBJ.newElement('fieldset', 'id', 'domjsDialogMessage');
+        fieldset.addAttrRow = function(a, v) {
+            const rowdiv = window.DOMJSOBJ.newElement('div', 'class', 'rowdiv');
+            // this is fieldset
             this.append(rowdiv);
-            const coldiv0 = document.createElement('div');
+
+            const coldiv0 = window.DOMJSOBJ.newElement('div');
             rowdiv.append(coldiv0);
-            const newbutton = document.createElement('input');
-            newbutton.classList.add('domjsDialogAttributeRemoveButton');
-            newbutton.setAttribute('type', 'button');
-            newbutton.setAttribute('id', `domjsDialogAttributeRemoveButton_${a}`);
-            newbutton.setAttribute('value', 'X');
-            coldiv0.append(newbutton);
-            const coldiv1 = document.createElement('div');
+
+            const deleteButton = window.DOMJSOBJ.newElement('input', 'class', 'domjsDialogAttributeRemoveButton', 'type', 'button', 'id', `domjsDialogAttributeRemoveButton_${a}`, 'value', 'X');
+            deleteButton.addEventListener('click', function() {
+                this.parentElement.parentElement.remove();
+            });
+            coldiv0.append(deleteButton);
+
+            const coldiv1 = window.DOMJSOBJ.newElement('div');
             coldiv1.innerHTML = a;
             rowdiv.append(coldiv1);
-            const coldiv2 = document.createElement('div');
+
+            const coldiv2 = window.DOMJSOBJ.newElement('div');
             rowdiv.append(coldiv2);
-            const newinput = document.createElement('input');
-            newinput.setAttribute('type', 'text');
-            newinput.setAttribute('id', `domjsDialogAttribute_${a}`);
-            newinput.setAttribute('value', v);
+
+            const newinput = window.DOMJSOBJ.newElement('input', 'type', 'text', 'id', `domjsDialogAttribute_${a}`, 'value', v);
             coldiv2.append(newinput);
         }
-        fieldset.newAttrRowDiv = function(a, v) {
-            const rowdiv = document.createElement('div');
-            rowdiv.classList.add('rowdiv');
-            this.querySelector('#domjsDialogRowDivAction0').before(rowdiv);
-            const coldiv0 = document.createElement('div');
+        fieldset.newAttrRow = function(a, v) {
+            const rowdiv = window.DOMJSOBJ.newElement('div', 'class', 'rowdiv');
+            // this is fieldset
+            this.querySelector('#domjsDialogActionDiv').before(rowdiv);
+
+            const coldiv0 = window.DOMJSOBJ.newElement('div');
             rowdiv.append(coldiv0);
-            const newbutton = document.createElement('input');
-            newbutton.classList.add('domjsDialogAttributeRemoveButton');
-            newbutton.setAttribute('type', 'button');
-            newbutton.setAttribute('id', `domjsDialogAttributeRemoveButton_${a}`);
-            newbutton.setAttribute('value', 'X');
-            coldiv0.append(newbutton);
-            const coldiv1 = document.createElement('div');
+
+            const deleteButton = window.DOMJSOBJ.newElement('input', 'class', 'domjsDialogAttributeRemoveButton', 'type', 'button', 'value', 'X');
+            deleteButton.addEventListener('click', function() {
+                this.parentElement.parentElement.remove();
+            });
+            coldiv0.append(deleteButton);
+
+            const coldiv1 = window.DOMJSOBJ.newElement('div');
             rowdiv.append(coldiv1);
-            const newinput0 = document.createElement('input');
-            newinput0.setAttribute('type', 'text');
-            newinput0.setAttribute('id', `domjsDialogAttribute_${a}`);
-            // newinput0.setAttribute('value', v);
+
+            const newinput0 = window.DOMJSOBJ.newElement('input', 'type', 'text');
             coldiv1.append(newinput0);
-            const coldiv2 = document.createElement('div');
+
+            const coldiv2 = window.DOMJSOBJ.newElement('div');
             rowdiv.append(coldiv2);
-            const newinput = document.createElement('input');
-            newinput.setAttribute('type', 'text');
-            newinput.setAttribute('id', `domjsDialogAttribute_${a}`);
-            // newinput.setAttribute('value', v);
+
+            const newinput = window.DOMJSOBJ.newElement('input', 'type', 'text');
             coldiv2.append(newinput);
         }
         rootdiv.append(fieldset);
+
         this.getAttributeNames().forEach(a => {
             const v = this.getAttribute(a);
-            fieldset.addAttrRowDiv(a, v);
+            fieldset.addAttrRow(a, v);
         });
-        const rowdiv = document.createElement('div');
-        rowdiv.classList.add('rowdiv');
-        rowdiv.setAttribute('id', 'domjsDialogRowDivAction0');
+
+        const rowdiv = window.DOMJSOBJ.newElement('div', 'id', 'domjsDialogActionDiv');
         fieldset.append(rowdiv);
-        const coldiv0 = document.createElement('div');
+
+        const coldiv0 = window.DOMJSOBJ.newElement('div');
         rowdiv.append(coldiv0);
-        const coldiv1 = document.createElement('div');
+
+        const coldiv1 = window.DOMJSOBJ.newElement('div');
         rowdiv.append(coldiv1);
-        const coldiv2 = document.createElement('div');
+
+        const coldiv2 = window.DOMJSOBJ.newElement('div');
         rowdiv.append(coldiv2);
-        const newinput = document.createElement('input');
-        newinput.setAttribute('type', 'button');
-        newinput.setAttribute('id', `domjsDialogAttributeAddButton`);
-        newinput.setAttribute('value', '속성추가');
+
+        const newinput = window.DOMJSOBJ.newElement('input', 'type', 'button', 'id', `domjsDialogAttributeAddButton`, 'value', '속성추가');
         newinput.addEventListener('click', function() {
-            this.parentElement.parentElement.parentElement.newAttrRowDiv();
+            this.parentElement.parentElement.parentElement.newAttrRow();
         })
         coldiv2.append(newinput);
 
-        const buttondiv = document.createElement('div');
-        buttondiv.setAttribute('id', 'domjsDialogButtons');
+        const buttondiv = window.DOMJSOBJ.newElement('div', 'id', 'domjsDialogButtons');
         rootdiv.append(buttondiv);
-        const okbutton = document.createElement('input');
-        okbutton.setAttribute('type', 'button');
-        okbutton.setAttribute('id', 'domjsDialogOkButton');
-        okbutton.setAttribute('value', 'SAVE');
+
+        const okbutton = window.DOMJSOBJ.newElement('input', 'type', 'button', 'id', 'domjsDialogOkButton', 'value', 'SAVE');
         okbutton.addEventListener('click', () => this.closeModal(true));
         buttondiv.append(okbutton);
-        const cancelbutton = document.createElement('input');
-        cancelbutton.setAttribute('type', 'button');
-        cancelbutton.setAttribute('id', 'domjsDialogCancelButton');
-        cancelbutton.setAttribute('value', 'CANCEL');
+
+        const cancelbutton = window.DOMJSOBJ.newElement('input', 'type', 'button', 'id', 'domjsDialogCancelButton', 'value', 'CANCEL');
         cancelbutton.addEventListener('click', () => this.closeModal(false));
         buttondiv.append(cancelbutton);
+
         document.querySelector('body').append(dialog);
         dialog.showModal();
     }
     this.closeModal = function(payload) {
-        document.querySelector('dialog#domjsDialog')?.close();
+        if( payload ) {
+            const rowdivs = this.dialog.querySelectorAll('.rowdiv');
+            console.log(rowdivs);
+        }
+        this.dialog?.close();
+        delete this.dialog;
     }
     this.clearHelper = function() {
         document.querySelector('#domjsContextMenu')?.remove();
@@ -200,42 +279,6 @@ function DOMJS(arg=[DOMJS_CHILD]) {
         document.querySelector('body').append(newdiv);
     }
     // end of node function
-    /**
-     * @param DOMJS_CHILD arg
-     * @returns object
-     */
-    this.makeObject = (arg=DOMJS_CHILD) => {
-        let newobj;
-        if( arg.tagname=='text' ) {
-            newobj = new Text(arg.contents);
-        }
-        else {
-            newobj = document.createElement(arg.tagname);
-            for( const k in arg.attrs ) {
-                if( String(k).match(/^data-/) ) {
-                    newobj.setAttribute(k, v);
-                }
-                else if( Object.hasOwnProperty.call(DOMJS_GLOBAL_ATTRIBUTES, k) ) {
-                    const v = arg.attrs[k];
-                    if( String(v).length ) {
-                        newobj.setAttribute(k, v);
-                    }
-                }
-            }
-            if( !arg.objonly ) {
-                newobj.openModal = window.DOMJSOBJ.openModal;
-                newobj.closeModal = window.DOMJSOBJ.closeModal;
-                newobj.addEventListener('click', window.DOMJSOBJ.clickEvent);
-                newobj.addEventListener('contextmenu', window.DOMJSOBJ.contextEvent);
-            }
-            if( arg.children && arg.children.length ) {
-                arg.children.forEach(child => {
-                    newobj.append(this.makeObject(child));
-                });
-            }
-        }
-        return newobj;
-    };
 }
 function domjsDialogClose(arg) {
     document.querySelector('dialog#domjsDialog').close();
@@ -265,4 +308,4 @@ const domconfig = [{
 }];
 const dom1 = new DOMJS(domconfig);
 dom1.attach(document.querySelector('body'));
-document.querySelector('#domjson').value = JSON.stringify(domconfig);
+document.querySelector('#domjson').value = JSON.stringify(domconfig, null, 4);
