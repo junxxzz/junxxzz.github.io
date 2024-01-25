@@ -1,0 +1,92 @@
+#domjsDialog, #domjsDialog * {
+    box-sizing: border-box;
+}
+#domjsDialog {
+    background-color: transparent; border: none; outline: none; width: 80vw; padding: 0; min-width: 480px; max-width: 480px; max-height: 90vh; border: solid 1px gray;
+}
+#domjsDialog::backdrop {
+    background-image: linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green); opacity: 0.75;
+}
+#domjsDialog fieldset {
+    border: none; width: 100%; word-wrap: normal; background-color: aqua; padding: 0;
+}
+#domjsDialog fieldset > div {
+    display: flex; gap: .2em; align-items: center; padding: .2em 0;
+}
+#domjsDialog fieldset input[type="button"] {
+    padding: .3em .3em;
+}
+#domjsDialog fieldset input[type="text"] {
+    padding: .3em;
+}
+#domjsDialog fieldset > div:not(:first-of-type) {
+    border-top: solid 1px #eee;
+}
+#domjsDialog fieldset > div > div:first-of-type {
+    width: 24px; text-align: center;
+}
+#domjsDialog fieldset > div > div:nth-last-of-type(2) {
+    flex: 1;
+}
+#domjsDialog fieldset > div > div:last-of-type {
+    flex: 3;
+}
+#domjsDialog fieldset > div > div > input[type="text"] {
+    width: 99%;
+}
+#domjsDialog > div > div#domjsDialogButtons {
+    display: flex; gap: .5em;
+}
+#domjsDialog > div {
+    display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 1rem; background-color: white;
+}
+#domjsDialog input[type="button"] {
+    cursor: pointer; font-size: .8rem; border: 0; outline: none; padding: .5rem; font-weight: bold;
+}
+#domjsDialog input[type="button"]:hover, #domjsDialog input[type="button"]:active {
+    background-color: rgba(100,100,100,0.5);
+}
+
+#domjsContextMenu {
+    position: absolute; width: 100px; height: 100px; background-color: gray;
+}
+
+.domjsRoot {
+    padding: .2rem;
+    border: solid 1rem lightgray;
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+}
+div[data-obj-for-extend]
+,table[data-obj-for-extend]
+,td[data-obj-for-extend]
+,span[data-obj-for-extend]
+,p[data-obj-for-extend] {
+    padding: 1rem .2rem .2rem .2rem;
+    position: relative;
+    border: dotted 1px gray;
+}
+span[data-obj-for-extend] {
+    display: inline-block;
+}
+*[data-obj-for-extend]::before {
+    content: attr(data-obj-for-extend);
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: .6rem;
+}
+
+textarea.contentsValue {
+    width: 99%;
+    height: 10rem;
+}
+
+/* for sortable */
+.domjs-ghost {
+	opacity: 0.5;
+}
+.domjs-chosen {
+	background-color: rgb(255, 188, 233);
+}

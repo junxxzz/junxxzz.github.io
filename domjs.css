@@ -1,48 +1,17 @@
-#domjsDialog, #domjsDialog * {
-    box-sizing: border-box;
+.title_type1 {
+    position: relative;
 }
-#domjsDialog {
-    background-color: transparent; border: none; outline: none; width: 80vw; padding: 0; min-width: 480px; max-width: 480px; max-height: 90vh; border: solid 1px gray;
+.title_type1::after {
+    content: "";
+    position: absolute;
+    display: block;
+    bottom: 0;
+    left: 0;
+    background-color: black;
+    width: 100%;
+    height: .2rem;
 }
-#domjsDialog::backdrop {
-    background-image: linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green); opacity: 0.75;
-}
-#domjsDialog fieldset {
-    border: none; width: 100%; word-wrap: normal; background-color: aqua; padding: 0;
-}
-#domjsDialog fieldset > div {
-    display: flex; gap: .2em; align-items: center; padding: .2em 0;
-}
-#domjsDialog fieldset input[type="button"] {
-    padding: .3em .3em;
-}
-#domjsDialog fieldset input[type="text"] {
-    padding: .3em;
-}
-#domjsDialog fieldset > div:not(:first-of-type) {
-    border-top: solid 1px #eee;
-}
-#domjsDialog fieldset > div > div:first-of-type {
-    width: 24px; text-align: center;
-}
-#domjsDialog fieldset > div > div:nth-last-of-type(2) {
-    flex: 1;
-}
-#domjsDialog fieldset > div > div:last-of-type {
-    flex: 3;
-}
-#domjsDialog fieldset > div > div > input[type="text"] {
-    width: 99%;
-}
-#domjsDialog > div > div#domjsDialogButtons {
-    display: flex; gap: .5em;
-}
-#domjsDialog > div {
-    display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 1rem; background-color: white;
-}
-#domjsDialog input[type="button"] {
-    cursor: pointer; font-size: .8rem; border: 0; outline: none; padding: .5rem; font-weight: bold;
-}
-#domjsDialog input[type="button"]:hover, #domjsDialog input[type="button"]:active {
-    background-color: rgba(100,100,100,0.5);
+table {
+    width: 100%;
+    max-width: 100%;
 }
