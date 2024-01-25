@@ -47,6 +47,9 @@ html, body {
 code {
     font-family: var(--font-kor); line-height: 1.5;
 }
+*[color] {
+    color: attr(color);
+}
 
 /* dialog */
 dialog {
