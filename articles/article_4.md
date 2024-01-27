@@ -20,8 +20,8 @@
 <input type="button" value="plus linear" onclick="window.clearInterval(window.bb); window.bb = window.setInterval(() => {c1.plus()},500)">
 <input type="button" value="minus linear" onclick="window.clearInterval(window.bb); window.bb = window.setInterval(() => {c1.minus()},500)">
 
-<script src="/scripts/counter2.js"></script>
-<script src="/scripts/counter2_exec.js"></script>
+<script src="/articles/counter2.js"></script>
+<script src="/articles/counter2_exec.js"></script>
 
 아래는 전체 소스
 
