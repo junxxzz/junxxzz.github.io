@@ -226,9 +226,11 @@ window.DOMJSOBJ.openModal = function() {
     rootdiv.append(fieldset);
 
     this.getAttributeNames().forEach(a => {
-        if( a!='data-obj-for-extend' && a!='data-contents-for-extend' ) {
+        if( a!='data-obj-for-extend' && a!='data-contents-for-extend' && a!='draggable' ) {
             const v = this.getAttribute(a);
-            fieldset.addAttrRow(a, v);
+            if( v!='' ) {
+                fieldset.addAttrRow(a, v);
+            }
         }
     });
 
