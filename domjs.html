@@ -25,10 +25,64 @@
 
     <div id="aa"></div>
 
+    <input type="text" name="text_a" id="text_a" data-bind="text_a">
+    <div>{text_a}</div>
+
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 
     <script>
+        function extractTextNode(a, str) {
+            if( a.nodeName=='#text' ) {
+                if( a.nodeValue==str ) {
+                    return a;
+                }
+            }
+            else if( a.childNodes.length ) {
+                let temp;
+                a.childNodes.forEach(b => {
+                    const tempb = extractTextNode(b, str);
+                    if( tempb ) {
+                        temp = tempb;
+                    }
+                });
+                if( temp ) {
+                    return temp;
+                }
+            }
+        }
+        const mybind = {};
+        document.querySelectorAll('*[data-bind]').forEach(el => {
+            const bind = el.getAttribute('data-bind');
+            const value_a = extractTextNode(document.querySelector('body'), `{${bind}}`);
+            mybind[bind] = new Proxy(el, {
+                get(obj, prop, val) {
+                    if( prop=='value' ) {
+                        return obj.value;
+                    }
+                    else {
+                        return Reflect.get(...arguments);
+                    }
+                },
+                set(obj, prop, val) {
+                    if( prop=='value' ) {
+                        obj.value = val;
+                        value_a.textContent = val;
+                    }
+                    else {
+                        console.log(obj, prop, val);
+                        console.log(typeof val);
+                        return Reflect.set(...arguments);
+                    }
+                }
+            });
+            el.addEventListener('change', evt => {
+                mybind[bind].value = el.value;
+            })
+
+        });
+        mybind.text_a.value = 'aaaaaaaaaaa';
+
         const d = document.querySelector('#aa');
         const s = document.createElement('span');
         s.textContent = 'span111111';
