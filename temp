@@ -1,0 +1,18 @@
+docker run --name myoracle --hostname myoracle -itd -p 1521:1521 -p 5500:5500 -p 8080:8080 -e ORACLE_ENABLE_XDB=true -e ORACLE_ALLOW_REMOTE=true -e ORACLE_DISABLE_ASYNCH_IO=true -v D:\docker\uway1:/local andyrbell/oracle-xe-11g-centos
+
+sqlplus / as sysdba
+
+CREATE USER ipsi IDENTIFIED BY ipsi;
+GRANT RESOURCE, CONNECT TO ipsi;
+
+set echo off
+
+ALTER SESSION SET SQL_TRACE = TRUE;
+
+select * from ipsi.table1;
+
+ALTER SESSION SET SQL_TRACE = FALSE;
+
+quit
+
+tkprof XE_ora_574.trc output
