@@ -28,10 +28,28 @@
     <input type="text" name="text_a" id="text_a" data-bind="text_a">
     <div>{text_a}</div>
 
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <input type="text" name="text_b" id="text_b" data-bind="text_b">
+    <div>{text_b}</div>
 
+    <input type="text" bind="123" id="bindtest">
 
     <script>
+
+        Object.defineProperty(Element, 'bind', {
+            get() {
+                return this.bindValue??'';
+            },
+            set(val) {
+                this.bindValue = val;
+            },
+            enumerable: true,
+            configurable: true,
+        });
+
+
+        // document.getElementById('bindtest').bind = '123';
+        console.log(document.getElementById('bindtest').bind);
+
         function extractTextNode(a, str) {
             if( a.nodeName=='#text' ) {
                 if( a.nodeValue==str ) {
@@ -76,7 +94,11 @@
                     }
                 }
             });
+            console.log(el);
             el.addEventListener('change', evt => {
+                mybind[bind].value = el.value;
+            })
+            el.addEventListener('keyup', evt => {
                 mybind[bind].value = el.value;
             })
 
@@ -105,6 +127,9 @@
         console.log(sp);
         d.append(sp);
     </script>
+
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 </body>
 </html>
