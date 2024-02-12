@@ -16,3 +16,25 @@ ALTER SESSION SET SQL_TRACE = FALSE;
 quit
 
 tkprof XE_ora_574.trc output
+
+
+
+
+CREATE USER ORDSTEST IDENTIFIED BY ORDSTEST;
+GRANT "CONNECT" TO ORDSTEST;
+GRANT "RESOURCE" TO ORDSTEST;
+GRANT UNLIMITED TABLESPACE TO ORDSTEST;
+
+connect ORDSTEST/ORDSTEST
+
+execute ORDS_ADMIN.ENABLE_SCHEMA
+
+
+ords --config /u01/app/oracle/ords_conf install
+
+select dbms_xdb.gethttpport() from dual;
+
+begin
+  DBMS_MACADM.AUTHORIZE_PROXY_USER('ORDS_PUBLIC_USER','ipsi');
+end;
+/
