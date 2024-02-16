@@ -17,7 +17,7 @@ cd $ORACLE_HOME/bin
 3. Oracle Database 시작
 ```bash
 cd $ORACLE_HOME/bin
-./sqlplus sys/iMC123 as sysdba
+./sqlplus / as sysdba
 ```
 ```sql
 SQL>startup
