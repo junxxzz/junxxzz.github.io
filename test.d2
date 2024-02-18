@@ -1,1 +1,69 @@
-EndPoint -> api -> cccc
+vars: {
+  d2-config: {
+    # layout-engine: elk
+    # Terminal theme code
+    theme-id: 300
+  }
+}
+
+
+# document {
+  # direction: down
+
+  EndPoint {
+    direction: down
+    near: center-left
+    post(/login)
+    post(/logout)
+    post(/authed)
+    get(/session/?)
+
+  }
+
+
+  EndPoint.post(/login) -> api
+  EndPoint.post(/logout) -> api
+  EndPoint.post(/authed) -> api
+  EndPoint.get(/session/?) -> api
+
+
+  api: temp session storage
+  api: {
+    # direction: right
+    near: bottom-center
+    shape: sequence_diagram
+
+    request; key-value; userinfo; response
+
+    request
+
+    key-value {
+      shape: cylinder
+    }
+
+    userinfo
+
+    response
+
+    request check: {
+      request -> key-value
+    }
+    request update {
+      request <- key-value: exists session
+    }
+    get userinfo {
+      key-value -> userinfo: not exists session
+    }
+    request -> response
+  }
+
+  userinfo: oracle(userinfo)
+  userinfo: {
+    shape: cylinder
+  }
+  api.userinfo -- userinfo
+
+  new-EndPoint
+
+  api.response -> new-EndPoint
+# }
