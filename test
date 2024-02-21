@@ -1,0 +1,11 @@
+
+SELECT NAME, PASSWORD, SPARE4 FROM SYS.USER$ WHERE NAME='IPSI';
+
+NAME                           PASSWORD
+------------------------------ ------------------------------
+SPARE4
+--------------------------------------------------------------------------------
+IPSI                           3211A55F99721426
+S:8FA919DAF2E630DEE01F3EE0146CB87D39D934C1874DAB8C976660003A27
+
+alter user ipsi IDENTIFIED BY values 'S:8FA919DAF2E630DEE01F3EE0146CB87D39D934C1874DAB8C976660003A27';

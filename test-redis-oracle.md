@@ -1,3 +1,25 @@
+
+docker pull redis
+docker run -itd --name myredis -h myredis -p 6379:6379 redis
+docker exec -it myredis /bin/sh
+redis-cli
+
+> ACL LIST
+1) "user default on nopass ~* +@all"
+
+> ACL USERS
+
+> ACL GETUSER user
+
+> ACL WHOAMI
+
+<!-- read/write 일반유저 -->
+> ACL SETUSER writer on >password allkeys allcommands -@dangerous
+> ACL SETUSER uway on >uway1234% allkeys allcommands -@dangerous
+
+
+
+
 docker pull redislabs/redis-connect-oracle
 
 docker run -d  --init  --cap-add sys_resource  --name myredisenter -h myredisenter -p 18443:8443 -p 19443:9443 -p 14000-14001:12000-12001 -p 18070:8070 redislabs/redis

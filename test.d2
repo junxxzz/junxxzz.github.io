@@ -1,69 +1,67 @@
 vars: {
   d2-config: {
-    # layout-engine: elk
-    # Terminal theme code
     theme-id: 300
   }
 }
 
+endpoint: {
+  near: top-left
+}
 
-# document {
-  # direction: down
+new endpoint: {
+  near: top-right
+}
+error page: {
+  near: bottom-right
+}
 
-  EndPoint {
-    direction: down
-    near: center-left
-    post(/login)
-    post(/logout)
-    post(/authed)
-    get(/session/?)
+api: temp session storage
+api: {
+  # direction: right
+  near: bottom-center
+  shape: sequence_diagram
 
-  }
+  request
+  session
+  rdb
+  response-ok
+  response-fail
 
-
-  EndPoint.post(/login) -> api
-  EndPoint.post(/logout) -> api
-  EndPoint.post(/authed) -> api
-  EndPoint.get(/session/?) -> api
-
-
-  api: temp session storage
-  api: {
-    # direction: right
-    near: bottom-center
-    shape: sequence_diagram
-
-    request; key-value; userinfo; response
-
-    request
-
-    key-value {
-      shape: cylinder
-    }
-
-    userinfo
-
-    response
-
-    request check: {
-      request -> key-value
-    }
-    request update {
-      request <- key-value: exists session
-    }
-    get userinfo {
-      key-value -> userinfo: not exists session
-    }
-    request -> response
-  }
-
-  userinfo: oracle(userinfo)
-  userinfo: {
+  session: redis\n(sessioninfo)
+  session: {
     shape: cylinder
   }
-  api.userinfo -- userinfo
 
-  new-EndPoint
+  rdb: oracle\n(userinfo)
+  rdb: {
+    shape: cylinder
+  }
+}
 
-  api.response -> new-EndPoint
-# }
+endpoint -> api.request: |md
+  * post(/login) with parameter (new endpoint)
+  * post(/authed) with parameter (new endpoint)
+|
+
+api.session check: {
+  request -> session
+}
+api.session update: {
+  request <- session: exists session
+  request -> response-ok: success
+}
+api.get userinfo: {
+  request <- session: not exists session
+  request -> rdb: get userinfo
+}
+api.exists user: {
+    request <- rdb: exists user
+    request -> response-ok: success
+  }
+  api.not exists user: {
+  request <- rdb: not exists user
+  request -> response-fail: move error page
+}
+
+api.response-ok -> new endpoint
+api.response-fail -> error page
