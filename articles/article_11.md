@@ -262,7 +262,7 @@ rm -rf /data/project/new-project/.svn
 svn import /data/project/new-project svn://172.17.0.3/new-project/trunk --username user1 --password password1 --message "first import"
 ```
 
-리파지토리에 있던 소스는 밀어넣었으니 갖고 있던 소스는 필요없다.
+리파지토리에 원래 있던 소스는 밀어넣었으니 갖고 있던 소스는 필요없다.
 
 혹시 모르니까 디렉토리 이름만 변경해서 백업해놓고 새로 체크아웃하자.
 
