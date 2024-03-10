@@ -362,9 +362,9 @@ user2에서 이제 뭔가 변경을 하고 커밋을 해도 원본인 trunk에�
 마지막으로 user2의 작업본을 trunk에 반영하는 작업을 해보자.
 
 ```bash
-# 반영 작업을 할때는 버젼을 맞추기 위해서 반드시 update를 한번 해준다.
 cd /data/project/new-project
 
+# 반영 작업을 할때는 버젼을 맞추기 위해서 반드시 update를 한번 해준다.
 svn up --username user1 --password password1
 
 svn merge svn://172.17.0.3/new-project/branches/user222 --username user1 --password password1
