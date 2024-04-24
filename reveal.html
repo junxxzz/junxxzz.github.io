@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K0BS1883H2"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-K0BS1883H2');
+    </script>
+    <!-- end of Google tag (gtag.js) -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- for google adsense -->
+    <meta name="google-adsense-account" content="ca-pub-4532469758307866">
+    <!-- end of for google adsense -->
+    <title>allstack document</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="/common.css">
+    <link rel="stylesheet" href="/index.css">
+
+    <link rel="stylesheet" href="/revealjs/dist/reset.css">
+    <link rel="stylesheet" href="/revealjs/dist/reveal.css">
+    <link rel="stylesheet" href="/revealjs/dist/theme/black.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="/revealjs/plugin/highlight/monokai.css">
+    <style>
+        h1 {
+            margin: 25% 0 !important;
+        }
+        .red {
+            color: red;
+        }
+        .hidden {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section data-markdown="/articles/article_12.md">
+            </section>
+        </div>
+    </div>
+
+    <script src="/revealjs/dist/reveal.js"></script>
+    <script src="/revealjs/plugin/notes/notes.js"></script>
+    <script src="/revealjs/plugin/markdown/markdown.js"></script>
+    <script src="/revealjs/plugin/highlight/highlight.js"></script>
+    <script>
+        const articleId = location.search.substring(1);
+        document.querySelector('.slides > section').setAttribute('data-markdown', `/articles/article_${articleId}.md`);
+        // More info about initialization & config:
+        // - https://revealjs.com/initialization/
+        // - https://revealjs.com/config/
+        Reveal.initialize({
+            hash: true,
+            center: false,
+            mouseWheel: true,
+            // Learn about plugins: https://revealjs.com/plugins/
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+        });
+    </script>
+</body>
+</html>

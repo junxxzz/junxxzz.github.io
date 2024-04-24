@@ -137,7 +137,7 @@ function loadArticle(maArticleId) {
                     // document.getElementById('contents').innerHTML = DOMPurify.sanitize(
                     //     marked.parse(d),
                     // );
-                    document.getElementById('contents').innerHTML = marked.parse(d);
+                    document.getElementById('contents').innerHTML = `<div class="reveal-link"><a href="/reveal.html?${articleId}">SLIDESHOW</a></div>`+marked.parse(d);
                     let matches;
                     if( matches=document.getElementById('contents').innerHTML.match(/\<script src=([^\>]+)\>\s*\<\/script\>/gmi) ) {
                         matches.forEach(m => {

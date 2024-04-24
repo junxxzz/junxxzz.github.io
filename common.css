@@ -216,4 +216,10 @@ section#contents {
 section#contents hr {
     border-style: dashed; border-width: 1px; border-bottom: none;
 }
+section#contents .reveal-link {
+    text-align: right;
+    font-family: verdana;
+    font-size: .6rem;
+    font-weight: bold;
+}
 /* contents */
