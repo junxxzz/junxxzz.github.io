@@ -22,10 +22,10 @@
 
 1. kafka 다운로드
 
-https://www.apache.org/dyn/closer.cgi?path=/kafka/3.6.1/kafka_2.13-3.6.1.tgz
+https://archive.apache.org/dist/kafka/3.6.1/kafka_2.13-3.6.1.tgz
 
 ```bash
-$ wget https://www.apache.org/dyn/closer.cgi?path=/kafka/3.6.1/kafka_2.13-3.6.1.tgz
+$ wget https://archive.apache.org/dist/kafka/3.6.1/kafka_2.13-3.6.1.tgz
 $ tar -xzf kafka_2.13-3.6.1.tgz
 $ cd kafka_2.13-3.6.1
 ```
