@@ -34,9 +34,9 @@ $ cd kafka_2.13-3.6.1
 
 2. kafka 환경설정
 
-***서버에 자바가 설치돼 있어야 한다.***
+***서버에 자바와 bash가 설치돼 있어야 한다.***
 
-> apk add openjdk17
+> apk add openjdk17 bash
 
 - zookeeper 를 이용하는 경우
 
