@@ -55,3 +55,25 @@ insert into temp1 values (DBMS_RANDOM.NORMAL(), DBMS_RANDOM.STRING('A', 10), DBM
 
 
 
+begin
+for i in 1..100000 loop
+insert into temp1 values (DBMS_RANDOM.NORMAL(), DBMS_RANDOM.STRING('A', 10), DBMS_RANDOM.STRING('A', 10));
+end loop;
+end;
+
+
+
+
+CREATE OR REPLACE TRIGGER temp1_delete1
+after DELETE ON temp1
+for EACH ROW
+BEGIN
+    insert into temp1log values(sysdate, :old.idx, :old.name, :old.addr);
+END;
+
+
+
+select count(*) from temp1;
+select count(*) from temp1log;
+select count(*) from temp1 where name like '%E%';
+delete from temp1 where name like '%E%';
